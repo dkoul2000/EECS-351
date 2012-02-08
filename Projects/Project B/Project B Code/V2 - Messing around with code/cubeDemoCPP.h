@@ -192,3 +192,5 @@ void doCamChoice(void);             // change to openGL camera specified by
                                     // global variable 'camChoice'
 void drawCube();
 void drawPlane(GLdouble, GLdouble);
+void askForHelp(void);
+void printInstructions(void);

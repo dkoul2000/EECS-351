@@ -29,6 +29,7 @@ GLdouble xclik=0, yclik=0;      // mouse button down position, in pixels
 GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
 int camChoice=1;                  // change using 'z' key (0,1,2, or 3)
 int viewChoice=1;                 // change using 'v' key  (1,2, or 3)
+int helpButton = 0;             //toggle help instructions button
 
 int main( int argc, char *argv[] )
 //==============================================================================
@@ -270,9 +271,14 @@ void myDisplay( void )
 
     // print on-screen text in these un-rotated world coordinates,
     glColor3d(1.0, 1.0, 0.0);       // bright yellow text.
-    drawText2D(rom24,-1.5,-1.6, "Try mouse click & drag, 'R', 'V' and 'Z' keys");
+
+    if (helpButton)
+        printInstructions();
+    else
+        askForHelp();
+    //drawText2D(helv18,-1.5,-1.6, "Press 'H' key for instructions to run the program");
     glColor3d(0.7, 0.7, 0.7);       // Gray:
-    drawText2D(rom24,-1.5,-1.8, "(Space bar, ESC, 'q' or 'Q' to quit)");
+    drawText2D(helv12,-1.5,-1.8, "(Space bar, ESC, 'q' or 'Q' to quit)");
 
     drawCube();
     glLoadIdentity();
@@ -354,9 +360,9 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
 
 	switch(key)
 	{
-		case 'A':       // User pressed the 'A' key...
-		case 'a':
-		cout << "that *IS* the 'A' key!\n";
+		case 'H':       // User pressed the 'A' key...
+		case 'h':
+            helpButton = !helpButton;
             break;
         case 'r':
         case 'R':       // reset mouse rotations
@@ -801,4 +807,20 @@ int i,j;
 	glEnd();
 	glPointSize(oldSize);              // restore original size of openGL points
 
+}
+
+void printInstructions()
+{
+    glColor3d(1.0, 0.0, 0.0);
+    drawText2D(helv12, -0.5, -0.8, "Click and drag the mouse to see it react angrily!");
+    drawText2D(helv12, -0.5, -1.0, "Click the mouse repeatedly to see a flashing cone rotate each click.");
+    drawText2D(helv12, -0.5, -1.2, "Press 'S' to STOP the motion of the graphics window.");
+    drawText2D(helv12, -0.5, -1.4, "Press 'C' to see CRAZY things happen on-screen!");
+    drawText2D(helv12, -0.5, -1.6, "(Press the 'Space bar', ESC, 'Q' or 'q' to quit!)");
+}
+
+void askForHelp()
+{
+    glColor3d(1.0, 1.0, 1.0);
+    drawText2D(helv18,-1.5,-1.6, "Press 'H' for instructions on how to run the program.");
 }
