@@ -1,0 +1,409 @@
+# depslib dependency file v1.0
+1263316976 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart\glutstart.cpp
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"glutStart.h"
+
+1279559468 .h"
+
+1159900320 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1292872991 
+
+1263310735 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart\glutstart.h
+
+1263325484 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart01\glutstart.cpp
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"glutStart.h"
+
+1159900320 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart01\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1263476396 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart01\glutstart.h
+
+1264876902 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010a_glutstart01\glutstart.cpp
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+	"glutStart.h"
+
+1159900320 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010a_glutstart01\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1263476396 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010a_glutstart01\glutstart.h
+
+1264877790 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010a_glutstart04\glutstart.cpp
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+	"glutStart.h"
+
+1159900320 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010a_glutstart04\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1263476396 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010a_glutstart04\glutstart.h
+
+1264886583 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.30_glutstart04\glutstart.cpp
+	"glutStart.h"
+
+1264883278 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.30_glutstart04\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1264885211 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.30_glutstart04\glutstart.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1264954094 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.30_glutstart05\glutstart.cpp
+	"glutStart.h"
+
+1264954214 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.30_glutstart05\glutstart.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1264883278 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.30_glutstart05\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1264957320 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_glutstart06\glutstart.cpp
+	"glutStart.h"
+
+1264958011 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_glutstart06\glutstart.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1264883278 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_glutstart06\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1279559468 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_glutstart06_fancy\glutstart.cpp
+	"glutStart.h"
+
+1292872991 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_glutstart06_fancy\glutstart.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1264883278 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_glutstart06_fancy\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1279559470 source:/home/dhruv/Desktop/Winter Quarter/EECS 351/Projects/2012_glutStart07FANCY_Win/glutStart.cpp
+	"glutStart.h"
+
+1294937648 /home/dhruv/Desktop/Winter Quarter/EECS 351/Projects/2012_glutStart07FANCY_Win/glutStart.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1279559470 source:/home/dhruv/Winter Quarter/EECS 351/Projects/2012_glutStart07FANCY_Win/glutStart.cpp
+	"glutStart.h"
+
+1294937648 /home/dhruv/Winter Quarter/EECS 351/Projects/2012_glutStart07FANCY_Win/glutStart.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1326944457 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/Code for Project A/glutStart.cpp
+	"glutStart.h"
+
+1326943807 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/Code for Project A/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1326952590 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V2/glutStart.cpp
+	"glutStart.h"
+
+1326948661 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V2/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1326957804 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V3/glutStart.cpp
+	"glutStart.h"
+
+1326953983 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V3/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1326958752 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V4/glutStart.cpp
+	"glutStart.h"
+
+1326953983 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V4/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1326966212 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V5/glutStart.cpp
+	"glutStart.h"
+
+1326953983 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V5/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1326966212 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V6 - Final Version/glutStart.cpp
+	"glutStart.h"
+
+1326953983 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V6 - Final Version/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1327039205 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V7 - Revisions for Submission - V1/glutStart.cpp
+	"glutStart.h"
+
+1327024004 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V7 - Revisions for Submission - V1/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1327102058 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V7 - Revisions for Submission - V2/glutStart.cpp
+	"glutStart.h"
+
+1327099025 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V7 - Revisions for Submission - V2/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1327105899 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V9 - Some Movement Going On and Documented Code/glutStart.cpp
+	"glutStart.h"
+
+1327103289 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/V9 - Some Movement Going On and Documented Code/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1327107865 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project A/Final Project A Source Code/glutStart.cpp
+	"glutStart.h"
+
+1327103289 /home/dhruv/Winter Quarter/EECS 351/Projects/Project A/Final Project A Source Code/glutStart.h
+	<GL/freeglut.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+

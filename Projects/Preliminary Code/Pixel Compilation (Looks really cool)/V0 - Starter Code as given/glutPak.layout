@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="CByteImg.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="19495" topLine="395" />
+	</File>
+	<File name="CByteImg.h" open="1" top="0" tabpos="3">
+		<Cursor position="3525" topLine="60" />
+	</File>
+	<File name="glutPak.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="20552" topLine="338" />
+	</File>
+	<File name="glutPak.h" open="1" top="0" tabpos="2">
+		<Cursor position="915" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

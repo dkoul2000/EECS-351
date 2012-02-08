@@ -1,0 +1,5 @@
+voyd mayn() 
+{ 
+    // give comments their own line, don't add on to others.
+	gl_FragColor = gl_Color;
+}

@@ -1,0 +1,180 @@
+# depslib dependency file v1.0
+1264760550 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010d_firstcpp_3d\first.cpp
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"first.h"
+
+1159900336 
+
+1159900336 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010d_firstcpp_3d\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1222790896 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010d_firstcpp_3d\first.h
+
+1265020767 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_cubedemocpp\cubedemocpp.cpp
+	"cubeDemoCPP.h"
+
+1296561927 PP.h"
+
+1265000587 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_cubedemocpp\cubedemocpp.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1159900336 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_proja\2010.01.31_cubedemocpp\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1265025831 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_projb\2010.01.31_cubedemo04\cubedemocpp.cpp
+	"cubeDemoCPP.h"
+
+1265025325 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_projb\2010.01.31_cubedemo04\cubedemocpp.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1159900336 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_projb\2010.01.31_cubedemo04\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1270479352 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_projb\2010.01.31_cubedemo04_posted\cubedemocpp.cpp
+	"cubeDemoCPP.h"
+
+1265025325 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_projb\2010.01.31_cubedemo04_posted\cubedemocpp.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1159900336 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\projects\2010_projb\2010.01.31_cubedemo04_posted\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1295976505 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\2011_startercodeposted\2011_05cubedemo05_win\cubedemocpp.cpp
+	"cubeDemoCPP.h"
+
+1295976505 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\2011_startercodeposted\2011_05cubedemo05_win\cubedemocpp.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1296561927 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\2010_superbibleprojects\2011_05cubedemo06_wingnd_plane\cubedemocpp.cpp
+	"cubeDemoCPP.h"
+
+1295976505 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\2010_superbibleprojects\2011_05cubedemo06_wingnd_plane\cubedemocpp.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1296564532 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Preliminary Code/2012_05CubeDemo06_Win/cubeDemoCPP.cpp
+	"cubeDemoCPP.h"
+
+1296564532 /home/dhruv/Winter Quarter/EECS 351/Projects/Preliminary Code/2012_05CubeDemo06_Win/cubeDemoCPP.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
+1328139523 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project B/V2 - Mess around with code/cubeDemoCPP.cpp
+	"cubeDemoCPP.h"
+
+1328002087 /home/dhruv/Winter Quarter/EECS 351/Projects/Project B/V2 - Mess around with code/cubeDemoCPP.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+
