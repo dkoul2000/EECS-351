@@ -190,35 +190,39 @@ void drawSquareEdges(void);			// draw that square's edges;
 void drawSquareFace(void);			// draw that square's solid-colored face;
 void doCamChoice(void);             // change to openGL camera specified by
                                     // global variable 'camChoice'
-void drawTelescopicShape(void);
+void drawScene();
 void drawPlane(GLdouble, GLdouble);
 void askForHelp(void);
 void printInstructions(void);
-
-
-
-void vertexArrayCube(int, int, int);
-void colorcube(void);
-
-
+void drawCylinder();
+void makeCylinder(double, double);
+void drawCone();
+void makeCone(double, double);
 
 //HELP FROM KHALID AZIZ
-typedef double triple[3];
-
-class polygon
-{
-    public:
-        virtual void drawPolygon() = 0;
-        polygon(double x, double y, int numberVertices);
-        virtual ~polygon();
-    protected:
-        double xPosition, yPosition;
-        triple* polygonVertices;
-        triple* polygonColors;
-    private:
-};
-
 class pyramid {
     public:
-        void drawPolygon(int size);
+        void draw();
+        pyramid(int height);
+        int verts[15];
+        unsigned int indices[11];
+        float colors[15];
+};
+
+class cube {
+    public:
+        void draw();
+        cube(int height);
+        int verts[24];
+        unsigned int indices[16];
+        float colors[24];
+};
+
+class prism {
+    public:
+        void draw();
+        prism(int height);
+        int verts[18];
+        unsigned int indices[13];
+        float colors[18];
 };

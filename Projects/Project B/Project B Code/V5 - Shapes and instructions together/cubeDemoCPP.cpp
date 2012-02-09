@@ -24,14 +24,30 @@ static int nu_Anim_isOn = 1;        // ==1 to run animation, == 0 to pause.
                         // !DON'T MESS WITH nu_Anim_isOn; call runAnimTimer().
 //========================
 // Global vars for our application:
-Ccube ice;
+//Ccube ice;
 GLdouble xclik=0, yclik=0;      // mouse button down position, in pixels
 GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
+GLdouble *pCylVerts, *pCylColrs;
+
 int camChoice=1;                  // change using 'z' key (0,1,2, or 3)
+int fixedCamera = 1;
 int viewChoice=1;                 // change using 'v' key  (1,2, or 3)
 int helpButton = 0;             //toggle help instructions button
-pyramid pyr = pyramid();
-int rotation = 0, rincrement = 5;
+
+int rotVal = 0, rotInc = 5;
+int heightAng = 90, heightAngInc = 5;
+double autoRot = 0, autoRotInc = 1;
+
+
+cube ice = cube(2);
+cube ice4 = cube(4);
+prism prism2 = prism(2);
+pyramid pr1 = pyramid(1);
+pyramid pr3 = pyramid(3);
+
+
+
+
 
 int main( int argc, char *argv[] )
 //==============================================================================
@@ -60,11 +76,12 @@ int main( int argc, char *argv[] )
 	glutMotionFunc( myMouseMove );  // callback for mouse dragging events
 	//================================
     glEnable( GL_DEPTH_TEST );	    // enable hidden surface removal
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glDisable(GL_LIGHTING);         // (for our next project)
-	ice.makecube();				    // make our cube
+//	ice.makecube();				    // make our cube
 	//================================
+    makeCylinder(2.0,.25);
+    makeCone(1.0, 0.25);
+
     runAnimTimer(1);                // start our animation loop.
     camChoice = 1;                  // default:
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
@@ -156,10 +173,6 @@ void myReshape( int width, int height )
 
 //==============================================================================
 // SPECIFY OUR CAMERA in GL_PROJECTION:
-
-
-    glMatrixMode(GL_MODELVIEW);
-
     camChoice = 1;                  // re-set the camera choice to
     doCamChoice();                  // default: 3D orthographic
 	glutPostRedisplay();			// request redraw--we changed window size!
@@ -177,8 +190,9 @@ void myDisplay( void )
     // Clear the screen (to change screen-clearing color, try glClearColor() )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
                                 // clear the color and depth buffers. Now draw:
-    glLoadIdentity();               // set to 'do nothing'.
 
+ 	glMatrixMode(GL_MODELVIEW);     // select the modeling matrix stack
+	glLoadIdentity();               // set to 'do nothing'.
     // Now we're in 'camera' coordinates.
 
 //== VIEWING ==============================================================
@@ -213,10 +227,10 @@ void myDisplay( void )
     // coord. system away from our face, in the -z direction:
 
     // VIEW METHOD 1-------------------------
-    if(viewChoice == 1)
-    {
-        glTranslated(0,0,-5.0);         // move world 4 units on camera's -z axis.
-    }
+    if(viewChoice==1)
+     {
+         glTranslated(0,0,-4.0);         // move world 4 units on camera's -z axis.
+     }
     //---------------------------------------
 
     // We can then further improve our 'view' transformation with glTranslate(),
@@ -253,7 +267,7 @@ void myDisplay( void )
 
 	// Aim the camera: choose only one:
   // VIEW METHOD 2------------------------
-/*
+
     if(viewChoice==2)
 	{
         gluLookAt( 2.0, 2.0, 2.0,       //place camera at VRP location 2,2,2 and
@@ -267,7 +281,7 @@ void myDisplay( void )
                    0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
                    0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
     }
-*/
+
     //-------------------------------------
     // or make your own...
     gluLookAt( 4.0, 0.0, 0.0,     //place camera at VRP location 0,0,4 and
@@ -276,29 +290,31 @@ void myDisplay( void )
 
     glViewport(0, 0, nu_display_width/2, nu_display_height/2);
 
+    // print on-screen text in these un-rotated world coordinates,
+    glColor3d(1.0, 1.0, 0.0);       // bright yellow text.
+
     if (helpButton)
         printInstructions();
     else
         askForHelp();
 
-    // print on-screen text in these un-rotated world coordinates,
-    glColor3d(1.0, 1.0, 0.0);       // bright yellow text.
-
-    drawTelescopicShape();
+    drawScene();
     glLoadIdentity();
     gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
                0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
 
+
+    //glLoadIdentity();
     glViewport(0, nu_display_height/2, nu_display_width/2, nu_display_height/2);
 
-    drawTelescopicShape();
+    drawScene();
     glLoadIdentity();
     gluLookAt( 0.0, 2.0, 0.0,     //place camera at VRP location 0,0,4 and
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
                0.0, 0.0, 1.0 );     // define the 'up' direction as world +y.
     glViewport(nu_display_width/2, 0, nu_display_width/2, nu_display_height/2);
-    drawTelescopicShape();
+    drawScene();
     glViewport(nu_display_width/2, nu_display_height/2, nu_display_width/2, nu_display_height/2);
     glLoadIdentity();
     gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
@@ -306,22 +322,24 @@ void myDisplay( void )
                0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
                    // and then 'spin the world' around it's newly displaced origin point
     // to look at it from a different angle:
-    glRotated(45.0 + xtheta, 1.0, 0.0, 0.0); // spin the world on x axis, then
-    glRotated(45.0 + ytheta, 0.0, 1.0, 0.0); // on y axis.
+    glRotated(45.0+xtheta, 1.0, 0.0, 0.0); // spin the world on x axis, then
+    glRotated(45.0+ytheta, 0.0, 1.0, 0.0); // on y axis.
 
-    drawTelescopicShape();
+    drawScene();
+
 
 	//===============DRAWING DONE.
 	glFlush();	                // do any and all pending openGL rendering.
 	glutSwapBuffers();			// For double-buffering: show what we drew.
 }
 
-//takes Professor Tumblin's code out of myDisplay that drew the cube and now puts it
-//in a separate function called drawTelescopicShape that is called in myDisplay
-void drawTelescopicShape() {
 
+void drawScene() {
 
+/*
 //== MODELING =========================================================
+//    glTranslated(0.0,0.0,2.0);
+
     //------------First, draw with NO modeling transformations: (world dwg axes)
     glColor3d(0.7, 0.7, 0.7);       // draw a gray ground-plane grid.
     drawPlane(50.0, 0.5);
@@ -329,96 +347,92 @@ void drawTelescopicShape() {
 
     ice.drawWireframe();
 
-    //ice.drawPoints(11);             // draw the vertices (11-pixel wide points)
+    ice3.draw();
+
+    ice.drawPoints(11);             // draw the vertices (11-pixel wide points)
     drawAxes();			            // draw world-space +x,y,z axes.
-    glTranslated(0.4, 0.0, 0.3);
-    drawAxes();
 
     //------------draw the cube WITH transformations:
-	glPushMatrix();                 // save current matrix,
-        glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
+	//glPushMatrix();                 // save current matrix,
+     //   glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
                                     // uncomment one drawing method
-    	//ice.drawSolid();            // draw the cube, but with transformed pts.
-        ice.drawWireframe();
-        ice.drawPoints(15);         // draw the vertices (15-pixel-wide points)
-	glPopMatrix();                  // discard the rotation matrix we made.
+    //	ice.drawSolid();            // draw the cube, but with transformed pts.
+      //  ice.drawWireframe();
+       // ice.drawPoints(15);         // draw the vertices (15-pixel-wide points)
+	//glPopMatrix();                  // discard the rotation matrix we made.
 
-    glScaled(0.4,0.4,0.4);
+ glScaled(0.3,0.3,0.3);
 //    ice.drawSolid(2.0);
+    glPushMatrix();
 
-        glPushMatrix();
+        drawCylinder();
         glTranslated(0,0,3);
         glRotated(180,1,0,0);
-        glRotated(rotation,0,0,1);
-        pyr.drawPolygon(1);
-        drawAxes();
-        /*glPushMatrix();
+        glRotated(rotVal,0,0,1);
+        pyr.draw();
+        ice4.draw();
+        glPushMatrix();
             glTranslated(0,1,0);
-            glRotated(45-rotation*2,0,0,1);
+            glRotated(45-rotVal*2,0,0,1);
             glScaled(0.4, 0.4, 0.4);
             glTranslated(0,0,-1);
-            pyr.drawPolygon(1);
+            pyr.draw();
         glPopMatrix();
-*/
-     /*   glPushMatrix();
+
+        glPushMatrix();
             glTranslated(0,-1,0);
-            glRotated(45-rotation*2,0,0,1);
+            glRotated(45-rotVal*2,0,0,1);
             glScaled(0.4, 0.4, 0.4);
             glTranslated(0,0,-1);
-            pyr.drawPolygon(1);
+            pyr.draw();
         glPopMatrix();
-*/
+
         glPushMatrix();
             glTranslated(1,0,0);
-            glRotated(xtheta,0,1,0);
-            glRotated(45-rotation*2,0,0,1);
+            glRotated(45-rotVal*2,0,0,1);
             glScaled(0.4, 0.4, 0.4);
             glTranslated(0,0,-1);
-            pyr.drawPolygon(1);
+            pyr.draw();
         glPopMatrix();
 
-        drawAxes();
-
-    /*    glPushMatrix();
+        glPushMatrix();
             glTranslated(-1,0,0);
-            glRotated(45-rotation*2,0,0,1);
+            glRotated(45-rotVal*2,0,0,1);
             glScaled(0.4, 0.4, 0.4);
             glTranslated(0,0,-1);
-            pyr.drawPolygon(1);
+            pyr.draw();
         glPopMatrix();
-*/
-  /*      glTranslated(0,0,-3);
+
+        glTranslated(0,0,-3);
         glRotated(135,0,0,1);
-        pyr.drawPolygon(3);
-*/
-  /*      glPushMatrix();
+        pyr.draw();
+
+        glPushMatrix();
             glRotated(90,1,0,0);
             glTranslated(0,0,-4);
-            glRotated(rotation*2,0,0,1);
-            pyr.drawPolygon(3);
+            glRotated(rotVal*2,0,0,1);
+            pyr.draw();
         glPopMatrix();
-*/
-    /*    glPushMatrix();
+
+        glPushMatrix();
             glRotated(-90,1,0,0);
             glTranslated(0,0,-4);
-            glRotated(-rotation*2,0,0,1);
-            pyr.drawPolygon(3);
+            glRotated(-rotVal*2,0,0,1);
+            pyr.draw();
         glPopMatrix();
-*/
+
         glPushMatrix();
             glRotated(90,0,1,0);
             glTranslated(0,0,-4);
-            glRotated(rotation*2,0,0,1);
-            pyr.drawPolygon(3);
+            glRotated(rotVal*2,0,0,1);
+            pyr.draw();
         glPopMatrix();
-
-        drawAxes();
 
         glPushMatrix();
             glRotated(-90,0,1,0);
             glTranslated(0,0,-4);
-            glRotated(-rotation*2,0,0,1);
-            pyr.drawPolygon(3);
+            glRotated(-rotVal*2,0,0,1);
+            pyr.draw();
         glPopMatrix();
 
 
@@ -428,9 +442,196 @@ void drawTelescopicShape() {
 	glPushMatrix();                 // save current matrix,
         glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
                                     // uncomment one drawing method
-    	//ice.drawSolid();            // draw the cube, but with transformed pts.
+    //	ice.drawSolid();            // draw the cube, but with transformed pts.
         ice.drawWireframe();
         ice.drawPoints(15);         // draw the vertices (15-pixel-wide points)
+	glPopMatrix();                  // discard the rotation matrix we made.
+*/
+
+autoRot += autoRotInc;
+//== MODELING =========================================================
+//    glTranslated(0.0,0.0,2.0);
+
+    //------------First, draw with NO modeling transformations: (world dwg axes)
+    glColor3d(0.7, 0.7, 0.7);       // draw a gray ground-plane grid.
+    drawPlane(50.0, 0.5);
+	/*
+	glScaled(0.3,0.3,0.3);
+	glTranslated(0,0,1.0);
+	//ice.drawSolid();                // draw the cube as described.
+    glPushMatrix();
+        glRotated(rotVal,1.0,1.0,0);
+        glTranslated(0,1.0,0);
+     //   ice.drawSolid();
+    glPopMatrix();
+//ice.drawWireframe();
+
+//  ice.drawPoints(11);             // draw the vertices (11-pixel wide points)
+    drawAxes();			            // draw world-space +x,y,z axes.
+    */
+
+    glScaled(0.3,0.3,0.3);
+    ice.draw();
+
+    glTranslated(0,0,7);
+    drawAxes();
+    glTranslated(0,0,-7);
+
+    glPushMatrix();
+        glTranslated(0,0,2);
+        //glRotated(180,1,0,0);
+        glRotated(rotVal,0,0,1);
+        pr1.draw();
+        drawCylinder();
+
+        glPushMatrix();
+            glTranslated(0,1,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+            pr1.draw();
+            drawCylinder();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(0,-1,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+            pr1.draw();
+            drawCylinder();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(1,0,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+            pr1.draw();
+            drawCylinder();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(-1,0,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+            pr1.draw();
+            glScaled(0.6, 0.6, 0.6);
+            drawCylinder();
+        glPopMatrix();
+
+        glTranslated(0,0,1);
+        glRotated(135,0,0,1);
+        pr3.draw();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(0,-1,0);
+            glRotated(heightAng,1,0,0);
+            glRotated(rotVal*2,0,0,1);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(0,1,0);
+            glRotated(-heightAng,1,0,0);
+            glRotated(-rotVal*2,1,0,0);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(1,0,0);
+            glRotated(heightAng,0,1,0);
+            glRotated(rotVal*2,1,0,1);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(-1,0,0);
+            glRotated(-heightAng,0,1,0);
+            glRotated(-rotVal*2,1,0,1);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+    glPopMatrix();
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,0,1);
+        glTranslated(4,0,1);
+        glScaled(0.5,0.5,0.5);
+        glRotated(autoRot-45,0,0,1);
+        prism2.draw();
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,0,1);
+        glTranslated(0,4,1);
+        glScaled(0.5,0.5,0.5);
+        glRotated(autoRot-45,0,0,1);
+        prism2.draw();
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,0,1);
+        glTranslated(-4,0,1);
+        glScaled(0.5,0.5,0.5);
+        glRotated(-autoRot,0,0,1);
+        prism2.draw();
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,0,1);
+        glTranslated(0,-4,1);
+        glScaled(0.5,0.5,0.5);
+        glRotated(-autoRot,0,0,1);
+        prism2.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(-5-sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(-5-sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(5+sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(5+sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+    //------------draw the cube WITH transformations:
+	glPushMatrix();                 // save current matrix,
+        glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
+                                    // uncomment one drawing method
+    //	ice.drawSolid();            // draw the cube, but with transformed pts.
+        //ice.drawWireframe();
+        //ice.drawPoints(15);         // draw the vertices (15-pixel-wide points)
 	glPopMatrix();                  // discard the rotation matrix we made.
 
 
@@ -451,7 +652,7 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
 
 	switch(key)
 	{
-		case 'H':       // User pressed the 'H' key...
+		case 'H':       // User pressed the 'A' key...
 		case 'h':
             helpButton = !helpButton;
             break;
@@ -470,7 +671,7 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
         case 'Z':                       // advance to next camera choice:
             camChoice++;
             if(camChoice < 0) camChoice = 0;       // stay within 0,1,2,3
-            if(camChoice > 3) camChoice = 0;
+            if(camChoice > 2) camChoice = 0;
             doCamChoice();
             break;
 		case ' ':		// User pressed the spacebar.
@@ -503,22 +704,26 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
     ypos = getDisplayHeight() - yw; //(window system puts origin at UPPER left)
 	switch(key)
 	{
-		case GLUT_KEY_LEFT:		// left arrow key
-            rincrement -= 0.05;
-            if(rincrement <= 0) {
-                rincrement = 0;
-                rotation = 0;
-            }
-			cout << "left-arrow key.\n";
+		case GLUT_KEY_UP:		// left arrow key
+            heightAng -= heightAngInc;
+            if (heightAng < 25)
+                heightAng = 25;
+            cout << "left-arrow key.\n";
 			break;
-		case GLUT_KEY_RIGHT:	// right arrow key
-            rincrement += 0.05;
+		case GLUT_KEY_DOWN:	// right arrow key
+            heightAng += heightAngInc;
+            if (heightAng > 145)
+                heightAng = 145;
             cout << "right-arrow key.\n";
 			break;
-		case GLUT_KEY_DOWN:		// dn arrow key
+		case GLUT_KEY_LEFT:		// dn arrow key
+            rotVal -= rotInc;
+            rotVal %= 360;
             cout << "dn-arrow key.\n";
 			break;
-		case GLUT_KEY_UP:		// up arrow key
+		case GLUT_KEY_RIGHT:		// up arrow key
+            rotVal += rotInc;
+            rotVal %= 360;
             cout << "up-arrow key.\n";
 			break;
 		// SEARCH glut.h for more arrow key #define statements.
@@ -756,15 +961,24 @@ void doCamChoice(void)
 {
     glMatrixMode( GL_PROJECTION );	// select camera-setting matrix stack
 	glLoadIdentity();	            // clear it: identity matrix.
+
+   //HELP FROM CASSIE ROMMEL
     switch(camChoice)
     {
         case 0:         // Nothing--show CVV; orthographic (+/-1,+/-1,+/-1).
              cout <<"Cam 0: nothing--CVV orthographic +/-1, +/-1"<< endl;
            break;
         case 1:         // -----3D Orthographic projection
-            glOrtho(-2.0, 2.0,              // left, right
-                    -2.0, 2.0,              // bottom, top
-                    1.0, 1000.0);            // zNear, zFar
+            if (nu_display_width > nu_display_height)
+                glOrtho(-3.0, 3.0,              // left, right
+                        -2.0, 2.0,              // bottom, top
+                        1.0, 1000.0);            // zNear, zFar
+            else if (nu_display_width < nu_display_height)
+                glOrtho(-2.0, 2.0,
+                        -3.0, 3.0,
+                        1.0, 1000.0);
+            else if (nu_display_width == nu_display_height)
+                glOrtho(-2.0, 2.0, -2.0, 2.0, 1.0, 1000.0);
             cout <<"Cam 1: 3D orthographic +/-2,+/-2"<< endl;
             break;
         case 2:         // -----3D Perspective projection method 1:
@@ -924,45 +1138,424 @@ void askForHelp()
 
 
 //HELP FROM KHALID AZIZ
-polygon::polygon(double x, double y, int numberVertices)
+pyramid::pyramid(int height) {
+
+verts[0] = 1;
+verts[1] = 0;
+verts[2] = height;
+verts[3] = -1;
+verts[4] = 0;
+verts[5] = height;
+verts[6] = 0;
+verts[7] = 1;
+verts[8] = height;
+verts[9] = 0;
+verts[10] = -1;
+verts[11] = height;
+verts[12] = 0;
+verts[13] = 0;
+verts[14] = 0;
+
+
+colors[0] = 1;
+colors[1] = 1;
+colors[2] = 1;
+colors[3] = 0;
+colors[4] = 0;
+colors[5] = 1;
+colors[6] = 1;
+colors[7] = 1;
+colors[8] = 1;
+colors[9] = 0;
+colors[10] = 0;
+colors[11] = 1;
+colors[12] = 0;
+colors[13] = 1;
+colors[14] = 0;
+
+indices[0] = 0;
+indices[1] = 2;
+indices[2] = 1;
+indices[3] = 3;
+indices[4] = 0;
+indices[5] = 4;
+indices[6] = 2;
+indices[7] = 1;
+indices[8] = 4;
+indices[9] = 3;
+indices[10] = 0;
+
+//delete verts;
+
+}
+/*
+pyramid::pyramid(double x, double y) : object(x,y,5)
 {
+    pVertices = new triple[5];
 
-    xPosition = x;
-    yPosition = y;
-    polygonColors = new triple[numberVertices];
+    cout << "pyramid was made";
+    pVertices[0][0] = 1;    pVertices[0][1] = 1;    pVertices[0][2] = -1;
+    pVertices[1][0] = -1;   pVertices[1][1] = 1;    pVertices[1][2] = -1;
+    pVertices[2][0] = -1;   pVertices[2][1] = -1;   pVertices[2][2] = -1;
+    pVertices[3][0] = 1;    pVertices[3][1] = -1;   pVertices[3][2] = -1;
+    pVertices[4][0] = 0;    pVertices[4][1] = 0;    pVertices[4][2] = 1;
 
-    srand(time(NULL)); // color vertices
-    for(int i = 0; i < numberVertices; i++) {
-        polygonColors[i][0] = ((double) (rand() % 10))/10;
-        polygonColors[i][1] = ((double) (rand() % 10))/10;
-        polygonColors[i][2] = ((double) (rand() % 10))/10;
+    vertOrder[0] = 0; vertOrder[1] = 1; vertOrder[2] = 4; //one face of pyramid
+    vertOrder[3] = 1; vertOrder[4] = 2; vertOrder[5] = 4;
+    vertOrder[6] = 2; vertOrder[7] = 3; vertOrder[8] = 4;
+    vertOrder[9] = 3; vertOrder[10] = 0; vertOrder[11] = 4;
+    vertOrder[12] = 0; vertOrder[13] = 1; vertOrder[14] = 3; //base of
+    vertOrder[15] = 1; vertOrder[16] = 2; vertOrder[17] = 3; //pyramid
+
+    trace[0] = 0; trace[1] = 1; trace[2] = 1; trace[3] = 2;
+    trace[4] = 2; trace[5] = 3; trace[6] = 3; trace[7] = 0; //base trace
+    trace[8] = 0; trace[9] = 4; trace[10] = 1; trace[11] = 4;
+    trace[12] = 2; trace[13] = 4; trace[14] = 3; trace[15] = 4;
+
+}
+*/
+
+void pyramid::draw() {
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+
+    // activate and specify pointer to vertex array
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_INT, 0, &verts);
+    glColorPointer(3, GL_FLOAT, 0, &colors);
+
+    // draw a cube
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   10,
+                   GL_UNSIGNED_INT,
+                   &indices);
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+/*
+  glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(1, 1, 1); glVertex3f(1, 0, height);
+    glColor3f(0, 0, 1); glVertex3f(-1, 0, height);
+    glColor3f(1, 1, 1); glVertex3f(0, 1, height);
+    glColor3f(0, 0, 1); glVertex3f(0, -1, height);
+
+    glColor3f(1, 1, 1); glVertex3f(1, 0, height);
+    glColor3f(1, 0, 0); glVertex3f(0, -1, height);
+    glColor3f(0, 1, 0); glVertex3f(0, 0, 0);//height);
+    glColor3f(0, 0, 1); glVertex3f(-1, 0, height);
+    glColor3f(1, 1, 1); glVertex3f(0, 1, height);
+    glColor3f(0, 1, 0); glVertex3f(0, 0, 0);//height);
+    glColor3f(1, 1, 1); glVertex3f(1, 0, height);
+  glEnd();
+
+    glFlush();
+*/
+}
+
+cube::cube(int height) {
+
+
+verts[0] = 0;
+verts[1] = -1;
+verts[2] = 0;
+verts[3] = 1;
+verts[4] = 0;
+verts[5] = 0;
+verts[6] = 0;
+verts[7] = -1;
+verts[8] = height;
+verts[9] = 1;
+verts[10] = 0;
+verts[11] = height;
+verts[12] = -1;
+verts[13] = 0;
+verts[14] = 0;
+verts[15] = 0;
+verts[16] = 1;
+verts[17] = 0;
+verts[18] = -1;
+verts[19] = 0;
+verts[20] = height;
+verts[21] = 0;
+verts[22] = 1;
+verts[23] = height;
+
+
+colors[0] = 1; colors[1] = 1; colors[2] = 1;
+colors[3] = 1; colors[4] = 0; colors[5] = 1;
+colors[6] = 1; colors[7] = 0; colors[8] = 1;
+colors[9] = 0; colors[10] = 1; colors[11] = 1;
+colors[12] = 1;
+colors[13] = 1;
+colors[14] = 0;
+colors[15] = 1;
+colors[16] = 1;
+colors[17] = 1;
+colors[18] = 0;
+colors[19] = 0;
+colors[20] = 1;
+colors[21] = 1;
+colors[22] = 0;
+colors[23] = 0;
+
+
+indices[0] = 0;
+indices[0] = 1;
+indices[0] = 2;
+indices[0] = 3;
+indices[0] = 6;
+indices[0] = 7;
+indices[0] = 4;
+indices[0] = 5;
+indices[0] = 6;
+indices[0] = 2;
+indices[0] = 4;
+indices[0] = 0;
+indices[0] = 5;
+indices[0] = 1;
+indices[0] = 7;
+indices[0] = 3;
+}
+
+void cube::draw() {
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+
+    // activate and specify pointer to vertex array
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_INT, 0, &verts);
+    glColorPointer(3, GL_FLOAT, 0, &colors);
+
+    // draw a cube
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   16,
+                   GL_UNSIGNED_INT,
+                   &indices);
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+
+prism::prism(int height) {
+
+verts[0] = 1;
+verts[1] = 0;
+verts[2] = 0;
+verts[3] = 0;
+verts[4] = 1;
+verts[5] = 0;
+verts[6] = -1;
+verts[7] = 0;
+verts[8] = 0;
+verts[9] = 0;
+verts[10] = -1;
+verts[11] = 0;
+verts[12] = 0;
+verts[13] = 0;
+verts[14] = height;
+verts[15] = 0;
+verts[16] = 0;
+verts[17] = -height;
+
+
+colors[0] = 1;
+colors[1] = 1;
+colors[2] = 1;
+colors[3] = 1;
+colors[4] = 0;
+colors[5] = 1;
+colors[6] = 1;
+colors[7] = 0;
+colors[8] = 1;
+colors[9] = 0;
+colors[10] = 1;
+colors[11] = 1;
+colors[12] = 1;
+colors[13] = 1;
+colors[14] = 0;
+colors[15] = 1;
+colors[16] = 0;
+colors[17] = 0;
+
+
+indices[0] = 5;
+indices[1] = 3;
+indices[2] = 0;
+indices[3] = 4;
+indices[4] = 1;
+indices[5] = 0;
+indices[6] = 5;
+indices[7] = 2;
+indices[8] = 1;
+indices[9] = 4;
+indices[10] = 3;
+indices[11] = 2;
+indices[12] = 4;
+}
+
+void prism::draw() {
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+
+    // activate and specify pointer to vertex array
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_INT, 0, &verts);
+    glColorPointer(3, GL_FLOAT, 0, &colors);
+
+    // draw a cube
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   13,
+                   GL_UNSIGNED_INT,
+                   &indices);
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+
+void drawCylinder(void)
+//------------------------------------------------------------------------------
+{
+    glVertexPointer(3,          // --size-- # of coords per vertex (2,3,or 4)
+                    GL_DOUBLE,  // --type-- openGL data type for each coord.
+                    0,          // --stride-- byte offset between consecutive
+                                // vertices; nonzero for interleaved vertices,
+                                // color, normals, etc.
+                    pCylVerts); // --*pointer-- address of array's element [0].
+    glColorPointer(3,           // --size-- # of color coordinate (3 or 4)
+                                // ( why 4? for RGBA; A for 'alpha'==opacity)
+                   GL_DOUBLE,   // --type-- openGL data type for each coord.
+                   0,           // --stride-- byte offset between consecutive...
+                   pCylColrs); // --*pointer--address of array's element [0]. */
+
+
+        glDrawArrays(                   // Using the currently bound arrays,
+                     GL_TRIANGLE_STRIP,      //--mode-- use this drawing primitive,
+                     0,                 //--first-- start at this array element,
+                     66);                //--count-- and draw this many elements.
+}
+
+void makeCylinder (double height,double radius)
+//------------------------------------------------------------------------------
+{
+int i;
+
+    // STEP 1: Enable Arrays
+    //========================
+    // openGL is one gigantic state machine; unless you say otherwise, it uses
+    // default states for everything.  Set it to the non-default state where it
+    // will accept ARRAYS of vertices and colors to specify drawings.
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    // Dynamic allocation for 3 triangle vertices.............................
+    // array of 3 vertices: each vertex holds 3 coordinate values: (x,y,z)
+    pCylVerts = (GLdouble *)malloc(66* (3*sizeof(GLdouble)));
+    if(pCylVerts==NULL) cout << "\n !Failed to malloc pTriVert!\n" << endl;
+    // vertex counter.
+    //              X coord;                Y coord;                Z coord.
+    for (i=0;i<66;i++) {
+    pCylVerts[3*i] = radius*sin(i*.1); pCylVerts[2 +3*i] = 0; pCylVerts[1 +3*i] = radius*cos(i*.1);
+    i++;    // go on to next vertex;
+    pCylVerts[3*i] =  radius*sin(i*.1); pCylVerts[2 +3*i] = 0.0; pCylVerts[1 +3*i] = radius*cos(i*.1);
+    i++;
+    pCylVerts[3*i] = radius*(sin((i-2)*.1)+sin((i-1)*.1))/2; pCylVerts[2 +3*i] = height; pCylVerts[1 +3*i] = radius*(cos((i-2)*.1)+cos((i-1)*.1))/2;
+    }
+    // Dyn. allocation for three colors.........................................
+    pCylColrs = (GLdouble *)malloc(66* (3*sizeof(GLdouble)));  // 3 colors
+    if(pCylColrs ==NULL) cout << "\n !Failed to malloc pTriColrs!\n" << endl;
+
+    // color counter. // each color has 3 parts: 0 <= (R,G,B) <= 1.0
+    for(i=0;i<66;i++) {
+    //             Red value,           Green value,            Blue value.
+    pCylColrs[   3*i] = 0.0;
+    pCylColrs[1 +3*i] = 1.0;
+    pCylColrs[2 +3*i] = 1.0; // Cyan
+    i++;    // color number;    // set bright Magenta pen color;
+    pCylColrs[    3*i] = 1.0;
+    pCylColrs[1 + 3*i] = 0.0;
+    pCylColrs[2 + 3*i] = 1.0; // Magenta
+    i++;    // color number;    // set bright Yellow pen color;
+    pCylColrs[    3*i] = 1.0;
+    pCylColrs[1 + 3*i] = 1.0;
+    pCylColrs[2 + 3*i] = 0.0; // Yellow
     }
 }
 
 
-polygon::~polygon()
+void makeCone(double height, double radius)
 {
-    //dtor
-    delete polygonColors;
+    int i;
+
+    // STEP 1: Enable Arrays
+    //========================
+    // openGL is one gigantic state machine; unless you say otherwise, it uses
+    // default states for everything.  Set it to the non-default state where it
+    // will accept ARRAYS of vertices and colors to specify drawings.
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    // Dynamic allocation for 3 triangle vertices.............................
+    // array of 3 vertices: each vertex holds 3 coordinate values: (x,y,z)
+    pCylVerts = (GLdouble *)malloc(66* (3*sizeof(GLdouble)));
+    if(pCylVerts==NULL) cout << "\n !Failed to malloc pTriVert!\n" << endl;
+    // vertex counter.
+    //              X coord;                Y coord;                Z coord.
+    for (i=0;i<66;i++) {
+    pCylVerts[3*i] = radius*sin(i*.1); pCylVerts[2 +3*i] = 0; pCylVerts[1 +3*i] = radius*cos(i*.1);
+    i++;    // go on to next vertex;
+    pCylVerts[3*i] =  radius*sin(i*.1); pCylVerts[2 +3*i] = 0; pCylVerts[1 +3*i] = radius*cos(i*.1);
+    i++;
+    pCylVerts[3*i] = 0; pCylVerts[2 +3*i] = height; pCylVerts[1 +3*i] = 0;
+    }
+    // Dyn. allocation for three colors.........................................
+    pCylColrs = (GLdouble *)malloc(66* (3*sizeof(GLdouble)));  // 3 colors
+    if(pCylColrs ==NULL) cout << "\n !Failed to malloc pTriColrs!\n" << endl;
+
+    // color counter. // each color has 3 parts: 0 <= (R,G,B) <= 1.0
+    for(i=0;i<66;i++) {
+    //             Red value,           Green value,            Blue value.
+    pCylColrs[   3*i] = 0.0;
+    pCylColrs[1 +3*i] = 1.0;
+    pCylColrs[2 +3*i] = 1.0; // Cyan
+    i++;    // color number;    // set bright Magenta pen color;
+    pCylColrs[    3*i] = 1.0;
+    pCylColrs[1 + 3*i] = 0.0;
+    pCylColrs[2 + 3*i] = 1.0; // Magenta
+    i++;    // color number;    // set bright Yellow pen color;
+    pCylColrs[    3*i] = 1.0;
+    pCylColrs[1 + 3*i] = 1.0;
+    pCylColrs[2 + 3*i] = 0.0; // Yellow
+    }
 }
 
-void pyramid::drawPolygon(int size) {
+void drawCone()
+{
+ glVertexPointer(3,          // --size-- # of coords per vertex (2,3,or 4)
+                    GL_DOUBLE,  // --type-- openGL data type for each coord.
+                    0,          // --stride-- byte offset between consecutive
+                                // vertices; nonzero for interleaved vertices,
+                                // color, normals, etc.
+                    pCylVerts); // --*pointer-- address of array's element [0].
+    glColorPointer(3,           // --size-- # of color coordinate (3 or 4)
+                                // ( why 4? for RGBA; A for 'alpha'==opacity)
+                   GL_DOUBLE,   // --type-- openGL data type for each coord.
+                   0,           // --stride-- byte offset between consecutive...
+                   pCylColrs); // --*pointer--address of array's element [0]. */
 
-  glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(1, 1, 1); glVertex3f(1, 0, 0);
-    glColor3f(0, 0, 1); glVertex3f(-1, 0, 0);
-    glColor3f(1, 1, 1); glVertex3f(0, 1, 0);
-    glColor3f(0, 0, 1); glVertex3f(0, -1, 0);
 
-    glColor3f(1, 1, 1); glVertex3f(1, 0, 0);
-    glColor3f(1, 0, 0); glVertex3f(0, -1, 0);
-    glColor3f(0, 1, 0); glVertex3f(0, 0, size);
-    glColor3f(0, 0, 1); glVertex3f(-1, 0, 0);
-    glColor3f(1, 1, 1); glVertex3f(0, 1, 0);
-    glColor3f(0, 1, 0); glVertex3f(0, 0, size);
-    glColor3f(1, 1, 1); glVertex3f(1, 0, 0);
+        glDrawArrays(                   // Using the currently bound arrays,
+                     GL_TRIANGLE_STRIP,      //--mode-- use this drawing primitive,
+                     0,                 //--first-- start at this array element,
+                     66);                //--count-- and draw this many elements.
 
-  glEnd();
-
-    glFlush();
 }

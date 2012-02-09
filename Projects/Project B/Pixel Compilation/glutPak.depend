@@ -549,3 +549,61 @@
 	<cmath>
 	"CByteImg.h"
 
+1328272294 source:/home/dhruv/EECS-351/Projects/Project B/Pixel Compilation/CByteImg.cpp
+	"CByteImg.h"
+
+1328466908 /home/dhruv/EECS-351/Projects/Project B/Pixel Compilation/CByteImg.h
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<stdint.h>
+	<cstdlib>
+	<cstdio>
+	<iostream>
+	<iomanip>
+	<fstream>
+	<string>
+	<cmath>
+	<cstring>
+	<string.h>
+
+1328272492 source:/home/dhruv/EECS-351/Projects/Project B/Pixel Compilation/glutPak.cpp
+	"glutPak.h"
+
+1328271508 /home/dhruv/EECS-351/Projects/Project B/Pixel Compilation/glutPak.h
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<cstdlib>
+	<cstdio>
+	<stdint.h>
+	<iostream>
+	<fstream>
+	<string>
+	<cmath>
+	"CByteImg.h"
+

@@ -125,9 +125,9 @@ int i;
         glScaled(0.3, 0.3, 0.3);    // shrink drawing axes,
         glTranslated(-3.0,-1.0, 0.0);  // move drawing leftwards & downwards;
         glRotated(-30.0, 0.0, 0.0, 1.0);// rotate -30 degrees around z axis;
-        for(i=0; i<20; i++)
+        for(i = 0; i < 20; i++)
         {
-            if(i==7) glPushMatrix();   // SAVE the MIDPOINT drawing axes;
+            if(i == 7) glPushMatrix();   // SAVE the MIDPOINT drawing axes;
         //drawTriangleDEPRECATED(); // Draw vertex-by-vertex triangle, or...
             drawTriangleBETTER();       // draw array triangle. Then:
 
