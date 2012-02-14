@@ -9,6 +9,7 @@
 // EECS 351-1 'Starter Code' for Project B: Moving Views
 //
 #include "cubeDemoCPP.h"
+#include <iostream>
 using namespace std;
 
 //=====================
@@ -30,14 +31,16 @@ GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
 GLdouble *pCylVerts, *pCylColrs;
 
 int camChoice = 1;                  // change using 'z' key (0,1,2, or 3)
-//int fixedCamera = 1;
 int viewChoice = 1;                 // change using 'v' key  (1,2, or 3)
-int helpButton = 0;             //toggle help instructions button
+//int helpButton = 0;             //toggle help instructions button
 
 int rotVal = 0, rotInc = 5;
 int heightAng = 90, heightAngInc = 5;
+int pictures = 0;
 double autoRot = 0, autoRotInc = 1;
+double Xcamera = 0, Ycamera = 0, Zcamera = 0;
 
+CTheApp app;
 
 cube ice = cube(2);
 cube ice4 = cube(4);
@@ -46,9 +49,6 @@ prism prism3 = prism(5);
 pyramid pr1 = pyramid(2);
 pyramid pr2 = pyramid(3);
 pyramid pr3 = pyramid(4);
-
-
-
 
 
 int main( int argc, char *argv[] )
@@ -68,6 +68,7 @@ int main( int argc, char *argv[] )
                     // set display window size & position from global vars
 	glutCreateWindow( "EECS351 - Dhruv Koul - Project B" ); // set window title-bar name
 	glClearColor( 0, 0, 0, 1 );	    // 'cleared-screen' color: black (0,0,0)
+
 	// Register our callback functions in GLUT:
 	glutDisplayFunc( myDisplay );	// callback for display window redraw
 	glutReshapeFunc( myReshape);    // callback to create or re-size window
@@ -76,11 +77,30 @@ int main( int argc, char *argv[] )
 	glutSpecialFunc ( myKeySpecial);// callback for all others: arrow keys,etc.
 	glutMouseFunc( myMouseClik );   // callback for mouse button events
 	glutMotionFunc( myMouseMove );  // callback for mouse dragging events
+
 	//================================
     glEnable( GL_DEPTH_TEST );	    // enable hidden surface removal
 	glDisable(GL_LIGHTING);         // (for our next project)
-//	ice.makecube();				    // make our cube
 	//================================
+
+    app.argvCopy = argv;          // make a copy of argv[] for later use by
+    app.imgMax = 3;
+    app.imgCurrent = 0;           // currently-selected image#.
+
+    for(int i = 0; i < app.imgMax; i++)
+    {   // set initial positions for lower-left corner of each image
+        app.imgXpos[i] = 5;
+        app.imgYpos[i] = 5;
+        app.imgZpos[i] = 0;     // (uses glRasterPos()...)
+    }
+    for(int i = 0; i < app.imgMax; i++)   // read in, prepare all images for display
+    {
+        app.myImg[i].setFileName(app.argvCopy, i); // i-th default filename
+        app.myImg[i].readFile();
+    }
+    cerr << "error message" << endl;
+
+
 
     runAnimTimer(1);                // start our animation loop.
     camChoice = 1;                  // default:
@@ -187,6 +207,14 @@ void myDisplay( void )
 //	glScaled(0.2, 0.3, 0.4);	// shrink along x,y,z axes
 //  glTranslated(0.1,0.3,0.5);	// translate along x,y,z axes.
 {
+
+    //images and bitmaps
+
+    if (pictures == 1)
+        app.imgMax = 3;
+    else
+        app.imgMax = 0;
+
     // Clear the screen (to change screen-clearing color, try glClearColor() )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
                                 // clear the color and depth buffers. Now draw:
@@ -289,15 +317,12 @@ void myDisplay( void )
                0.0, 0.0, 1.0 );     // define the 'up' direction as world +y.
 
     glTranslated(0,0,-1.5);
-    glViewport(0, 0, nu_display_width/2, nu_display_height/2);
+    glViewport(0, 0, min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2));
 
-    // print on-screen text in these un-rotated world coordinates,
-  //  glColor3d(1.0, 1.0, 0.0);       // bright yellow text.
-
-    if (helpButton)
+    /*if (helpButton)
         printInstructions();
     else
-        askForHelp();
+        askForHelp();*/
 
     drawScene();
     glLoadIdentity();
@@ -305,9 +330,7 @@ void myDisplay( void )
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
                0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
 
-
-    //glLoadIdentity();
-    glViewport(0, nu_display_height/2, nu_display_width/2, nu_display_height/2);
+    glViewport(0, min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2));
 
     drawScene();
     glLoadIdentity();
@@ -316,16 +339,17 @@ void myDisplay( void )
                0.0, 0.0, 1.0 );     // define the 'up' direction as world +y.
     glTranslated(0,0,-1.5);
 
-    glViewport(nu_display_width/2, 0, nu_display_width/2, nu_display_height/2);
+    glViewport(min(nu_display_width/2,nu_display_height/2), 0, min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2));
     drawScene();
 
-    glViewport(nu_display_width/2, nu_display_height/2, nu_display_width/2, nu_display_height/2);
+    glViewport(min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2),
+               min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2));
+
     glLoadIdentity();
-    gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
-               0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
-               0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
-                   // and then 'spin the world' around it's newly displaced origin point
-    // to look at it from a different angle:
+    gluLookAt( Xcamera, 4.0 + Ycamera, Zcamera,
+                  Xcamera + 4 * sin(xtheta), Ycamera + 4.0 - 4 * cos(xtheta), 4 * sin(ytheta),
+                  0.0, 0.0,1.0);
+
     glRotated(45.0+xtheta, 1.0, 0.0, 0.0); // spin the world on x axis, then
     glRotated(45.0+ytheta, 0.0, 1.0, 0.0); // on y axis.
     glTranslated(0,0,-1.0);
@@ -340,27 +364,7 @@ void myDisplay( void )
 
 
 void drawScene() {
-
-
 //== MODELING =========================================================
-//    glTranslated(0.0,0.0,2.0);
-
-    //------------First, draw with NO modeling transformations: (world dwg axes)
-   // glColor3d(0.7, 0.7, 0.7);       // draw a gray ground-plane grid.
-   // drawPlane(50.0, 0.5);
-	c.drawSolid();                // draw the cube as described.
-
-    //ice.drawWireframe();
-
-    //c.draw();
-
-    c.drawPoints(11);             // draw the vertices (11-pixel wide points)
-    drawAxes();			            // draw world-space +x,y,z axes.
-
-    //------------draw the cube WITH transformations:
-	//glPushMatrix();                 // save current matrix,
-     //   glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -371,20 +375,6 @@ autoRot = autoRot + autoRotInc;
     //------------First, draw with NO modeling transformations: (world dwg axes)
     glColor3d(0.7, 0.7, 0.7);       // draw a gray ground-plane grid.
     drawPlane(50.0, 0.5);
-	/*
-	glScaled(0.3,0.3,0.3);
-	glTranslated(0,0,1.0);
-	//ice.drawSolid();                // draw the cube as described.
-    glPushMatrix();
-        glRotated(rotVal,1.0,1.0,0);
-        glTranslated(0,1.0,0);
-     //   ice.drawSolid();
-    glPopMatrix();
-//ice.drawWireframe();
-
-//  ice.drawPoints(11);             // draw the vertices (11-pixel wide points)
-    drawAxes();			            // draw world-space +x,y,z axes.
-    */
 
     glScaled(0.3,0.3,0.3);
     ice.draw();
@@ -506,7 +496,6 @@ autoRot = autoRot + autoRotInc;
         glRotated(90, 1, 0, 0);
         glTranslated(0,4,1);
         glScaled(0.5,0.5,0.5);
-        //glRotated(autoRot-45,0,0,1);
         glutSolidCube(3.0);
         prism2.draw();
         glPopMatrix();
@@ -517,7 +506,6 @@ autoRot = autoRot + autoRotInc;
         glRotated(90, 1, 0, 0);
         glTranslated(-8,0,1);
         glScaled(0.5,0.5,0.5);
-        //glRotated(-autoRot,0,0,1);
         glutSolidCube(3.0);
         prism2.draw();
     glPopMatrix();
@@ -528,7 +516,6 @@ autoRot = autoRot + autoRotInc;
         glRotated(90, 1, 0, 0);
         glTranslated(0,-5,1);
         glScaled(0.5,0.5,0.5);
-        //glRotated(-autoRot,0,0,1);
         glutSolidCube(3.0);
         prism2.draw();
     glPopMatrix();
@@ -536,21 +523,18 @@ autoRot = autoRot + autoRotInc;
     glPushMatrix();
         glTranslated(-5-sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        //glRotated(-autoRot,0,0,1);
         ice4.draw();
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(-5-sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        //glRotated(-autoRot,0,0,1);
         ice4.draw();
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(5+sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        //glRotated(-autoRot,0,0,1);
         ice4.draw();
     glPopMatrix();
 
@@ -561,7 +545,6 @@ autoRot = autoRot + autoRotInc;
     glPushMatrix();
         glTranslated(5+sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        //glRotated(-autoRot,0,0,1);
         ice4.draw();
     glPopMatrix();
     //------------draw the cube WITH transformations:
@@ -571,6 +554,28 @@ autoRot = autoRot + autoRotInc;
                                     // uncomment one drawing method
    glPopMatrix();                  // discard the rotation matrix we made.
 
+    //ADD BITMAPS/PICTURES CODE
+    for(int i = 0; i < app.imgMax; i++)
+    {
+        glTranslated(0,0,-1);
+        if (i == 0) {
+        glRasterPos3d((app.imgXpos[i]+((double)rotVal)/100),
+                      app.imgYpos[i],
+                      app.imgZpos[i]);
+        }
+        else if (i == 1) {
+        glRasterPos3d((app.imgXpos[i]+((double)rotVal)/100),
+                      app.imgYpos[i]+((double)rotVal)/100,
+                      app.imgZpos[i]);
+        }
+        else  {
+        glRasterPos3d(app.imgXpos[i],
+                      app.imgYpos[i]+((double)rotVal)/100,
+                      app.imgZpos[i]);
+        }
+        app.myImg[i].drawPixelsGL();  // draw onscreen images from files
+                                        // at current glRasterPos() position.
+    }
 
 }
 
@@ -589,24 +594,56 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
 
 	switch(key)
 	{
-		case 'H':       // User pressed the 'A' key...
-		case 'h':
-            helpButton = !helpButton;
+        case 'J':
+        case 'j':
+            Xcamera = Xcamera + 0.2*cos(xtheta);
+            Ycamera = Ycamera + 0.2*sin(xtheta);
+            break;
+        case 'L':
+        case 'l':
+            Xcamera = Xcamera - 0.2*cos(xtheta);
+            Ycamera = Ycamera - 0.2*sin(xtheta);
+            break;
+        case 'I':
+        case 'i':
+            Ycamera = Ycamera - 0.2*cos(xtheta);
+            Xcamera = Xcamera + 0.2*sin(xtheta);
+            break;
+        case 'K':
+        case 'k':
+            Ycamera = Ycamera + 0.2*cos(xtheta);
+            Xcamera = Xcamera - 0.2*sin(xtheta);
+            break;
+        case 'U':
+        case 'u':
+            Zcamera = Zcamera + 0.15;
+            break;
+		case 'D':
+		case 'd':
+            Zcamera = Zcamera - 0.15;
+            break;
+        case 'H':
+        case 'h':
+            cout << "\nHELP MENU FOR WACKY ROCKET"
+            << "\nDrag the mouse in the top right quadrant to adjust how you look at the viewport"
+            << "\nUse the J, L, I, K buttons to move (Left, Right, Up, Down) respectively in that viewport"
+            << "\nUse U and D to move up and down respectively in the viewport"
+            << "\nUse the left and right arrow keys to rotate the rocket and broken wing"
+            << "\nUse the up and down arrow keys to move the wing components"
+            << "\nUse Z to move between perspective views"
+            << "\nUse B to get the pictures on screen"
+            << "\Q, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
         case 'r':
         case 'R':       // reset mouse rotations
             xtheta = ytheta = 0;
             break;
-        case 'v':
-        case 'V':                       // advance to next viewing choice:
-            viewChoice++;
-            if(viewChoice < 1) viewChoice = 1;     // stay within 1,2,3.
-            if(viewChoice > 3) viewChoice = 1;
-            cout << "view choice: " << viewChoice << endl;
+        case 'B':
+        case 'b':                       // advance to next viewing choice:
+            pictures = pictures ^ 1;
             break;
         case 'z':
         case 'Z':                       // advance to next camera choice:
-            //camChoice++;
             camChoice = (camChoice % 2) + 1;
             doCamChoice();
             break;
@@ -654,14 +691,12 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
 			break;
 		case GLUT_KEY_LEFT:		// dn arrow key
             rotVal -= rotInc;
-            rotVal %= 360;
-            autoRot -= autoRotInc;
+            rotVal %= 720 * 2;
             cout << "dn-arrow key.\n";
 			break;
 		case GLUT_KEY_RIGHT:		// up arrow key
             rotVal += rotInc;
-            rotVal %= 360;
-            autoRot += autoRotInc;
+            rotVal %= 720 * 2;
             cout << "up-arrow key.\n";
 			break;
 		// SEARCH glut.h for more arrow key #define statements.
@@ -669,8 +704,7 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
 			cout << "Special key; integer code value"<< (int)key << "\n)";
 			break;
 	}
-    glColor3d(0.5, 1.0, 0.5);	// And yellow-colored text on-screen:
-    drawText2D(rom24,-0.5, -0.1,"That's a SPECIAL key!");
+
     //===============DRAWING DONE.
     glFlush();	        // do any and all pending openGL rendering.
     glutSwapBuffers();	// For double-buffering: show what we drew.
@@ -708,8 +742,8 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
     xpos = xw;
     ypos = getDisplayHeight() - yw; //(window system puts origin at UPPER left)
 
-    ytheta += 0.3*(xpos-xclik);     // change rot. angle by drag distance
-    xtheta -= 0.3*(ypos-yclik);     // (drag in X direction rotates on Y axis)
+    ytheta += 0.3*(xpos-xclik)/50;     // change rot. angle by drag distance
+    xtheta -= 0.3*(ypos-yclik)/50;     // (drag in X direction rotates on Y axis)
     xclik = xpos;                   // (drag in Y direction rotates on X axis)
     yclik = ypos;                   // update current mouse position.
     cout << ".";
@@ -1296,4 +1330,28 @@ void prism::draw() {
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+//Professor Tumblin's starter code
+CTheApp::CTheApp(void)
+//------------------------------------------------------------------------------
+// default constructor
+{
+
+    //  Start up the FreeImage library for image-file I/0:
+#ifdef FREEIMAGE_LIB
+	// call this ONLY when linking with FreeImage as a static library
+		FreeImage_Initialise();
+#endif
+}
+
+CTheApp::~CTheApp(void)
+//------------------------------------------------------------------------------
+// default destructor
+{
+	// call this ONLY when linking with FreeImage as a static library
+	#ifdef FREEIMAGE_LIB
+		FreeImage_DeInitialise();
+	#endif
+    return;
 }

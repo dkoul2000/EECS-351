@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
-	<File name="cubeDemoCPP.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="14293" topLine="277" />
+	<File name="CByteImg.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="12139" topLine="240" />
+	</File>
+	<File name="cubeDemoCPP.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="29277" topLine="806" />
 	</File>
 	<File name="cubeDemoCPP.h" open="1" top="0" tabpos="1">
-		<Cursor position="9881" topLine="179" />
+		<Cursor position="10696" topLine="225" />
 	</File>
 </CodeBlocks_layout_file>

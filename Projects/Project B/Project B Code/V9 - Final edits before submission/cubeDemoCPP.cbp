@@ -23,6 +23,8 @@
 			<Add library="GLU" />
 			<Add library="glut" />
 		</Linker>
+		<Unit filename="CByteImg.cpp" />
+		<Unit filename="CByteImg.h" />
 		<Unit filename="cubeDemoCPP.cpp" />
 		<Unit filename="cubeDemoCPP.h" />
 		<Extensions>

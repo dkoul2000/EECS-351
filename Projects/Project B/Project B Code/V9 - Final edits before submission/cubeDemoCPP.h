@@ -3,6 +3,11 @@
 //Winter 2012
 
 
+#include "CByteImg.h"
+#include <stdlib.h>
+#include <time.h>
+
+
 //===============  OpenGL and GLUT on *ANY* CodeBlocks platform  ===============
 //3456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_
 // (J. Tumblin: I like consistent 80-char column width)
@@ -221,4 +226,42 @@ class prism {
         int verts[18];
         unsigned int indices[13];
         float colors[18];
+};
+
+class CTheApp
+//==============================================================================
+// CTheApp class holds all the program's globally-accessible state information.
+// We declare only one instance, the global variable 'myApp', just above main().
+//
+// GLUT/freeGLUT *forces* us to use global variables to share state info between
+// different callback functions: with global variables, the keyboard callback
+// function can change what the display callback function draws, even though
+// GLUT pre-specifies these functions' arguments and return values.  Instead of
+// scattering many global variables throughout the program, I gather all of them
+// together into a single class 'CtheApp'.  Just above main(), I declare just
+// one global variable of type 'CtheApp' named 'myApp', and use it as our sole
+// container for the program's shared state.
+{
+public:
+char **argvCopy;                                // copy of argv; lets us find
+
+GLint doAnim;                                   // ==1 to run animation,
+                                                // ==0 to pause.
+GLint animFrameTime;                            // waiting-time in milliseconds
+                                                // between each animation frame
+
+#define JT_IMG_MAX 32
+CByteImg myImg[JT_IMG_MAX];                    // (array of) images from file
+GLfloat imgXpos[JT_IMG_MAX];                    // image position (glRasterPos()
+GLfloat imgYpos[JT_IMG_MAX];
+GLfloat imgZpos[JT_IMG_MAX];
+int imgMax;                                     // # valid images we hold.
+int imgCurrent;                                 // 'current' image selected.
+#undef JT_IMG_MAX
+
+//----------------------------Member Functions
+CTheApp(void);                              // default constructor, destructor
+~CTheApp(void);
+
+public:
 };
