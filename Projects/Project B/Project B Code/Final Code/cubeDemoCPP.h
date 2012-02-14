@@ -1,8 +1,3 @@
-//Dhruv Koul
-//EECS 351 - Project B
-//Winter 2012
-
-
 #include "CByteImg.h"
 #include <stdlib.h>
 #include <time.h>

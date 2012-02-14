@@ -1,8 +1,3 @@
-//Dhruv Koul
-//EECS 351 - Project B
-//Winter 2012
-
-
 //3456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_
 // (JT: I prefer to keep line lengths <=80 chars for easy printing/display.
 //
