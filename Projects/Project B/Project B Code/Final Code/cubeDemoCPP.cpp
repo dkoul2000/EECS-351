@@ -296,21 +296,6 @@ void myDisplay( void )
 	// Aim the camera: choose only one:
   // VIEW METHOD 2------------------------
 
-   /* if(viewChoice==2)
-	{
-        gluLookAt( 2.0, 2.0, 2.0,       //place camera at VRP location 2,2,2 and
-                   0.0, 0.0, 0.0,       // LookAt the world-space origin pt., and
-                   0.0, 1.0, 0.0 );	    // define the 'up' direction world +y.
-	}
-    // VIEW METHOD 3------------------------
-    if(viewChoice==3)
-    {
-        gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
-                   0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
-                   0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
-    }*/
-
-    //-------------------------------------
     // or make your own...
     gluLookAt( 4.0, 0.0, 0.0,     //place camera at VRP location 0,0,4 and
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
@@ -388,7 +373,6 @@ autoRot = autoRot + autoRotInc;
 
     glPushMatrix();
         glTranslated(0,0,2);
-        //glRotated(180,1,0,0);
         glRotated(rotVal,0,0,1);
         prism3.draw();
 
@@ -397,9 +381,6 @@ autoRot = autoRot + autoRotInc;
             glRotated(45-rotVal*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
-            //pr1.draw();
-            //makeCylinder(1.0, 0.25);
-            //drawCylinder();
         glPopMatrix();
 
 
@@ -408,17 +389,13 @@ autoRot = autoRot + autoRotInc;
             glRotated(45-rotVal*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
-           // pr1.draw();
-           // drawCylinder();
-        glPopMatrix();
+            glPopMatrix();
 
         glPushMatrix();
             glTranslated(1,0,0);
             glRotated(45-rotVal*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
-            //pr1.draw();
-//drawCylinder();
         glPopMatrix();
 
         glPushMatrix();
@@ -426,7 +403,6 @@ autoRot = autoRot + autoRotInc;
             glRotated(45-rotVal*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
-          //  pr1.draw();
             glScaled(0.6, 0.6, 0.6);
         glPopMatrix();
 
@@ -485,7 +461,6 @@ autoRot = autoRot + autoRotInc;
         glRotated(90, 1, 0, 0);
         glTranslated(6,0,1);
         glScaled(0.5,0.5,0.5);
-       // glRotated(autoRot-45,0,0,1);
         glutSolidCube(3.0);
         prism2.draw();
     glPopMatrix();
@@ -852,47 +827,6 @@ void drawAxes(void)
 		glVertex3d(0.0,0.0,0.4);
 	glEnd();
 }
-/*
-void drawSquarePoints(void)
-//------------------------------------------------------------------------------
-// Draw a 2D square at points +/-1, +/-1. Note counter-clockwise order:
-{
-	glPointSize(3.0);
-	glBegin(GL_POINTS);
-		glVertex2d( 1.0,  1.0);
-		glVertex2d(-1.0,  1.0);
-		glVertex2d(-1.0, -1.0);
-		glVertex2d( 1.0, -1.0);
-	glEnd();
-
-}
-
-void drawSquareEdges(void)
-//------------------------------------------------------------------------------
-// Draw a 2D square at points +/-1, +/-1. Note counter-clockwise order:
-{
-	glBegin(GL_LINE_LOOP);
-		glVertex2d( 1.0,  1.0);
-		glVertex2d(-1.0,  1.0);
-		glVertex2d(-1.0, -1.0);
-		glVertex2d( 1.0, -1.0);
-	glEnd();
-
-}
-
-
-void drawSquareFace(void)
-//------------------------------------------------------------------------------
-// Draw a 2D square at point +/-1, +/-1. Note counter-clockwise order:
-{
-	glBegin(GL_QUADS);
-		glVertex2d( 1.0,  1.0);
-		glVertex2d(-1.0,  1.0);
-		glVertex2d(-1.0, -1.0);
-		glVertex2d( 1.0, -1.0);
-	glEnd();
-}
-*/
 
 void drawPlane(GLdouble siz, GLdouble xygap)
 //------------------------------------------------------------------------------
@@ -1032,20 +966,6 @@ void Ccube::drawWireframe( void )
 {
 int i, j;
 
-// Two ways to do it -- comment out all but one method...
-/*	//Method 1:
-    glBegin( GL_LINES);	// draw a line segment between each pair of vertices
-	for ( i = 0; i < NUM_CUBE_FACES; i++ ) { // for each face
-		glColor3fv( facecolor[i] );	// set the face color
-		for ( j = 0; j < NUM_VERTICES_PER_FACE; j++ )
-		{
-			glVertex3fv( vertex[face[i][j]] );	      //  beginning of line
-			glVertex3fv( vertex[face[i][(j+1)%4]]);   //  end of line
-		}
-	}
-	glEnd();
-*/
-   // Method 2:
 	for ( i = 0; i < NUM_CUBE_FACES; i++ ) {  // for each face
 		glColor3fv( facecolor[i] );	          // set the face color
 	    glBegin( GL_LINE_LOOP);	// draw a closed loop of line segments:
@@ -1101,52 +1021,23 @@ void askForHelp()
 //HELP FROM KHALID AZIZ
 pyramid::pyramid(int height) {
 
-verts[0] = 1;
-verts[1] = 0;
-verts[2] = height;
-verts[3] = -1;
-verts[4] = 0;
-verts[5] = height;
-verts[6] = 0;
-verts[7] = 1;
-verts[8] = height;
-verts[9] = 0;
-verts[10] = -1;
-verts[11] = height;
-verts[12] = 0;
-verts[13] = 0;
-verts[14] = 0;
+verts[0] = 1; verts[1] = 0; verts[2] = height;
+verts[3] = -1; verts[4] = 0; verts[5] = height;
+verts[6] = 0; verts[7] = 1; verts[8] = height;
+verts[9] = 0; verts[10] = -1; verts[11] = height;
+verts[12] = 0; verts[13] = 0; verts[14] = 0;
 
 
-colors[0] = 1;
-colors[1] = 1;
-colors[2] = 1;
-colors[3] = 0;
-colors[4] = 0;
-colors[5] = 1;
-colors[6] = 1;
-colors[7] = 1;
-colors[8] = 1;
-colors[9] = 0;
-colors[10] = 0;
-colors[11] = 1;
-colors[12] = 0;
-colors[13] = 1;
-colors[14] = 0;
+colors[0] = 1; colors[1] = 1; colors[2] = 1;
+colors[3] = 0; colors[4] = 0; colors[5] = 1;
+colors[6] = 1; colors[7] = 1; colors[8] = 1;
+colors[9] = 0; colors[10] = 0; colors[11] = 1;
+colors[12] = 0; colors[13] = 1; colors[14] = 0;
 
-indices[0] = 0;
-indices[1] = 2;
-indices[2] = 1;
-indices[3] = 3;
-indices[4] = 0;
-indices[5] = 4;
-indices[6] = 2;
-indices[7] = 1;
-indices[8] = 4;
-indices[9] = 3;
-indices[10] = 0;
-
-//delete verts;
+indices[0] = 0; indices[1] = 2; indices[2] = 1;
+indices[3] = 3; indices[4] = 0; indices[5] = 4;
+indices[6] = 2; indices[7] = 1; indices[8] = 4;
+indices[9] = 3; indices[10] = 0;
 
 }
 
@@ -1155,9 +1046,7 @@ void pyramid::draw() {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
-
     // activate and specify pointer to vertex array
-    //glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_INT, 0, &verts);
     glColorPointer(3, GL_FLOAT, 0, &colors);
 
@@ -1170,37 +1059,19 @@ void pyramid::draw() {
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-
 }
 
 cube::cube(int height) {
 
 
-verts[0] = 0;
-verts[1] = -1;
-verts[2] = 0;
-verts[3] = 1;
-verts[4] = 0;
-verts[5] = 0;
-verts[6] = 0;
-verts[7] = -1;
-verts[8] = height;
-verts[9] = 1;
-verts[10] = 0;
-verts[11] = height;
-verts[12] = -1;
-verts[13] = 0;
-verts[14] = 0;
-verts[15] = 0;
-verts[16] = 1;
-verts[17] = 0;
-verts[18] = -1;
-verts[19] = 0;
-verts[20] = height;
-verts[21] = 0;
-verts[22] = 1;
-verts[23] = height;
-
+verts[0] = 0; verts[1] = -1; verts[2] = 0;
+verts[3] = 1; verts[4] = 0; verts[5] = 0;
+verts[6] = 0; verts[7] = -1; verts[8] = height;
+verts[9] = 1; verts[10] = 0; verts[11] = height;
+verts[12] = -1; verts[13] = 0; verts[14] = 0;
+verts[15] = 0; verts[16] = 1; verts[17] = 0;
+verts[18] = -1; verts[19] = 0; verts[20] = height;
+verts[21] = 0; verts[22] = 1; verts[23] = height;
 
 colors[0] = 1; colors[1] = 1; colors[2] = 1;
 colors[3] = 1; colors[4] = 0; colors[5] = 1;
@@ -1211,22 +1082,11 @@ colors[15] = 0; colors[16] = 0; colors[17] = 1;
 colors[18] = 0; colors[19] = 0; colors[20] = 1;
 colors[21] = 1; colors[22] = 0; colors[23] = 0;
 
-
-indices[0] = 0;
-indices[0] = 1;
-indices[0] = 2;
-indices[0] = 3;
-indices[0] = 6;
-indices[0] = 7;
-indices[0] = 4;
-indices[0] = 5;
-indices[0] = 6;
-indices[0] = 2;
-indices[0] = 4;
-indices[0] = 0;
-indices[0] = 5;
-indices[0] = 1;
-indices[0] = 7;
+indices[0] = 0; indices[0] = 1; indices[0] = 2;
+indices[0] = 3; indices[0] = 6; indices[0] = 7;
+indices[0] = 4; indices[0] = 5; indices[0] = 6;
+indices[0] = 2; indices[0] = 4; indices[0] = 0;
+indices[0] = 5; indices[0] = 1; indices[0] = 7;
 indices[0] = 3;
 }
 
@@ -1237,7 +1097,6 @@ void cube::draw() {
 
 
     // activate and specify pointer to vertex array
-    //glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_INT, 0, &verts);
     glColorPointer(3, GL_FLOAT, 0, &colors);
 
@@ -1255,58 +1114,24 @@ void cube::draw() {
 
 prism::prism(int height) {
 
-verts[0] = 1;
-verts[1] = 0;
-verts[2] = 0;
-verts[3] = 0;
-verts[4] = 1;
-verts[5] = 0;
-verts[6] = -1;
-verts[7] = 0;
-verts[8] = 0;
-verts[9] = 0;
-verts[10] = -1;
-verts[11] = 0;
-verts[12] = 0;
-verts[13] = 0;
-verts[14] = height;
-verts[15] = 0;
-verts[16] = 0;
-verts[17] = -height;
+verts[0] = 1; verts[1] = 0; verts[2] = 0;
+verts[3] = 0; verts[4] = 1; verts[5] = 0;
+verts[6] = -1; verts[7] = 0; verts[8] = 0;
+verts[9] = 0; verts[10] = -1; verts[11] = 0;
+verts[12] = 0; verts[13] = 0; verts[14] = height;
+verts[15] = 0; verts[16] = 0; verts[17] = -height;
 
+colors[0] = 1; colors[1] = 1; colors[2] = 1;
+colors[3] = 1; colors[4] = 0; colors[5] = 1;
+colors[6] = 0; colors[7] = 0; colors[8] = 1;
+colors[9] = 1; colors[10] = 1; colors[11] = 0;
+colors[12] = 1; colors[13] = 1; colors[14] = 0;
+colors[15] = 0; colors[16] = 0; colors[17] = 0;
 
-colors[0] = 1;
-colors[1] = 1;
-colors[2] = 1;
-colors[3] = 1;
-colors[4] = 0;
-colors[5] = 1;
-colors[6] = 0;
-colors[7] = 0;
-colors[8] = 1;
-colors[9] = 1;
-colors[10] = 1;
-colors[11] = 0;
-colors[12] = 1;
-colors[13] = 1;
-colors[14] = 0;
-colors[15] = 0;
-colors[16] = 0;
-colors[17] = 0;
-
-
-indices[0] = 5;
-indices[1] = 3;
-indices[2] = 0;
-indices[3] = 4;
-indices[4] = 1;
-indices[5] = 0;
-indices[6] = 5;
-indices[7] = 2;
-indices[8] = 1;
-indices[9] = 4;
-indices[10] = 3;
-indices[11] = 2;
+indices[0] = 5; indices[1] = 3; indices[2] = 0;
+indices[3] = 4; indices[4] = 1; indices[5] = 0;
+indices[6] = 5; indices[7] = 2; indices[8] = 1;
+indices[9] = 4; indices[10] = 3; indices[11] = 2;
 indices[12] = 4;
 }
 
@@ -1317,7 +1142,6 @@ void prism::draw() {
 
 
     // activate and specify pointer to vertex array
-    //glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_INT, 0, &verts);
     glColorPointer(3, GL_FLOAT, 0, &colors);
 
@@ -1332,7 +1156,7 @@ void prism::draw() {
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-//Professor Tumblin's starter code
+///////FROM PROFESSOR TUMBLIN'S STARTER CODE
 CTheApp::CTheApp(void)
 //------------------------------------------------------------------------------
 // default constructor

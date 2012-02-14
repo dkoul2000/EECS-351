@@ -228,6 +228,7 @@ class prism {
         float colors[18];
 };
 
+//////PROFESSOR TUMBLIN'S STARTER CODE
 class CTheApp
 //==============================================================================
 // CTheApp class holds all the program's globally-accessible state information.
