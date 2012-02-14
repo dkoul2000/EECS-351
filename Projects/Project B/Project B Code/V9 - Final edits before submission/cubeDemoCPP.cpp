@@ -24,11 +24,32 @@ static int nu_Anim_isOn = 1;        // ==1 to run animation, == 0 to pause.
                         // !DON'T MESS WITH nu_Anim_isOn; call runAnimTimer().
 //========================
 // Global vars for our application:
-Ccube ice;
+Ccube c;
 GLdouble xclik=0, yclik=0;      // mouse button down position, in pixels
 GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
-int camChoice=1;                  // change using 'z' key (0,1,2, or 3)
-int viewChoice=1;                 // change using 'v' key  (1,2, or 3)
+GLdouble *pCylVerts, *pCylColrs;
+
+int camChoice = 1;                  // change using 'z' key (0,1,2, or 3)
+//int fixedCamera = 1;
+int viewChoice = 1;                 // change using 'v' key  (1,2, or 3)
+int helpButton = 0;             //toggle help instructions button
+
+int rotVal = 0, rotInc = 5;
+int heightAng = 90, heightAngInc = 5;
+double autoRot = 0, autoRotInc = 1;
+
+
+cube ice = cube(2);
+cube ice4 = cube(4);
+prism prism2 = prism(4);
+prism prism3 = prism(5);
+pyramid pr1 = pyramid(2);
+pyramid pr2 = pyramid(3);
+pyramid pr3 = pyramid(4);
+
+
+
+
 
 int main( int argc, char *argv[] )
 //==============================================================================
@@ -58,8 +79,9 @@ int main( int argc, char *argv[] )
 	//================================
     glEnable( GL_DEPTH_TEST );	    // enable hidden surface removal
 	glDisable(GL_LIGHTING);         // (for our next project)
-	ice.makecube();				    // make our cube
+//	ice.makecube();				    // make our cube
 	//================================
+
     runAnimTimer(1);                // start our animation loop.
     camChoice = 1;                  // default:
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
@@ -169,7 +191,7 @@ void myDisplay( void )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
                                 // clear the color and depth buffers. Now draw:
 
- 	glMatrixMode(GL_MODELVIEW);     // select the modeling matrix stack
+ 	glMatrixMode(GL_MODELVIEW_MATRIX);     // select the modeling matrix stack
 	glLoadIdentity();               // set to 'do nothing'.
     // Now we're in 'camera' coordinates.
 
@@ -245,8 +267,8 @@ void myDisplay( void )
 
 	// Aim the camera: choose only one:
   // VIEW METHOD 2------------------------
-  /*
-    if(viewChoice==2)
+
+   /* if(viewChoice==2)
 	{
         gluLookAt( 2.0, 2.0, 2.0,       //place camera at VRP location 2,2,2 and
                    0.0, 0.0, 0.0,       // LookAt the world-space origin pt., and
@@ -258,23 +280,26 @@ void myDisplay( void )
         gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
                    0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
                    0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
-    }
-    */
+    }*/
+
     //-------------------------------------
     // or make your own...
     gluLookAt( 4.0, 0.0, 0.0,     //place camera at VRP location 0,0,4 and
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
-               0.0, 1.0, 0.0 );     // define the 'up' direction as world +y.
+               0.0, 0.0, 1.0 );     // define the 'up' direction as world +y.
 
+    glTranslated(0,0,-1.5);
     glViewport(0, 0, nu_display_width/2, nu_display_height/2);
 
     // print on-screen text in these un-rotated world coordinates,
-    glColor3d(1.0, 1.0, 0.0);       // bright yellow text.
-    drawText2D(rom24,-1.5,-1.6, "Try mouse click & drag, 'R', 'V' and 'Z' keys");
-    glColor3d(0.7, 0.7, 0.7);       // Gray:
-    drawText2D(rom24,-1.5,-1.8, "(Space bar, ESC, 'q' or 'Q' to quit)");
+  //  glColor3d(1.0, 1.0, 0.0);       // bright yellow text.
 
-    drawCube();
+    if (helpButton)
+        printInstructions();
+    else
+        askForHelp();
+
+    drawScene();
     glLoadIdentity();
     gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
@@ -284,13 +309,16 @@ void myDisplay( void )
     //glLoadIdentity();
     glViewport(0, nu_display_height/2, nu_display_width/2, nu_display_height/2);
 
-    drawCube();
+    drawScene();
     glLoadIdentity();
-    gluLookAt( 0.0, 2.0, 0.0,     //place camera at VRP location 0,0,4 and
+    gluLookAt( 0.0, 6.5, 0.0,     //place camera at VRP location 0,0,4 and
                0.0, 0.0, 0.0,       // LookAt the origin point with cam, and
                0.0, 0.0, 1.0 );     // define the 'up' direction as world +y.
+    glTranslated(0,0,-1.5);
+
     glViewport(nu_display_width/2, 0, nu_display_width/2, nu_display_height/2);
-    drawCube();
+    drawScene();
+
     glViewport(nu_display_width/2, nu_display_height/2, nu_display_width/2, nu_display_height/2);
     glLoadIdentity();
     gluLookAt( 0.0, 0.0, 4.0,     //place camera at VRP location 0,0,4 and
@@ -300,8 +328,9 @@ void myDisplay( void )
     // to look at it from a different angle:
     glRotated(45.0+xtheta, 1.0, 0.0, 0.0); // spin the world on x axis, then
     glRotated(45.0+ytheta, 0.0, 1.0, 0.0); // on y axis.
+    glTranslated(0,0,-1.0);
 
-    drawCube();
+    drawScene();
 
 
 	//===============DRAWING DONE.
@@ -310,31 +339,237 @@ void myDisplay( void )
 }
 
 
-void drawCube() {
+void drawScene() {
 
 
 //== MODELING =========================================================
 //    glTranslated(0.0,0.0,2.0);
 
     //------------First, draw with NO modeling transformations: (world dwg axes)
+   // glColor3d(0.7, 0.7, 0.7);       // draw a gray ground-plane grid.
+   // drawPlane(50.0, 0.5);
+	c.drawSolid();                // draw the cube as described.
+
+    //ice.drawWireframe();
+
+    //c.draw();
+
+    c.drawPoints(11);             // draw the vertices (11-pixel wide points)
+    drawAxes();			            // draw world-space +x,y,z axes.
+
+    //------------draw the cube WITH transformations:
+	//glPushMatrix();                 // save current matrix,
+     //   glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+autoRot = autoRot + autoRotInc;
+//== MODELING =========================================================
+//    glTranslated(0.0,0.0,2.0);
+
+    //------------First, draw with NO modeling transformations: (world dwg axes)
     glColor3d(0.7, 0.7, 0.7);       // draw a gray ground-plane grid.
     drawPlane(50.0, 0.5);
-	ice.drawSolid();                // draw the cube as described.
-
+	/*
+	glScaled(0.3,0.3,0.3);
+	glTranslated(0,0,1.0);
+	//ice.drawSolid();                // draw the cube as described.
+    glPushMatrix();
+        glRotated(rotVal,1.0,1.0,0);
+        glTranslated(0,1.0,0);
+     //   ice.drawSolid();
+    glPopMatrix();
 //ice.drawWireframe();
 
 //  ice.drawPoints(11);             // draw the vertices (11-pixel wide points)
     drawAxes();			            // draw world-space +x,y,z axes.
+    */
 
+    glScaled(0.3,0.3,0.3);
+    ice.draw();
+
+    c.drawWireframe();
+    c.drawPoints(1.3);
+
+    glTranslated(0,0,7);
+    drawAxes();
+    glTranslated(0,0,-7);
+
+    glPushMatrix();
+        glTranslated(0,0,2);
+        //glRotated(180,1,0,0);
+        glRotated(rotVal,0,0,1);
+        prism3.draw();
+
+        glPushMatrix();
+            glTranslated(0,1,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+            //pr1.draw();
+            //makeCylinder(1.0, 0.25);
+            //drawCylinder();
+        glPopMatrix();
+
+
+        glPushMatrix();
+            glTranslated(0,-1,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+           // pr1.draw();
+           // drawCylinder();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(1,0,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+            //pr1.draw();
+//drawCylinder();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(-1,0,0);
+            glRotated(45-rotVal*2,0,0,1);
+            glTranslated(0,0,1);
+            glScaled(0.4, 0.4, 0.4);
+          //  pr1.draw();
+            glScaled(0.6, 0.6, 0.6);
+        glPopMatrix();
+
+        glTranslated(0,0,1);
+        glRotated(135,0,0,1);
+        pr3.draw();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(0,-1,0);
+            glRotated(heightAng,1,0,0);
+            glRotated(rotVal*2,0,0,1);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+        glTranslated(4.0, 3.0, 0.3);
+        glRotated(95.0, 0.0, 1.0, 0.0);
+        pr2.draw();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(0,1,0);
+            glRotated(-heightAng,1,0,0);
+            glRotated(-rotVal*2,1,0,0);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+        glTranslated(-4.0, -3.0, 0.3);
+        glRotated(95.0, 0.0, 1.0, 0.0);
+        pr2.draw();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(1,0,0);
+            glRotated(heightAng,0,1,0);
+            glRotated(rotVal*2,1,0,1);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(0,0,3);
+            glTranslated(-1,0,0);
+            glRotated(-heightAng,0,1,0);
+            glRotated(-rotVal*2,1,0,1);
+            drawAxes();
+            pr3.draw();
+        glPopMatrix();
+
+    glPopMatrix();
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,0,1);
+        glRotated(90, 1, 0, 0);
+        glTranslated(6,0,1);
+        glScaled(0.5,0.5,0.5);
+       // glRotated(autoRot-45,0,0,1);
+        glutSolidCube(3.0);
+        prism2.draw();
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,0,1);
+        glRotated(90, 1, 0, 0);
+        glTranslated(0,4,1);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(autoRot-45,0,0,1);
+        glutSolidCube(3.0);
+        prism2.draw();
+        glPopMatrix();
+
+
+    glPushMatrix();
+        glRotated(autoRot/10,0,1,0);
+        glRotated(90, 1, 0, 0);
+        glTranslated(-8,0,1);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        glutSolidCube(3.0);
+        prism2.draw();
+    glPopMatrix();
+
+
+    glPushMatrix();
+        glRotated(autoRot/10,1,0,0);
+        glRotated(90, 1, 0, 0);
+        glTranslated(0,-5,1);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        glutSolidCube(3.0);
+        prism2.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(-5-sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(-5-sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(5+sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
+
+    pr2.draw();
+    glTranslated(1.2, 0.8, 0.0);
+    pr3.draw();
+
+    glPushMatrix();
+        glTranslated(5+sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
+        glScaled(0.5,0.5,0.5);
+        //glRotated(-autoRot,0,0,1);
+        ice4.draw();
+    glPopMatrix();
     //------------draw the cube WITH transformations:
 	glPushMatrix();                 // save current matrix,
         glRotatef(170,1,-2,1);      // rotate 170 degrees around (1,2,1) axis:
-                                    // uncomment one drawing method
-    //	ice.drawSolid();            // draw the cube, but with transformed pts.
-        ice.drawWireframe();
-        ice.drawPoints(15);         // draw the vertices (15-pixel-wide points)
-	glPopMatrix();                  // discard the rotation matrix we made.
 
+                                    // uncomment one drawing method
+   glPopMatrix();                  // discard the rotation matrix we made.
 
 
 }
@@ -354,9 +589,9 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
 
 	switch(key)
 	{
-		case 'A':       // User pressed the 'A' key...
-		case 'a':
-		cout << "that *IS* the 'A' key!\n";
+		case 'H':       // User pressed the 'A' key...
+		case 'h':
+            helpButton = !helpButton;
             break;
         case 'r':
         case 'R':       // reset mouse rotations
@@ -365,15 +600,14 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
         case 'v':
         case 'V':                       // advance to next viewing choice:
             viewChoice++;
-            if(viewChoice<1) viewChoice= 1;     // stay within 1,2,3.
-            if(viewChoice>3) viewChoice= 1;
+            if(viewChoice < 1) viewChoice = 1;     // stay within 1,2,3.
+            if(viewChoice > 3) viewChoice = 1;
             cout << "view choice: " << viewChoice << endl;
             break;
         case 'z':
         case 'Z':                       // advance to next camera choice:
-            camChoice++;
-            if(camChoice<0) camChoice= 0;       // stay within 0,1,2,3
-            if(camChoice>3) camChoice= 0;
+            //camChoice++;
+            camChoice = (camChoice % 2) + 1;
             doCamChoice();
             break;
 		case ' ':		// User pressed the spacebar.
@@ -406,16 +640,28 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
     ypos = getDisplayHeight() - yw; //(window system puts origin at UPPER left)
 	switch(key)
 	{
-		case GLUT_KEY_LEFT:		// left arrow key
+		case GLUT_KEY_UP:		// left arrow key
+            heightAng -= heightAngInc;
+            if (heightAng < 25)
+                heightAng = 25;
             cout << "left-arrow key.\n";
 			break;
-		case GLUT_KEY_RIGHT:	// right arrow key
+		case GLUT_KEY_DOWN:	// right arrow key
+            heightAng += heightAngInc;
+            if (heightAng > 145)
+                heightAng = 145;
             cout << "right-arrow key.\n";
 			break;
-		case GLUT_KEY_DOWN:		// dn arrow key
+		case GLUT_KEY_LEFT:		// dn arrow key
+            rotVal -= rotInc;
+            rotVal %= 360;
+            autoRot -= autoRotInc;
             cout << "dn-arrow key.\n";
 			break;
-		case GLUT_KEY_UP:		// up arrow key
+		case GLUT_KEY_RIGHT:		// up arrow key
+            rotVal += rotInc;
+            rotVal %= 360;
+            autoRot += autoRotInc;
             cout << "up-arrow key.\n";
 			break;
 		// SEARCH glut.h for more arrow key #define statements.
@@ -659,9 +905,7 @@ void doCamChoice(void)
              cout <<"Cam 0: nothing--CVV orthographic +/-1, +/-1"<< endl;
            break;
         case 1:         // -----3D Orthographic projection
-            glOrtho(-2.0, 2.0,              // left, right
-                    -2.0, 2.0,              // bottom, top
-                    1.0, 1000.0);            // zNear, zFar
+            glOrtho(-2.0, 2.0, -2.0, 2.0, 1.0, 1000.0);
             cout <<"Cam 1: 3D orthographic +/-2,+/-2"<< endl;
             break;
         case 2:         // -----3D Perspective projection method 1:
@@ -801,4 +1045,255 @@ int i,j;
 	glEnd();
 	glPointSize(oldSize);              // restore original size of openGL points
 
+}
+
+void printInstructions()
+{
+    glColor3d(1.0, 1.0, 1.0);
+    drawText2D(helv12, -0.5, -0.9, "Click and drag mouse in top right viewport to rotate view");
+    drawText2D(helv12, -0.5, -1.1, "Press Z to change camera views.");
+    drawText2D(helv12, -0.5, -1.3, "Press R to change the movable viewport into default camera view.");
+    drawText2D(helv12, -0.5, -1.5, "Press LEFT and RIGHT arrow keys to make things go wacky");
+    drawText2D(helv12, -0.5, -1.7, "(Press the 'Space bar', ESC, 'Q' or 'q' to quit!)");
+}
+
+void askForHelp()
+{
+    glColor3d(1.0, 1.0, 1.0);
+    drawText2D(helv18,-1.5,-1.7, "Press 'H' for instructions on how to run the program.");
+}
+
+
+//HELP FROM KHALID AZIZ
+pyramid::pyramid(int height) {
+
+verts[0] = 1;
+verts[1] = 0;
+verts[2] = height;
+verts[3] = -1;
+verts[4] = 0;
+verts[5] = height;
+verts[6] = 0;
+verts[7] = 1;
+verts[8] = height;
+verts[9] = 0;
+verts[10] = -1;
+verts[11] = height;
+verts[12] = 0;
+verts[13] = 0;
+verts[14] = 0;
+
+
+colors[0] = 1;
+colors[1] = 1;
+colors[2] = 1;
+colors[3] = 0;
+colors[4] = 0;
+colors[5] = 1;
+colors[6] = 1;
+colors[7] = 1;
+colors[8] = 1;
+colors[9] = 0;
+colors[10] = 0;
+colors[11] = 1;
+colors[12] = 0;
+colors[13] = 1;
+colors[14] = 0;
+
+indices[0] = 0;
+indices[1] = 2;
+indices[2] = 1;
+indices[3] = 3;
+indices[4] = 0;
+indices[5] = 4;
+indices[6] = 2;
+indices[7] = 1;
+indices[8] = 4;
+indices[9] = 3;
+indices[10] = 0;
+
+//delete verts;
+
+}
+
+void pyramid::draw() {
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+
+    // activate and specify pointer to vertex array
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_INT, 0, &verts);
+    glColorPointer(3, GL_FLOAT, 0, &colors);
+
+    // draw a cube
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   10,
+                   GL_UNSIGNED_INT,
+                   &indices);
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+}
+
+cube::cube(int height) {
+
+
+verts[0] = 0;
+verts[1] = -1;
+verts[2] = 0;
+verts[3] = 1;
+verts[4] = 0;
+verts[5] = 0;
+verts[6] = 0;
+verts[7] = -1;
+verts[8] = height;
+verts[9] = 1;
+verts[10] = 0;
+verts[11] = height;
+verts[12] = -1;
+verts[13] = 0;
+verts[14] = 0;
+verts[15] = 0;
+verts[16] = 1;
+verts[17] = 0;
+verts[18] = -1;
+verts[19] = 0;
+verts[20] = height;
+verts[21] = 0;
+verts[22] = 1;
+verts[23] = height;
+
+
+colors[0] = 1; colors[1] = 1; colors[2] = 1;
+colors[3] = 1; colors[4] = 0; colors[5] = 1;
+colors[6] = 1; colors[7] = 1; colors[8] = 0;
+colors[9] = 0; colors[10] = 1; colors[11] = 1;
+colors[12] = 0; colors[13] = 0; colors[14] = 0;
+colors[15] = 0; colors[16] = 0; colors[17] = 1;
+colors[18] = 0; colors[19] = 0; colors[20] = 1;
+colors[21] = 1; colors[22] = 0; colors[23] = 0;
+
+
+indices[0] = 0;
+indices[0] = 1;
+indices[0] = 2;
+indices[0] = 3;
+indices[0] = 6;
+indices[0] = 7;
+indices[0] = 4;
+indices[0] = 5;
+indices[0] = 6;
+indices[0] = 2;
+indices[0] = 4;
+indices[0] = 0;
+indices[0] = 5;
+indices[0] = 1;
+indices[0] = 7;
+indices[0] = 3;
+}
+
+void cube::draw() {
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+
+    // activate and specify pointer to vertex array
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_INT, 0, &verts);
+    glColorPointer(3, GL_FLOAT, 0, &colors);
+
+    // draw a cube
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   16,
+                   GL_UNSIGNED_INT,
+                   &indices);
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+
+prism::prism(int height) {
+
+verts[0] = 1;
+verts[1] = 0;
+verts[2] = 0;
+verts[3] = 0;
+verts[4] = 1;
+verts[5] = 0;
+verts[6] = -1;
+verts[7] = 0;
+verts[8] = 0;
+verts[9] = 0;
+verts[10] = -1;
+verts[11] = 0;
+verts[12] = 0;
+verts[13] = 0;
+verts[14] = height;
+verts[15] = 0;
+verts[16] = 0;
+verts[17] = -height;
+
+
+colors[0] = 1;
+colors[1] = 1;
+colors[2] = 1;
+colors[3] = 1;
+colors[4] = 0;
+colors[5] = 1;
+colors[6] = 0;
+colors[7] = 0;
+colors[8] = 1;
+colors[9] = 1;
+colors[10] = 1;
+colors[11] = 0;
+colors[12] = 1;
+colors[13] = 1;
+colors[14] = 0;
+colors[15] = 0;
+colors[16] = 0;
+colors[17] = 0;
+
+
+indices[0] = 5;
+indices[1] = 3;
+indices[2] = 0;
+indices[3] = 4;
+indices[4] = 1;
+indices[5] = 0;
+indices[6] = 5;
+indices[7] = 2;
+indices[8] = 1;
+indices[9] = 4;
+indices[10] = 3;
+indices[11] = 2;
+indices[12] = 4;
+}
+
+void prism::draw() {
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+
+    // activate and specify pointer to vertex array
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_INT, 0, &verts);
+    glColorPointer(3, GL_FLOAT, 0, &colors);
+
+    // draw a cube
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   13,
+                   GL_UNSIGNED_INT,
+                   &indices);
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }

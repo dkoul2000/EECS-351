@@ -194,10 +194,6 @@ void drawScene();
 void drawPlane(GLdouble, GLdouble);
 void askForHelp(void);
 void printInstructions(void);
-void drawCylinder();
-void makeCylinder(double, double);
-void drawCone();
-void makeCone(double, double);
 
 //HELP FROM KHALID AZIZ
 class pyramid {
