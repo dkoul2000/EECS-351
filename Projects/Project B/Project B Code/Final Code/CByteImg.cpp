@@ -153,6 +153,9 @@ string userBuf;              // string for user's typed input
     }
     cout << "Directory that holds this CodeBlocks program's executable is:";
     cout << endl << "\t" << pathOfFile << endl;
+
+/////////////// ONLY CHANGE I MADE - COMMENTING THIS CODE OUT!!!!!
+
 /*    cout << "Get HOME from 2 directories above (e.g. remove /debug/bin/)" << endl;
     for(i=0; i<2; i++)
     {   // remove bottom-most subdirectory from path string:
@@ -172,12 +175,15 @@ string userBuf;              // string for user's typed input
     {
 
         case 0: nameOfFile.assign("snailP3.ppm");
+                //nameOfFile.assign("cubs.jpg");
                 // larger externally-supplied P3 PPM
                 break;
         case 1: nameOfFile.assign("RedGreenBlue32bit.bmp");
+                //nameOfFile.assign("bears.gif");
                 // RGBA test-signal image shows byte order(243x146 x 32bpp: RGBA)
                 break;
         case 2: nameOfFile.assign("prim1.bmp");
+                //nameOfFile.assign("bulls.jpg");
                 // RGB text signal image
                 break;
         case 3: nameOfFile.assign("stop_2_P6.ppm");
@@ -1461,29 +1467,7 @@ GLenum errCode;
         cout << "----------------------------------------------------------";
         cout << endl << endl;
         break;
-/*  //SOME OPENGL IMPLEMENTATIONS DO NOT DEFINE THESE LAST TWO ERRORS:
-    //---------------------------------------------------------------
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-        cout << "GL_INVALID_FRAMEBUFFER_OPERATION error from " << pIdent << " !!!" << endl;
-        cout << gluErrorString(errCode) << endl;
-        cout << "----------------------------------------------------------" << endl;
-        cout << "An openGL framebuffer object wasn't completed, it lacks a" << endl;
-        cout << "required setting, attachment or data member."              << endl;
-        cout << "----------------------------------------------------------";
-        cout << endl << endl;
-        break;
-    case GL_TABLE_TOO_LARGE:
-        cout << "GL_TABLE_TOO_LARGE error from" << pIdent << " !!!" << endl;
-        cout << gluErrorString(errCode) << endl;
-        cout << "----------------------------------------------------------" << endl;
-        cout << "Uncommon error: an imaging function (usually glPixelMap()" << endl;
-        cout << "tried to create a lookup table larger than available memory" << endl;
-        cout << "in openGL.  As this might corrupt openGL state, you should" << endl;
-        cout << "re-start your application to prevent spurious results." << endl;
-        cout << "----------------------------------------------------------";
-        cout << endl << endl;
-        break;
-*/
+
     default:
         break;
     }

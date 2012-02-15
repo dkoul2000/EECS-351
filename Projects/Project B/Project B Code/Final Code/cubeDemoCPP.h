@@ -196,31 +196,32 @@ void askForHelp(void);
 void printInstructions(void);
 
 //HELP FROM KHALID AZIZ
-class pyramid {
-    public:
-        void draw();
-        pyramid(int height);
-        int verts[15];
-        unsigned int indices[11];
-        float colors[15];
-};
 
 class cube {
     public:
         void draw();
         cube(int height);
-        int verts[24];
-        unsigned int indices[16];
-        float colors[24];
+        float colorsArray[24];
+        unsigned int indexes[16];
+        int vertices[24];
 };
 
-class prism {
+class squarePrism {
     public:
         void draw();
-        prism(int height);
-        int verts[18];
-        unsigned int indices[13];
-        float colors[18];
+        squarePrism(int height);
+        float colorsArray[18];
+        unsigned int indexes[13];
+        int vertices[18];
+};
+
+class triangularPrism {
+    public:
+        void draw();
+        triangularPrism(int height);
+        float colorsArray[15];
+        unsigned int indexes[11];
+        int vertices[15];
 };
 
 //////PROFESSOR TUMBLIN'S STARTER CODE
@@ -234,8 +235,8 @@ class CTheApp
 // function can change what the display callback function draws, even though
 // GLUT pre-specifies these functions' arguments and return values.  Instead of
 // scattering many global variables throughout the program, I gather all of them
-// together into a single class 'CtheApp'.  Just above main(), I declare just
-// one global variable of type 'CtheApp' named 'myApp', and use it as our sole
+// together into a single class 'CTheApp'.  Just above main(), I declare just
+// one global variable of type 'CTheApp' named 'myApp', and use it as our sole
 // container for the program's shared state.
 {
 public:

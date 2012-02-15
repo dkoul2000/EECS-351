@@ -23,9 +23,9 @@ static int nu_Anim_isOn = 1;        // ==1 to run animation, == 0 to pause.
 Ccube c;
 GLdouble xclik=0, yclik=0;      // mouse button down position, in pixels
 GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
-GLdouble *pCylVerts, *pCylColrs;
+GLdouble *pCylvertices, *pCylColrs;
 
-int camChoice = 1;                  // change using 'z' key (0,1,2, or 3)
+int camChoice = 0;                  // change using 'z' key (0,1,2, or 3)
 int viewChoice = 1;                 // change using 'v' key  (1,2, or 3)
 //int helpButton = 0;             //toggle help instructions button
 
@@ -39,11 +39,11 @@ CTheApp app;
 
 cube ice = cube(2);
 cube ice4 = cube(4);
-prism prism2 = prism(4);
-prism prism3 = prism(5);
-pyramid pr1 = pyramid(2);
-pyramid pr2 = pyramid(3);
-pyramid pr3 = pyramid(4);
+squarePrism prism2 = squarePrism(4);
+squarePrism prism3 = squarePrism(5);
+triangularPrism pr1 = triangularPrism(2);
+triangularPrism pr2 = triangularPrism(3);
+triangularPrism pr3 = triangularPrism(4);
 
 
 int main( int argc, char *argv[] )
@@ -98,7 +98,7 @@ int main( int argc, char *argv[] )
 
 
     runAnimTimer(1);                // start our animation loop.
-    camChoice = 1;                  // default:
+    camChoice = 0;                  // default:
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
 }
 
@@ -228,14 +228,14 @@ void myDisplay( void )
     // we make openGL transform calls for the 'VIEW' transformation first.
     // ------------------------------------------------------------
     // The 'VIEW' transform positions and aims the camera:
-    // it converts from camera drawing axes to world drawing axes.
+    // it convertices from camera drawing axes to world drawing axes.
     // ------------------------------------------------------------
     // In openGL we apply the 'VIEW' transform to the GL_MODELVIEW matrix first,
     // before anything else; before we draw world-space axes, before we draw any
     // features or models, before any traversal of a tree of transforms.
     // Previously, the 'world' drawing axes defined the root of our tree of
     // transforms, but now the 'view' transform demotes it to a sibling; now the
-    // camera drawing axes become the root, and the 'view' transform converts
+    // camera drawing axes become the root, and the 'view' transform convertices
     // camera drawing axes to world drawing axes.
     //
     // The 'view' transform at first seems quite odd and backwards. It begins in
@@ -602,7 +602,7 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
             << "\nUse the up and down arrow keys to move the wing components"
             << "\nUse Z to move between perspective views"
             << "\nUse B to get the pictures on screen"
-            << "\Q, ENTER or SPACE BAR will quit the program" << endl << endl;
+            << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
         case 'r':
         case 'R':       // reset mouse rotations
@@ -910,7 +910,7 @@ Ccube::~Ccube()				// default destructor
 void Ccube::makecube( void )
 //------------------------------------------------------------------------------
 {
-	// assign face colors
+	// assign face colorsArray
 	facecolor[0][0] = 1.0; facecolor[0][1] = 0.0; facecolor[0][2] = 0.0; //RED
 	facecolor[1][0] = 0.0; facecolor[1][1] = 1.0; facecolor[1][2] = 0.0; //GREEN
 	facecolor[2][0] = 0.0; facecolor[2][1] = 0.0; facecolor[2][2] = 1.0; //BLUE
@@ -1014,42 +1014,42 @@ void askForHelp()
 
 
 //HELP FROM KHALID AZIZ
-pyramid::pyramid(int height) {
+triangularPrism::triangularPrism(int height) {
 
-verts[0] = 1; verts[1] = 0; verts[2] = height;
-verts[3] = -1; verts[4] = 0; verts[5] = height;
-verts[6] = 0; verts[7] = 1; verts[8] = height;
-verts[9] = 0; verts[10] = -1; verts[11] = height;
-verts[12] = 0; verts[13] = 0; verts[14] = 0;
+vertices[0] = 1; vertices[1] = 0; vertices[2] = height;
+vertices[3] = -1; vertices[4] = 0; vertices[5] = height;
+vertices[6] = 0; vertices[7] = 1; vertices[8] = height;
+vertices[9] = 0; vertices[10] = -1; vertices[11] = height;
+vertices[12] = 0; vertices[13] = 0; vertices[14] = 0;
 
 
-colors[0] = 1; colors[1] = 1; colors[2] = 1;
-colors[3] = 0; colors[4] = 0; colors[5] = 1;
-colors[6] = 1; colors[7] = 1; colors[8] = 1;
-colors[9] = 0; colors[10] = 0; colors[11] = 1;
-colors[12] = 0; colors[13] = 1; colors[14] = 0;
+colorsArray[0] = 1; colorsArray[1] = 1; colorsArray[2] = 1;
+colorsArray[3] = 0; colorsArray[4] = 0; colorsArray[5] = 1;
+colorsArray[6] = 1; colorsArray[7] = 1; colorsArray[8] = 1;
+colorsArray[9] = 0; colorsArray[10] = 0; colorsArray[11] = 1;
+colorsArray[12] = 0; colorsArray[13] = 1; colorsArray[14] = 0;
 
-indices[0] = 0; indices[1] = 2; indices[2] = 1;
-indices[3] = 3; indices[4] = 0; indices[5] = 4;
-indices[6] = 2; indices[7] = 1; indices[8] = 4;
-indices[9] = 3; indices[10] = 0;
+indexes[0] = 0; indexes[1] = 2; indexes[2] = 1;
+indexes[3] = 3; indexes[4] = 0; indexes[5] = 4;
+indexes[6] = 2; indexes[7] = 1; indexes[8] = 4;
+indexes[9] = 3; indexes[10] = 0;
 
 }
 
-void pyramid::draw() {
+void triangularPrism::draw() {
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
     // activate and specify pointer to vertex array
-    glVertexPointer(3, GL_INT, 0, &verts);
-    glColorPointer(3, GL_FLOAT, 0, &colors);
+    glVertexPointer(3, GL_INT, 0, &vertices);
+    glColorPointer(3, GL_FLOAT, 0, &colorsArray);
 
     // draw a cube
     glDrawElements(GL_TRIANGLE_STRIP,
                    10,
                    GL_UNSIGNED_INT,
-                   &indices);
+                   &indexes);
 
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
@@ -1059,30 +1059,30 @@ void pyramid::draw() {
 cube::cube(int height) {
 
 
-verts[0] = 0; verts[1] = -1; verts[2] = 0;
-verts[3] = 1; verts[4] = 0; verts[5] = 0;
-verts[6] = 0; verts[7] = -1; verts[8] = height;
-verts[9] = 1; verts[10] = 0; verts[11] = height;
-verts[12] = -1; verts[13] = 0; verts[14] = 0;
-verts[15] = 0; verts[16] = 1; verts[17] = 0;
-verts[18] = -1; verts[19] = 0; verts[20] = height;
-verts[21] = 0; verts[22] = 1; verts[23] = height;
+vertices[0] = 0; vertices[1] = -1; vertices[2] = 0;
+vertices[3] = 1; vertices[4] = 0; vertices[5] = 0;
+vertices[6] = 0; vertices[7] = -1; vertices[8] = height;
+vertices[9] = 1; vertices[10] = 0; vertices[11] = height;
+vertices[12] = -1; vertices[13] = 0; vertices[14] = 0;
+vertices[15] = 0; vertices[16] = 1; vertices[17] = 0;
+vertices[18] = -1; vertices[19] = 0; vertices[20] = height;
+vertices[21] = 0; vertices[22] = 1; vertices[23] = height;
 
-colors[0] = 1; colors[1] = 1; colors[2] = 1;
-colors[3] = 1; colors[4] = 0; colors[5] = 1;
-colors[6] = 1; colors[7] = 1; colors[8] = 0;
-colors[9] = 0; colors[10] = 1; colors[11] = 1;
-colors[12] = 0; colors[13] = 0; colors[14] = 0;
-colors[15] = 0; colors[16] = 0; colors[17] = 1;
-colors[18] = 0; colors[19] = 0; colors[20] = 1;
-colors[21] = 1; colors[22] = 0; colors[23] = 0;
+colorsArray[0] = 1; colorsArray[1] = 1; colorsArray[2] = 1;
+colorsArray[3] = 1; colorsArray[4] = 0; colorsArray[5] = 1;
+colorsArray[6] = 1; colorsArray[7] = 1; colorsArray[8] = 0;
+colorsArray[9] = 0; colorsArray[10] = 1; colorsArray[11] = 1;
+colorsArray[12] = 0; colorsArray[13] = 0; colorsArray[14] = 0;
+colorsArray[15] = 0; colorsArray[16] = 0; colorsArray[17] = 1;
+colorsArray[18] = 0; colorsArray[19] = 0; colorsArray[20] = 1;
+colorsArray[21] = 1; colorsArray[22] = 0; colorsArray[23] = 0;
 
-indices[0] = 0; indices[0] = 1; indices[0] = 2;
-indices[0] = 3; indices[0] = 6; indices[0] = 7;
-indices[0] = 4; indices[0] = 5; indices[0] = 6;
-indices[0] = 2; indices[0] = 4; indices[0] = 0;
-indices[0] = 5; indices[0] = 1; indices[0] = 7;
-indices[0] = 3;
+indexes[0] = 0; indexes[0] = 1; indexes[0] = 2;
+indexes[0] = 3; indexes[0] = 6; indexes[0] = 7;
+indexes[0] = 4; indexes[0] = 5; indexes[0] = 6;
+indexes[0] = 2; indexes[0] = 4; indexes[0] = 0;
+indexes[0] = 5; indexes[0] = 1; indexes[0] = 7;
+indexes[0] = 3;
 }
 
 void cube::draw() {
@@ -1092,14 +1092,14 @@ void cube::draw() {
 
 
     // activate and specify pointer to vertex array
-    glVertexPointer(3, GL_INT, 0, &verts);
-    glColorPointer(3, GL_FLOAT, 0, &colors);
+    glVertexPointer(3, GL_INT, 0, &vertices);
+    glColorPointer(3, GL_FLOAT, 0, &colorsArray);
 
     // draw a cube
     glDrawElements(GL_TRIANGLE_STRIP,
                    16,
                    GL_UNSIGNED_INT,
-                   &indices);
+                   &indexes);
 
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
@@ -1107,44 +1107,44 @@ void cube::draw() {
 }
 
 
-prism::prism(int height) {
+squarePrism::squarePrism(int height) {
 
-verts[0] = 1; verts[1] = 0; verts[2] = 0;
-verts[3] = 0; verts[4] = 1; verts[5] = 0;
-verts[6] = -1; verts[7] = 0; verts[8] = 0;
-verts[9] = 0; verts[10] = -1; verts[11] = 0;
-verts[12] = 0; verts[13] = 0; verts[14] = height;
-verts[15] = 0; verts[16] = 0; verts[17] = -height;
+vertices[0] = 1; vertices[1] = 0; vertices[2] = 0;
+vertices[3] = 0; vertices[4] = 1; vertices[5] = 0;
+vertices[6] = -1; vertices[7] = 0; vertices[8] = 0;
+vertices[9] = 0; vertices[10] = -1; vertices[11] = 0;
+vertices[12] = 0; vertices[13] = 0; vertices[14] = height;
+vertices[15] = 0; vertices[16] = 0; vertices[17] = -height;
 
-colors[0] = 1; colors[1] = 1; colors[2] = 1;
-colors[3] = 1; colors[4] = 0; colors[5] = 1;
-colors[6] = 0; colors[7] = 0; colors[8] = 1;
-colors[9] = 1; colors[10] = 1; colors[11] = 0;
-colors[12] = 1; colors[13] = 1; colors[14] = 0;
-colors[15] = 0; colors[16] = 0; colors[17] = 0;
+colorsArray[0] = 1; colorsArray[1] = 1; colorsArray[2] = 1;
+colorsArray[3] = 1; colorsArray[4] = 0; colorsArray[5] = 1;
+colorsArray[6] = 0; colorsArray[7] = 0; colorsArray[8] = 1;
+colorsArray[9] = 1; colorsArray[10] = 1; colorsArray[11] = 0;
+colorsArray[12] = 1; colorsArray[13] = 1; colorsArray[14] = 0;
+colorsArray[15] = 0; colorsArray[16] = 0; colorsArray[17] = 0;
 
-indices[0] = 5; indices[1] = 3; indices[2] = 0;
-indices[3] = 4; indices[4] = 1; indices[5] = 0;
-indices[6] = 5; indices[7] = 2; indices[8] = 1;
-indices[9] = 4; indices[10] = 3; indices[11] = 2;
-indices[12] = 4;
+indexes[0] = 5; indexes[1] = 3; indexes[2] = 0;
+indexes[3] = 4; indexes[4] = 1; indexes[5] = 0;
+indexes[6] = 5; indexes[7] = 2; indexes[8] = 1;
+indexes[9] = 4; indexes[10] = 3; indexes[11] = 2;
+indexes[12] = 4;
 }
 
-void prism::draw() {
+void squarePrism::draw() {
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
 
     // activate and specify pointer to vertex array
-    glVertexPointer(3, GL_INT, 0, &verts);
-    glColorPointer(3, GL_FLOAT, 0, &colors);
+    glVertexPointer(3, GL_INT, 0, &vertices);
+    glColorPointer(3, GL_FLOAT, 0, &colorsArray);
 
     // draw a cube
     glDrawElements(GL_TRIANGLE_STRIP,
                    13,
                    GL_UNSIGNED_INT,
-                   &indices);
+                   &indexes);
 
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
