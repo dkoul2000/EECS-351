@@ -21,8 +21,17 @@ static int nu_Anim_isOn = 1;        // ==1 to run animation, == 0 to pause.
 //========================
 // Global vars for our application:
 Ccube c;
-GLdouble xclik=0, yclik=0;      // mouse button down position, in pixels
-GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
+GLdouble xclik = 0, yclik = 0;      // mouse button down position, in pixels
+GLdouble xtheta = 0, ytheta = 0;    // mouse-driven rotation angles in degrees.
+
+cube cube1 = cube(2);
+cube cube2 = cube(4);
+squarePrism sp1 = squarePrism(4);
+squarePrism sp2 = squarePrism(5);
+triangularPrism tp1 = triangularPrism(2);
+triangularPrism tp2 = triangularPrism(3);
+triangularPrism tp3 = triangularPrism(4);
+CTheApp app;
 
 int camChoice = 0, viewChoice = 1;                 // change using 'v' key  (1,2, or 3)
 int rotationNumber = 0, rotationIncrement = 5;
@@ -32,16 +41,6 @@ int pictures = 0;
 
 double Xcamera = 0, Ycamera = 0, Zcamera = 0;
 double aRotation = 0, aRotationationIncrement = 1;
-
-CTheApp app;
-
-cube cube1 = cube(2);
-cube cube2 = cube(4);
-squarePrism sp1 = squarePrism(4);
-squarePrism sp2 = squarePrism(5);
-triangularPrism tp1 = triangularPrism(2);
-triangularPrism tp2 = triangularPrism(3);
-triangularPrism tp3 = triangularPrism(4);
 
 
 int main( int argc, char *argv[] )
@@ -77,9 +76,10 @@ int main( int argc, char *argv[] )
 	//================================
 
     app.argvCopy = argv;          // make a copy of argv[] for later use by
-    app.imgMax = 3;
+    app.imgMax = 3;               // only need 3 images max
     app.imgCurrent = 0;           // currently-selected image#.
 
+    //SELECT THE IMAGES TO PUT ON SCREEN
     for(int i = 0; i < app.imgMax; i++)
     {   // set initial positions for lower-left corner of each image
         app.imgXpos[i] = 5;
@@ -92,8 +92,6 @@ int main( int argc, char *argv[] )
         app.myImg[i].readFile();
     }
     cerr << "error message" << endl;
-
-
 
     runAnimTimer(1);                // start our animation loop.
     camChoice = 0;                  // default:
@@ -514,6 +512,7 @@ void drawScene() {
                                     // uncomment one drawing method
    glPopMatrix();                  // discard the rotation matrix we made.
 
+    //FOR LOOP FROM STARTER CODE
     //ADD BITMAPS/PICTURES CODE
     for(int i = 0; i < app.imgMax; i++)
     {
@@ -536,7 +535,6 @@ void drawScene() {
         app.myImg[i].drawPixelsGL();  // draw onscreen images from files
                                         // at current glRasterPos() position.
     }
-
 }
 
 
