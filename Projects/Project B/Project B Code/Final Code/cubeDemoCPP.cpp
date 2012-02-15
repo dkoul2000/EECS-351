@@ -23,27 +23,25 @@ static int nu_Anim_isOn = 1;        // ==1 to run animation, == 0 to pause.
 Ccube c;
 GLdouble xclik=0, yclik=0;      // mouse button down position, in pixels
 GLdouble xtheta=0, ytheta=0;    // mouse-driven rotation angles in degrees.
-GLdouble *pCylvertices, *pCylColrs;
 
-int camChoice = 0;                  // change using 'z' key (0,1,2, or 3)
-int viewChoice = 1;                 // change using 'v' key  (1,2, or 3)
+int camChoice = 0, viewChoice = 1;                 // change using 'v' key  (1,2, or 3)
+int rotationNumber = 0, rotationIncrement = 5;
+int Htangle = 90, HtangleIncrement = 5;
+int pictures = 0;
 //int helpButton = 0;             //toggle help instructions button
 
-int rotVal = 0, rotInc = 5;
-int heightAng = 90, heightAngInc = 5;
-int pictures = 0;
-double autoRot = 0, autoRotInc = 1;
 double Xcamera = 0, Ycamera = 0, Zcamera = 0;
+double aRotation = 0, aRotationationIncrement = 1;
 
 CTheApp app;
 
-cube ice = cube(2);
-cube ice4 = cube(4);
-squarePrism prism2 = squarePrism(4);
-squarePrism prism3 = squarePrism(5);
-triangularPrism pr1 = triangularPrism(2);
-triangularPrism pr2 = triangularPrism(3);
-triangularPrism pr3 = triangularPrism(4);
+cube cube1 = cube(2);
+cube cube2 = cube(4);
+squarePrism sp1 = squarePrism(4);
+squarePrism sp2 = squarePrism(5);
+triangularPrism tp1 = triangularPrism(2);
+triangularPrism tp2 = triangularPrism(3);
+triangularPrism tp3 = triangularPrism(4);
 
 
 int main( int argc, char *argv[] )
@@ -198,11 +196,7 @@ void myDisplay( void )
 // Registered as our GLUT display callback function.
 // GLUT calls us whenever we need to re-draw the screen.
 // OPENGL HINTS:
-//	glRotated(123, 1,-2,1);	// rotate by 170 degrees around a 3D axis vector;
-//	glScaled(0.2, 0.3, 0.4);	// shrink along x,y,z axes
-//  glTranslated(0.1,0.3,0.5);	// translate along x,y,z axes.
 {
-
     //images and bitmaps
 
     if (pictures == 1)
@@ -326,12 +320,12 @@ void myDisplay( void )
                min(nu_display_width/2,nu_display_height/2), min(nu_display_width/2,nu_display_height/2));
 
     glLoadIdentity();
-    gluLookAt( Xcamera, 4.0 + Ycamera, Zcamera,
+    gluLookAt(Xcamera, 4.0 + Ycamera, Zcamera,
                   Xcamera + 4 * sin(xtheta), Ycamera + 4.0 - 4 * cos(xtheta), 4 * sin(ytheta),
                   0.0, 0.0,1.0);
 
-    glRotated(45.0+xtheta, 1.0, 0.0, 0.0); // spin the world on x axis, then
-    glRotated(45.0+ytheta, 0.0, 1.0, 0.0); // on y axis.
+    glRotated(45.0 + xtheta, 1.0, 0.0, 0.0); // spin the world on x axis, then
+    glRotated(45.0 + ytheta, 0.0, 1.0, 0.0); // on y axis.
     glTranslated(0,0,-1.0);
 
     drawScene();
@@ -348,7 +342,7 @@ void drawScene() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-autoRot = autoRot + autoRotInc;
+    aRotation = aRotation + aRotationationIncrement + 2;
 //== MODELING =========================================================
 //    glTranslated(0.0,0.0,2.0);
 
@@ -357,7 +351,7 @@ autoRot = autoRot + autoRotInc;
     drawPlane(50.0, 0.5);
 
     glScaled(0.3,0.3,0.3);
-    ice.draw();
+    cube1.draw();
 
     c.drawWireframe();
     c.drawPoints(1.3);
@@ -368,34 +362,33 @@ autoRot = autoRot + autoRotInc;
 
     glPushMatrix();
         glTranslated(0,0,2);
-        glRotated(rotVal,0,0,1);
-        prism3.draw();
+        glRotated(rotationNumber,0,0,1);
+        sp2.draw();
 
         glPushMatrix();
             glTranslated(0,1,0);
-            glRotated(45-rotVal*2,0,0,1);
+            glRotated(45-rotationNumber*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
         glPopMatrix();
 
-
         glPushMatrix();
             glTranslated(0,-1,0);
-            glRotated(45-rotVal*2,0,0,1);
+            glRotated(45-rotationNumber*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
             glPopMatrix();
 
         glPushMatrix();
             glTranslated(1,0,0);
-            glRotated(45-rotVal*2,0,0,1);
+            glRotated(45-rotationNumber*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(-1,0,0);
-            glRotated(45-rotVal*2,0,0,1);
+            glRotated(45-rotationNumber*2,0,0,1);
             glTranslated(0,0,1);
             glScaled(0.4, 0.4, 0.4);
             glScaled(0.6, 0.6, 0.6);
@@ -403,119 +396,116 @@ autoRot = autoRot + autoRotInc;
 
         glTranslated(0,0,1);
         glRotated(135,0,0,1);
-        pr3.draw();
+        tp3.draw();
 
         glPushMatrix();
             glTranslated(0,0,3);
             glTranslated(0,-1,0);
-            glRotated(heightAng,1,0,0);
-            glRotated(rotVal*2,0,0,1);
+            glRotated(Htangle,1,0,0);
+            glRotated(rotationNumber*2,0,0,1);
             drawAxes();
-            pr3.draw();
+            tp3.draw();
         glPopMatrix();
 
         glTranslated(4.0, 3.0, 0.3);
         glRotated(95.0, 0.0, 1.0, 0.0);
-        pr2.draw();
+        tp2.draw();
 
         glPushMatrix();
             glTranslated(0,0,3);
             glTranslated(0,1,0);
-            glRotated(-heightAng,1,0,0);
-            glRotated(-rotVal*2,1,0,0);
+            glRotated(-Htangle,1,0,0);
+            glRotated(-rotationNumber*2,1,0,0);
             drawAxes();
-            pr3.draw();
+            tp3.draw();
         glPopMatrix();
 
         glTranslated(-4.0, -3.0, 0.3);
         glRotated(95.0, 0.0, 1.0, 0.0);
-        pr2.draw();
+        tp2.draw();
 
         glPushMatrix();
             glTranslated(0,0,3);
             glTranslated(1,0,0);
-            glRotated(heightAng,0,1,0);
-            glRotated(rotVal*2,1,0,1);
+            glRotated(Htangle,0,1,0);
+            glRotated(rotationNumber*2,1,0,1);
             drawAxes();
-            pr3.draw();
+            tp3.draw();
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(0,0,3);
             glTranslated(-1,0,0);
-            glRotated(-heightAng,0,1,0);
-            glRotated(-rotVal*2,1,0,1);
+            glRotated(-Htangle,0,1,0);
+            glRotated(-rotationNumber*2,1,0,1);
             drawAxes();
-            pr3.draw();
+            tp3.draw();
         glPopMatrix();
 
     glPopMatrix();
 
     glPushMatrix();
-        glRotated(autoRot/10,0,0,1);
+        glRotated(aRotation/10,0,0,1);
         glRotated(90, 1, 0, 0);
         glTranslated(6,0,1);
         glScaled(0.5,0.5,0.5);
         glutSolidCube(3.0);
-        prism2.draw();
+        sp1.draw();
     glPopMatrix();
 
-
     glPushMatrix();
-        glRotated(autoRot/10,0,0,1);
+        glRotated(aRotation/10,0,0,1);
         glRotated(90, 1, 0, 0);
         glTranslated(0,4,1);
         glScaled(0.5,0.5,0.5);
         glutSolidCube(3.0);
-        prism2.draw();
+        sp1.draw();
         glPopMatrix();
 
-
     glPushMatrix();
-        glRotated(autoRot/10,0,1,0);
+        glRotated(aRotation/10,0,1,0);
         glRotated(90, 1, 0, 0);
         glTranslated(-8,0,1);
         glScaled(0.5,0.5,0.5);
         glutSolidCube(3.0);
-        prism2.draw();
+        sp1.draw();
     glPopMatrix();
 
-
     glPushMatrix();
-        glRotated(autoRot/10,1,0,0);
+        glRotated(aRotation/10,1,0,0);
         glRotated(90, 1, 0, 0);
         glTranslated(0,-5,1);
         glScaled(0.5,0.5,0.5);
         glutSolidCube(3.0);
-        prism2.draw();
+        sp1.draw();
     glPopMatrix();
 
     glPushMatrix();
-        glTranslated(-5-sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
+        glTranslated(-5-sin(aRotation/100)/2,-5-sin(aRotation/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        ice4.draw();
+        cube2.draw();
     glPopMatrix();
 
     glPushMatrix();
-        glTranslated(-5-sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
+        glTranslated(-5-sin(aRotation/100)/2,5+sin(aRotation/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        ice4.draw();
+        cube2.draw();
     glPopMatrix();
 
     glPushMatrix();
-        glTranslated(5+sin(autoRot/100)/2,-5-sin(autoRot/100)/2,0);
+        glTranslated(5+sin(aRotation/100)/2,-5-sin(aRotation/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        ice4.draw();
+        cube2.draw();
     glPopMatrix();
 
-    pr2.draw();
+    tp2.draw();
     glTranslated(1.2, 0.8, 0.0);
-    pr3.draw();
+    tp3.draw();
 
     glPushMatrix();
-        glTranslated(5+sin(autoRot/100)/2,5+sin(autoRot/100)/2,0);
+        glTranslated(5+sin(aRotation/100)/2,5+sin(aRotation/100)/2,0);
         glScaled(0.5,0.5,0.5);
-        ice4.draw();
+        cube2.draw();
     glPopMatrix();
     //------------draw the cube WITH transformations:
 	glPushMatrix();                 // save current matrix,
@@ -529,18 +519,18 @@ autoRot = autoRot + autoRotInc;
     {
         glTranslated(0,0,-1);
         if (i == 0) {
-        glRasterPos3d((app.imgXpos[i]+((double)rotVal)/100),
+        glRasterPos3d((app.imgXpos[i]+((double)rotationNumber)/100),
                       app.imgYpos[i],
                       app.imgZpos[i]);
         }
         else if (i == 1) {
-        glRasterPos3d((app.imgXpos[i]+((double)rotVal)/100),
-                      app.imgYpos[i]+((double)rotVal)/100,
+        glRasterPos3d((app.imgXpos[i]+((double)rotationNumber)/100),
+                      app.imgYpos[i]+((double)rotationNumber)/100,
                       app.imgZpos[i]);
         }
         else  {
         glRasterPos3d(app.imgXpos[i],
-                      app.imgYpos[i]+((double)rotVal)/100,
+                      app.imgYpos[i]+((double)rotationNumber)/100,
                       app.imgZpos[i]);
         }
         app.myImg[i].drawPixelsGL();  // draw onscreen images from files
@@ -648,25 +638,25 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
 	switch(key)
 	{
 		case GLUT_KEY_UP:		// left arrow key
-            heightAng -= heightAngInc;
-            if (heightAng < 25)
-                heightAng = 25;
+            Htangle -= HtangleIncrement;
+            if (Htangle < 25)
+                Htangle = 25;
             cout << "left-arrow key.\n";
 			break;
 		case GLUT_KEY_DOWN:	// right arrow key
-            heightAng += heightAngInc;
-            if (heightAng > 145)
-                heightAng = 145;
+            Htangle += HtangleIncrement;
+            if (Htangle > 145)
+                Htangle = 145;
             cout << "right-arrow key.\n";
 			break;
 		case GLUT_KEY_LEFT:		// dn arrow key
-            rotVal -= rotInc;
-            rotVal %= 720 * 2;
+            rotationNumber -= rotationIncrement;
+            rotationNumber %= 640 * 2;
             cout << "dn-arrow key.\n";
 			break;
 		case GLUT_KEY_RIGHT:		// up arrow key
-            rotVal += rotInc;
-            rotVal %= 720 * 2;
+            rotationNumber += rotationIncrement;
+            rotationNumber %= 640 * 2;
             cout << "up-arrow key.\n";
 			break;
 		// SEARCH glut.h for more arrow key #define statements.
@@ -1046,10 +1036,7 @@ void triangularPrism::draw() {
     glColorPointer(3, GL_FLOAT, 0, &colorsArray);
 
     // draw a cube
-    glDrawElements(GL_TRIANGLE_STRIP,
-                   10,
-                   GL_UNSIGNED_INT,
-                   &indexes);
+    glDrawElements(GL_TRIANGLE_STRIP, 10, GL_UNSIGNED_INT, &indexes);
 
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
@@ -1096,10 +1083,7 @@ void cube::draw() {
     glColorPointer(3, GL_FLOAT, 0, &colorsArray);
 
     // draw a cube
-    glDrawElements(GL_TRIANGLE_STRIP,
-                   16,
-                   GL_UNSIGNED_INT,
-                   &indexes);
+    glDrawElements(GL_TRIANGLE_STRIP, 16, GL_UNSIGNED_INT, &indexes);
 
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
@@ -1141,10 +1125,7 @@ void squarePrism::draw() {
     glColorPointer(3, GL_FLOAT, 0, &colorsArray);
 
     // draw a cube
-    glDrawElements(GL_TRIANGLE_STRIP,
-                   13,
-                   GL_UNSIGNED_INT,
-                   &indexes);
+    glDrawElements(GL_TRIANGLE_STRIP, 13, GL_UNSIGNED_INT, &indexes);
 
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
