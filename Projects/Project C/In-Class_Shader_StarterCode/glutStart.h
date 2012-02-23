@@ -9,8 +9,8 @@
 //
 // multi-platform includes for the GLUT/OpenGL libraries:-----------------------
 #if defined(_WIN32)
-#include <GL/glew.h>        // OpenGL 'extensions wrangler' for 'mesa' lib usage
-#include <GL/freeglut.h>// open-source GLUT functions for windows, keybd, mouse
+#include <GL\glew.h>        // OpenGL 'extensions wrangler' for easy access.
+#include <GL\freeglut.h>// open-source GLUT functions for windows, keybd, mouse
 /*---*OR*--- use:
 // #include <GL/glut.h> // for 100% backwards-compatibility with Mark Kilgard's
                         // SGI-copyrighted GLUT library. Careful! this excludes
@@ -47,7 +47,7 @@
 #include "nu_progShader.h"          // Classes for GLSL programmable-shaders.
 
 
-#define NU_PAUSE 10 // wait time (in milliseconds (mS)) that we use for GLUT's
+#define NU_PAUSE 1 // wait time (in milliseconds (mS)) that we use for GLUT's
                     // timer callback function between each screen redraw.
                     // Most PCs refresh their screens every 16.6mS (60Hz); we
                     // do nothing for NU_PAUSE mS to let the operating system
@@ -167,9 +167,6 @@ void drawAxes(void);				// draw red x-axis, green yaxis, blue zaxis
 void drawSquarePoints(void);		// Draw square vertices: x,y = +/-1,+/-1
 void drawSquareEdges(void);			// draw that square's edges;
 void drawSquareFace(void);			// draw that square's solid-colored face;
-
-/* Utility functions to support the programable pipeline */
-void initializeShaders(void);
 
 #endif  // _JT_GLUTSTART_H_
 

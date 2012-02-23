@@ -14,16 +14,14 @@
 	<iostream>
 	"glutStart.h"
 
-1328106947 .h"
+1329845842 .h"
 
 1159900320 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
 
-1264883278 
-
-1328182939 
+1329830657 
 
 1263310735 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2010_1win_cs351-1\code\2010_proja\2010a_glutstart\glutstart.h
 
@@ -419,7 +417,7 @@
 	<string>
 	"nu_progShader.h"
 
-1328178197 ader.h"
+1329846161 ader.h"
 
 1328017004 c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_glutstart11fancypassthru_win\glprogramnu.h
 	<GL\glew.h>
@@ -538,31 +536,10 @@
 	<fstream>
 	<string>
 
-1328185610 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project B/Shaders code/2012_04glutStart11FANCYpassThru_Win/glutStart.cpp
-	"glutStart.h"
-
-1328185610 /home/dhruv/Winter Quarter/EECS 351/Projects/Project B/Shaders code/2012_04glutStart11FANCYpassThru_Win/glutStart.h
-	<GL/glew.h>
-	<GL/freeglut.h>
-	<GL/GL.h>
-	<GL/Glu.h>
-	<GL/glext.h>
-	<GLUT/glut.h>
-	<OpenGL/GL.h>
-	<OpenGL/Glu.h>
-	<OpenGL/GLext.h>
-	<unistd.h>
-	<GL/glew.h>
-	<GL/freeglut.h>
-	<GL/gl.h>
-	<GL/glu.h>
-	<GL/glext.h>
-	<iostream>
-	<math.h>
-	<string>
+1328185608 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart12shader_win\nu_progshader.cpp
 	"nu_progShader.h"
 
-1328185610 /home/dhruv/Winter Quarter/EECS 351/Projects/Project B/Shaders code/2012_04glutStart11FANCYpassThru_Win/nu_progShader.h
+1329400534 c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart12shader_win\nu_progshader.h
 	<GL\glew.h>
 	<GL\freeglut.h>
 	<GL/GL.h>
@@ -583,6 +560,171 @@
 	<fstream>
 	<string>
 
-1328185610 source:/home/dhruv/Winter Quarter/EECS 351/Projects/Project B/Shaders code/2012_04glutStart11FANCYpassThru_Win/nu_progShader.cpp
+1329417287 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart12shader_win\glutstart.cpp
+	"glutStart.h"
+
+1328197215 c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart12shader_win\glutstart.h
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+	<string>
+	"nu_progShader.h"
+
+1328185608 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart13shader_win\nu_progshader.cpp
+	"nu_progShader.h"
+
+1329830657 c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart13shader_win\nu_progshader.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<string>
+	<iostream>
+	<fstream>
+	<string>
+
+1329845842 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart13shader_win\glutstart.cpp
+	"glutStart.h"
+
+1329846161 c:\_work\_jet\_teach\_cs351-1_intrographics\2012_1wincs351-1\2012.gettinggraphicsgoing\2012_06glutstart13shader_win\glutstart.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+	<string>
+	"nu_progShader.h"
+
+1329845842 source:/home/khalid/Desktop/Ran Code/EECS-351/2012_06glutStart13shader_Win/glutStart.cpp
+	"glutStart.h"
+
+1329846161 /home/khalid/Desktop/Ran Code/EECS-351/2012_06glutStart13shader_Win/glutStart.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+	<string>
+	"nu_progShader.h"
+
+1329830657 /home/khalid/Desktop/Ran Code/EECS-351/2012_06glutStart13shader_Win/nu_progShader.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<string>
+	<iostream>
+	<fstream>
+	<string>
+
+1328185608 source:/home/khalid/Desktop/Ran Code/EECS-351/2012_06glutStart13shader_Win/nu_progShader.cpp
+	"nu_progShader.h"
+
+1329852444 source:/home/dhruv/Desktop/2012_06glutStart13shader_Win/glutStart.cpp
+	"glutStart.h"
+
+1329852296 /home/dhruv/Desktop/2012_06glutStart13shader_Win/glutStart.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	<math.h>
+	<string>
+	"nu_progShader.h"
+
+1329852294 /home/dhruv/Desktop/2012_06glutStart13shader_Win/nu_progShader.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<string>
+	<iostream>
+	<fstream>
+	<string>
+
+1329852617 source:/home/dhruv/Desktop/2012_06glutStart13shader_Win/nu_progShader.cpp
 	"nu_progShader.h"
 

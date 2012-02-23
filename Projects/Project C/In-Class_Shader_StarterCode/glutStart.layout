@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="glutStart.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="157" topLine="0" />
+	<File name="glutStart.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="20603" topLine="369" />
 	</File>
 	<File name="glutStart.h" open="1" top="0" tabpos="2">
-		<Cursor position="258" topLine="0" />
+		<Cursor position="2054" topLine="24" />
 	</File>
-	<File name="nu_progShader.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="15230" topLine="0" />
+	<File name="nu_progShader.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="3638" topLine="70" />
 	</File>
 	<File name="nu_progShader.h" open="1" top="0" tabpos="4">
-		<Cursor position="11218" topLine="194" />
+		<Cursor position="6991" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

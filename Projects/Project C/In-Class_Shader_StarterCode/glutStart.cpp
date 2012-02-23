@@ -2,8 +2,13 @@
 // (JT: I prefer to keep line lengths <=80 chars for easy printing/display).
 //
 // EECS 351-1 'Starter Code' for transition to GLSL programmable shading
-//      SAME as 'glutStartFANCY' given before (animated jointed-arm robot)
+//      3D-modified version of 'glutStartFANCY' given before
+//        (animated jointed-arm robot)
 //      EXCEPT:
+//      --2D robot pieces replaced by 3D glut wire-frame and glut solid prims
+//      --Mouse-drag rotates the entire robot around its base.
+//      --Added 's' key to toggle between wireframe and solid 3D drawing.
+//
 //      --Adds 'CProgGLSL' class to load & use a very-basic set of programmable
 //          shaders (vertex-shader,fragment-shader) for openGL rendering.
 //      --Adds 'CShader' class for file I/0 for these GLSL programmable shaders,
@@ -11,6 +16,7 @@
 //
 //      --Demonstrates how a very-basic vertex shader and very-basic fragment
 //          shader can use old (deprecated) fixed-pipeline values for drawing.
+//
 //      --Changed CodeBlocks settings to put executable (.exe) in your project
 //          directory rather than 2 levels down in subdirectory /Debug/bin.
 //          (HOW? Project->Properties...-->Build Targets-->Output Filename;
@@ -18,7 +24,10 @@
 //          (NOTE! if you go back to 'bin\Debug\glutStart.exe', be sure you
 //          change CShader::setPath() function to remove those 2 extra dir.
 //          from the path to your shader files).
-
+//      2012.02.20 J. Tumblin-- changed from 2D-->3D, added 3D ortho camera,
+//          added solid/wire toggle to make a better test-bed for writing our
+//          first shaders.
+//
 #include "glutStart.h"
 
 using namespace std;
@@ -29,7 +38,7 @@ using namespace std;
 //                   Make a 'CTheApp' class to hold them all, and make just
 //                   one global CTheApp object  (e.g. 'myApp').
 //=====================
-static int nu_display_width = 640;	// global variables that hold current
+static int nu_display_width  = 640;	// global variables that hold current
 static int nu_display_height = 640;	// display window position and size;
 static int nu_display_xpos = 200;	// See getDisplayXXX() functions.
 static int nu_display_ypos = 100;
@@ -37,13 +46,18 @@ static int nu_Anim_isOn = 1;        // ==1 to run animation, ==0 to pause.
                         // !DON'T MESS WITH nu_Anim_isOn; call runAnimTimer().
 //========================
 // Create global vars for our application:
+GLdouble xclik=0.0, yclik=0.0;  // mouse button down position, in pixels
+GLdouble xtheta=5.0, ytheta=5.0;// mouse-driven view-rotation angles in degrees.
+
 int isCleared = 1;                  // toggle animation's screen-clear
+int isSolid = 0;                    // toggle solid/wireframe drawing.
+
 GLdouble    theta1=0.0,             // animated rotation angles.
             theta2=0.0,
             theta3=0.0;
-GLdouble    thetaStep1=0.8,         // animated rotational velocities
-            thetaStep2=1.1,
-            thetaStep3=4.1;
+GLdouble    thetaStep1=0.4,         // animated rotational velocities
+            thetaStep2=0.55,
+            thetaStep3=2.1;
 GLdouble    len1=1.0,               // animated arm lengths.
             len2=1.0;
 
@@ -71,7 +85,7 @@ int main( int argc, char *argv[] )
 	glutInitWindowSize(getDisplayWidth(), getDisplayHeight() );
     glutInitWindowPosition(getDisplayXpos(),getDisplayYpos() );
                     // set display window size & position from global vars
-	glutCreateWindow( "EECS351-1 Project B" ); // set window title-bar name
+	glutCreateWindow( "EECS351-1 Project C/D Tests" ); // set window title-bar name
     // And finally (must be AFTER the glutCreateWindow() call):
 	glEnable( GL_DEPTH_TEST );			// enable hidden surface removal
 // STUDENTS: what happens if you disable GL_DEPTH_TEST?
@@ -105,7 +119,7 @@ int main( int argc, char *argv[] )
                                                 // we must start its library;
 #endif
     // Create one GLSL-program object that will hold our programmable shaders;
-    p_myGLSL = new CProgGLSL(argv[0],  "PassThroughVertexShader.vsh",
+    p_myGLSL = new CProgGLSL(argv[0],  "PassThroughVertexShaderRED.vsh",
                                         "PassThroughFragmentShader.fsh");
     p_myGLSL->loadShaders();    // read in the shader files' contents
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
@@ -195,10 +209,19 @@ void myReshape( int width, int height )
         glViewport(0,(height-width)/2, width, width);
         // need to origin upwards to keep image centered in window
     }		// viewport stays SQUARE, but extends to left and right of window
-//--------------------------------
+
 // or invent your own; Perhaps make square CVV fit around window?
 // Or could you draw TWO viewports on-screen, side-by-side in the same window?
 //
+//--------------------------------
+// Create a simple 3D orthographic camera that shows contents of CVV only:
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();                   // basic 3D orthographic cam: show CVV
+        glOrtho(-1.0, 1.0,              // left, right
+                -1.0, 1.0,              // bottom, top
+                -1.0, 1.0);             // zNear, zFar
+
 	glutPostRedisplay();			// request redraw--we changed window size!
 }
 
@@ -237,21 +260,15 @@ void myDisplay( void )
         (theta2 <-160.0 && thetaStep2 <0)) thetaStep2 = -thetaStep2;
     //----------------------------------------
 
-// First, draw the square with NO transformations:
 	glMatrixMode(GL_MODELVIEW);     // select the modeling matrix stack
 	glLoadIdentity();               // set to 'do nothing';
-	drawAxes();			            // draw simple +x,y,z axes.
+
+//	drawAxes();			            // draw simple right-handed +x,+y,+z axes
     glColor3d(0.0, 1.0, 1.0);       // bright yellow
-    drawText2D(helv18,-0.8,-0.8, "Try the 'c', 'p' or 'a' key a few times.");
+    drawText2D(helv18,-0.8,-0.8, "Try the mouse ('h' or 'H' to reset); try c,p,s,h,a keys too!");
     glColor3d(0.6,0.6,0.6);         // dark gray
     drawText2D(helv12,-0.8,-0.9, "(Space bar, ESC, 'q' or 'Q' to quit)");
 
-	glColor3d(1.0, 0.0, 0.0);       // and a RED square.
-	drawSquareEdges();
-    //----------------DONE--------Don't see it? Why not?
-    glScaled(0.3,0.3,0.3);          // Scale everything by 0.5 and
-    glColor3d(0.0, 1.0, 0.0);       // draw a GREEN square;
-    drawSquareEdges();
 
        // Draw an animated 3-jointed arm. ---------------------
        // Note the indenting to keep pushMatrix/popMatrix calls organized.
@@ -259,46 +276,88 @@ void myDisplay( void )
     glPushMatrix();             // save current matrix, then
         glLoadIdentity();               // start over with identity matrix.
                                         // display window shows the CVV, so
-                                        //      draw within +/-1, +/-1 range.
-        glTranslated(-0.5,-0.2,0);		// move robot to lower left start point.
-        drawAxes();                     // Draw robot-base axes.
+                                        //      draw within +/-1, +/-1 range
+
+        glTranslated(-0.5,-0.2,0);		// move robot base to lower left start point.
+        // and then spin the robot's origin point
+        // to look at it from a different angle:
+        glScaled(1.3, 1.3, 1.3);        // 'Embiggen' the entire robot by 30%.
+                                        // mouse-drag to rotate the entire robot
+        glRotated(ytheta, 0.0, 1.0, 0.0); // on y axis.
+        glRotated(xtheta, 1.0, 0.0, 0.0); // on x axis, then
+        drawAxes();                     // Draw robot-base axes
+        glPushMatrix();
+            glColor3d(1.0, 1.0, 1.0);       // set color to white,
+            glTranslated(0.0, 0.0, -0.15);  // center the cylinder:
+            if(isSolid==1)  glutSolidTorus(0.1, 0.3, 33, 23); //TRY glutSolidCylinder();
+            else            glutWireTorus(0.1, 0.3, 33, 23); // TRY glutWireCylinder();
+                // TRY glutSolidCylinder(), glutWireCylinder() instead to get
+                // a more sensible shape; use the exact same arguments,'
+                // UNFORTUNATELY, these cylinder calls exist only in freeGLUT
+                // and not in GLUT as found on MacOS X
+        glPopMatrix();
         glRotated(theta1,0,0,1);        // rotate about z axis: shoulder coords.
         glPushMatrix();                 // SAVE current matrix, then
-            glScaled(0.3,0.1*len1,0.0); // squeeze box for upper arm rectangle,
-            glTranslated(1.0,0.0,0.0);  // move box's left edge to robot-base,
+                                        // for openGL cone drawing:
+            glRotated(90.0, 0.0, 1.0, 0.0); // rotate on y by 90 degrees to put
+                                        // z axis where x used to be:
+                                        // z --> x, x --> -z
+            glScaled(0.12*len1,0.12*len1,0.3); // squeeze box for upper arm rectangle,
+            // NOT NEEDED FOR CONE: glTranslated(0.0,0.0,0.0);  // move arm's left edge to robot-base,
             if(isCleared==1)            // if user wants to see robot, then
             {
                 drawAxes();                 // draw axes and upper arm.
                 glColor3d(0.0, 1.0, 1.0);   // Cyan
-                drawSquareEdges();
+                //drawSquareEdges();
+                //drawSquareFace();
+                //glutWireCube(2.0);
+                if(isSolid == 1) glutSolidCone(1.5, 2.0, 29, 23);
+                else              glutWireCone(1.5, 2.0, 29, 23);
+
             }
         glPopMatrix();                      // go back to shoulder coords.
         glTranslated(0.6,0.0,0.0);          // go to end of upper arm.
         glRotated(theta2,0,0,1);            // rotate about z axis; elbow coords.
         glPushMatrix();                     // SAVE current matrix, then
-            glScaled(0.25,0.07*len2,0.0);// squeeze box for lower arm rectangle,
-            glTranslated(1.0,0.0,0.0);      // move box's left edge to shoulder,
+                                            // for cylinder drawing:
+            glRotated(90, 0.0, 1.0, 0.0);   // rotate on y by 90 deg to put
+                                            // z axis where x used to be:
+                                            // z --> x,  x--> -z:
+            glScaled(0.09*len2, 0.09*len2, 0.25);// squeeze box for lower arm rectangle,
+            // NOT NEEDED FOR CYLINDER:  glTranslated(1.0,0.0,0.0);      // move box's left edge to shoulder,
             if(isCleared==1)            // if user wants to see robot, then
             {
                 drawAxes();                 // draw axes and lower arm.
                 glColor3d(1.0, 0.0, 1.0);
-                drawSquareEdges();
+                //drawSquareEdges();
+                //drawSquareFace();
+
+                if(isSolid==1) glutSolidTorus(1.0, 2.0, 47, 31);   // solid
+                else            glutWireTorus(1.0, 2.0, 47, 31);   // wireframe
+                // TRY glutSolidCylinder(), glutWireCylinder() instead to get
+                // a more sensible shape; use the exact same arguments,'
+                // UNFORTUNATELY, these cylinder calls exist only in freeGLUT
+                // and not in GLUT as found on MacOS X
             }
         glPopMatrix();                  // back to elbow coordinate system,
-        glTranslated(0.5,0.0,0.0);      // move to end of lower arm,
+        glTranslated(0.51,0.0,0.0);      // move to end of lower arm,
         glRotated(7*theta3,0,0,1);      // spin the cutting tool,
         glColor3d(1.0,1.0,1.0);
         glScaled(0.04,0.04,0.04);       // make cutting tool small.
         if(isCleared==1)                // if user wants to see robot, then
         {
-            drawSquareFace();           // draw tool as solid white square.
+            //drawSquareFace();           // draw tool as solid white square.
+            if(isSolid==1)  glutSolidCube(3.0);
+            else            glutWireCube(3.0);
         }
         else                            // otherwise,
         {
-            glBegin(GL_LINES);
+            glutWireCube(3.0);
+            /*glBegin(GL_LINES);
                 glVertex3d( 0.0,0.0,0.0);	// draw white line along +x axis.
                 glVertex3d( 2.0,0.0,0.0);
             glEnd();
+            */
         }
     glPopMatrix(); // retrieve saved matrix
 	drawAxes();	// re-draw simple +x,y,z axes.
@@ -337,6 +396,16 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
             if(nu_Anim_isOn ==1) runAnimTimer(0);
                             else runAnimTimer(1);
             break;
+        case 'h':
+        case 'H':
+            xtheta = 10.0;  // skew by a few degrees; looks nice.
+            ytheta = 10.0;
+            cout << "'H' key RESETS our viewpoint." << endl;
+            break;
+        case 's':
+        case 'S':
+            if(isSolid==1) isSolid=0; else isSolid = 1;
+            break;
 		case ' ':		// User pressed the spacebar.
 		case 27:		// User pressed the 'Esc'  key...
 		case 'Q':		// User pressed the 'Q' key...
@@ -367,21 +436,30 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
     ypos = getDisplayHeight() - yw; //(window system puts origin at UPPER left)
 	switch(key)
 	{
+	    case GLUT_KEY_HOME:
+            cout << "Home key." << endl;
+            break;
+        case GLUT_KEY_PAGE_DOWN:
+            cout << "PgUp key." << endl;
+            break;
+        case GLUT_KEY_PAGE_UP:
+            cout << "PgDn key."  << endl;
+            break;
 		case GLUT_KEY_LEFT:		// left arrow key
-            cout << "left-arrow key.\n";
+            cout << "left-arrow key." << endl;
 			break;
 		case GLUT_KEY_RIGHT:	// right arrow key
-            cout << "right-arrow key.\n";
+            cout << "right-arrow key." << endl;
 			break;
 		case GLUT_KEY_DOWN:		// dn arrow key
-            cout << "dn-arrow key.\n";
+            cout << "dn-arrow key." << endl;;
 			break;
 		case GLUT_KEY_UP:		// up arrow key
-            cout << "up-arrow key.\n";
+            cout << "up-arrow key." << endl;
 			break;
 		// SEARCH glut.h for more arrow key #define statements.
 		default:
-			cout << "Special key; integer code value"<< (int)key << "\n)";
+			cout << "Special key; integer code value"<< (int)key << endl;;
 			break;
 	}
     glColor3d(0.0, 1.0, 1.0);	// And cyan-colored text on-screen:
@@ -406,11 +484,15 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
     xpos = xw;
     ypos = getDisplayHeight() - yw; //(window system puts origin at UPPER left)
 
+    xclik = xpos;   // save most-recent click in global var
+    yclik = ypos;
+
     cout << "click; buttonID=" << buttonID <<", upDown=" << upDown;
     cout << ", at xpos,ypos=(" << xpos <<"," << ypos << ")\n";
 
     glColor3d(0.5, 1.0, 0.5);	//Bright green text:
     drawText2D(rom24, 0.0, 0.1, "!MOUSE CLICK!");
+
     //===============DRAWING DONE.
     glFlush();	        // do any and all pending openGL rendering.
     glutSwapBuffers();	// For double-buffering: show what we drew.
@@ -426,10 +508,16 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
     xpos = xw;
     ypos = getDisplayHeight() - yw; //(window system puts origin at UPPER left)
 
-    cout << ".";
+    ytheta += 0.3*(xpos-xclik);     // (drag in +X direction will spin the
+                                    //  eyepoint vertex on world +Y axis)
+    xtheta -= 0.3*(ypos-yclik);     // (drag in +Y direction will spin the
+                                    //  eyepoint vertex on world -X axis)
 
-    glColor3d(1.0, 0.5, 0.5);	//bright red text:
-    drawText2D(rom24,0.0, -0.1, "!MOUSE MOVE!");
+//cout << "(xpos-xclik,ypos-yclik) " << (xpos-xclik) << ", " << (ypos-yclik) << endl;
+    cout << "(xtheta,ytheta) " << xtheta << ", " << ytheta << endl;
+    xclik = xpos;                   // update current mouse position.
+    yclik = ypos;
+
     //===============DRAWING DONE.
     glFlush();	        // do any and all pending openGL rendering.
     glutSwapBuffers();	// For double-buffering: show what we drew.
