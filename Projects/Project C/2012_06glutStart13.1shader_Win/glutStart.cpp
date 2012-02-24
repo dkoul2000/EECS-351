@@ -7,16 +7,22 @@
 //      EXCEPT:
 //      --2D robot pieces replaced by 3D glut wire-frame and glut solid prims
 //      --Mouse-drag rotates the entire robot around its base.
-//      --Added 's' key to toggle between wireframe and solid 3D drawing.
+//      --Added 's' key to toggle between wireframe and solid 3D drawing.shad.
 //
 //      --Adds 'CProgGLSL' class to load & use a very-basic set of programmable
 //          shaders (vertex-shader,fragment-shader) for openGL rendering.
 //      --Adds 'CShader' class for file I/0 for these GLSL programmable shaders,
 //          it takes care of Windows/MacOS/Linux directory-path differences,
-//
-//      --Demonstrates how a very-basic vertex shader and very-basic fragment
-//          shader can use old (deprecated) fixed-pipeline values for drawing.
-//
+//      --Includes several pairs of vertex- and fragment-shaders:
+//          select them by changing the two filenames in main():
+//          -- PassThruVertexShader.vsh, PassThruFragmentShader.vsh
+//             a very-basic vertex shader and very-basic fragment shader that
+//              shows how to use old (deprecated) fixed-pipeline values for
+//              drawing.
+//          -- PassThruVertexShaderRED.vsh, PassThruFragmentShaderRED.fsh
+//              slight modification that makes all vertex colors red, replacing
+//              the values set by this program's calls to glColor().
+
 //      --Changed CodeBlocks settings to put executable (.exe) in your project
 //          directory rather than 2 levels down in subdirectory /Debug/bin.
 //          (HOW? Project->Properties...-->Build Targets-->Output Filename;
@@ -24,9 +30,9 @@
 //          (NOTE! if you go back to 'bin\Debug\glutStart.exe', be sure you
 //          change CShader::setPath() function to remove those 2 extra dir.
 //          from the path to your shader files).
-//      2012.02.20 J. Tumblin-- changed from 2D-->3D, added 3D ortho camera,
+//      2012.02.22 J. Tumblin-- changed from 2D-->3D, added 3D ortho camera,
 //          added solid/wire toggle to make a better test-bed for writing our
-//          first shaders.
+//          first shaders; added 'uniform' access.
 //
 #include "glutStart.h"
 
@@ -104,10 +110,7 @@ int main( int argc, char *argv[] )
 	glutMouseFunc( myMouseClik );   // callback for mouse button events
 	glutMotionFunc( myMouseMove );  // callback for mouse dragging events
 
-    // The other thing to keep in mind, is we need an openGl context
-    // available before we try to make the program.  So we put off making
-    // an object of pass through shader till now.  We'll initialize it with
-    // the right path, and file names.
+
     //==============Create GLSL programmable shaders============================
     // Always AFTER 'glutCreateWindow()' because some GLSL commands rely on the
     // openGL 'rendering context' (all the state variables that tie openGL to
@@ -119,12 +122,19 @@ int main( int argc, char *argv[] )
                                                 // we must start its library;
 #endif
     // Create one GLSL-program object that will hold our programmable shaders;
-    p_myGLSL = new CProgGLSL(argv[0],  "PassThroughVertexShaderRED.vsh",
+    p_myGLSL = new CProgGLSL(argv[0],   "PassThroughVertexShader.vsh",
                                         "PassThroughFragmentShader.fsh");
     p_myGLSL->loadShaders();    // read in the shader files' contents
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
+    //- FIND all GLSL uniforms--------------------------------------------------
+
+
+    //- FIND all GLSL attributes------------------------------------------------
+
+
+    //--------------------------------------------------------------------------
     runAnimTimer(1);                // start our animation loop.
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
 
@@ -244,8 +254,8 @@ void myDisplay( void )
     theta1 += thetaStep1;       // Move forwards by one step.
     theta2 += thetaStep2;
     theta3 += thetaStep3;
-    len1 = 1.0 + 0.2*sin(6.5*theta1*M_PI/180.0); // 'wobblers' for leg widths.
-    len2 = 1.0 + 0.2*cos(4.3*theta2*M_PI/180.0);
+    len1 = 1.0;// + 0.2*sin(6.5*theta1*M_PI/180.0); // 'wobblers' for leg widths.
+    len2 = 1.0;// + 0.2*cos(4.3*theta2*M_PI/180.0);
     // angular wraparound; keep angles between +/-180 degrees.
     if(theta1 > 180.0) theta1 -= 360.0;
     if(theta1 <-180.0) theta1 += 360.0;
@@ -302,7 +312,7 @@ void myDisplay( void )
             glRotated(90.0, 0.0, 1.0, 0.0); // rotate on y by 90 degrees to put
                                         // z axis where x used to be:
                                         // z --> x, x --> -z
-            glScaled(0.12*len1,0.12*len1,0.3); // squeeze box for upper arm rectangle,
+            glScaled(0.12*len1,0.12 ,0.3); // squeeze box for upper arm rectangle,
             // NOT NEEDED FOR CONE: glTranslated(0.0,0.0,0.0);  // move arm's left edge to robot-base,
             if(isCleared==1)            // if user wants to see robot, then
             {
@@ -323,7 +333,7 @@ void myDisplay( void )
             glRotated(90, 0.0, 1.0, 0.0);   // rotate on y by 90 deg to put
                                             // z axis where x used to be:
                                             // z --> x,  x--> -z:
-            glScaled(0.09*len2, 0.09*len2, 0.25);// squeeze box for lower arm rectangle,
+            glScaled(0.09*len2, 0.09, 0.25);// squeeze box for lower arm rectangle,
             // NOT NEEDED FOR CYLINDER:  glTranslated(1.0,0.0,0.0);      // move box's left edge to shoulder,
             if(isCleared==1)            // if user wants to see robot, then
             {
@@ -363,7 +373,7 @@ void myDisplay( void )
 	drawAxes();	// re-draw simple +x,y,z axes.
 
 	//===============DRAWING DONE.
-	glFlush();	                // do any and all pending openGL rendering.
+//	glFlush();	                // do any and all pending openGL rendering.
 	glutSwapBuffers();			// For double-buffering: show what we drew.
 }
 
@@ -417,7 +427,7 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
             glColor3d(0.0, 1.0, 1.0);// And Cyan-colored text on-screen:
 	        drawText2D(helv18, 0.0, 0.0,"WHAT?");
             //===============DRAWING DONE.
-            glFlush();	        // do any and all pending openGL rendering.
+//            glFlush();	        // do any and all pending openGL rendering.
             glutSwapBuffers();	// For double-buffering: show what we drew.
         break;
 	}
@@ -465,7 +475,7 @@ int xpos,ypos;      // mouse position in coords with origin at lower left.
     glColor3d(0.0, 1.0, 1.0);	// And cyan-colored text on-screen:
     drawText2D(rom24,0.0, 0.0,"That's a SPECIAL key!");
     //===============DRAWING DONE.
-    glFlush();	        // do any and all pending openGL rendering.
+//    glFlush();	        // do any and all pending openGL rendering.
     glutSwapBuffers();	// For double-buffering: show what we drew.
 }
 
@@ -494,7 +504,7 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
     drawText2D(rom24, 0.0, 0.1, "!MOUSE CLICK!");
 
     //===============DRAWING DONE.
-    glFlush();	        // do any and all pending openGL rendering.
+//    glFlush();	        // do any and all pending openGL rendering.
     glutSwapBuffers();	// For double-buffering: show what we drew.
 }
 
@@ -519,7 +529,7 @@ int xpos,ypos;  // mouse position in coords with origin at lower left.
     yclik = ypos;
 
     //===============DRAWING DONE.
-    glFlush();	        // do any and all pending openGL rendering.
+//    glFlush();	        // do any and all pending openGL rendering.
     glutSwapBuffers();	// For double-buffering: show what we drew.
 }
 

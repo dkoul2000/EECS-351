@@ -37,6 +37,7 @@
     1) read the shader from a plain-text file;
     2) print the shader it read from the file (for inspection & debugging), and
     3) hold its openGL-supplied 'shaderID' for later re use.
+
  --CprogGLSL object holds all the CShader objects used by your program. It can:
     1) check to make sure your GPU/Graphics card supports programmable shading;
     2) load your programmable shaders from files,
@@ -149,14 +150,17 @@ public:
                                     // but the filesystem root (C:\)).
     string srcCode;                 // C++ string obj. holds shader source code
                                     // as the the char pointer srcCode.c_Str
+    const GLchar *src;              // The NULL-terminated text string that
+                                    // holds this shader's GLSL source code.
+                                    // (seems redundant, but we MUST have it
+                                    // to load the src code into GLSL).
 
     GLuint shaderObjID;             // GLSL identifies each shader object (held
                                     // within a program object) by a unique
                                     // 'shader ID'. Calling glCreateShader()
                                     // creates and empty shader object, and
                                     // returns its ID#.
-    const GLchar *src;              // The NULL-terminated text string that
-                                    // holds this shader's GLSL source code.
+
 public:
     CShader(void);                // default constructor,destructor.
     ~CShader(void);
@@ -241,6 +245,13 @@ public:
 
     void useProgram(void);     // load program into GPU, make it an active part
                                 // of the current openGL rendering method/state.
+
+    GLuint getProgramID(void);      // return GPU's 'program' ID# that
+                                    // identifies our the GLSL program object.
+    GLuint getVertShaderID(void);   // return GPU's 'shader' ID# that identifies
+                                    // our vertex-shader object.
+    GLuint getFragShaderID(void);   // return GPU's 'shader' ID# that identifies
+                                    // our vertex-shader object.
 };
 
 // Utility functions to support the programable pipeline
