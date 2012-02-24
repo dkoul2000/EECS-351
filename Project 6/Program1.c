@@ -1,6 +1,6 @@
 /*Dhruv Koul
   EECS 110 - Program 6
-  Edited: 1/28/2012
+  Edited: 2/23/2012 (for revisions)
 */
 
 /*This is the combined triangle.c file with all of the functions previously defined in exercises 3 through 5. This
@@ -18,65 +18,69 @@ double tri_area(double x1, double y1, double x2, double y2, double x3, double y3
 int main()
 {
     //define the variables that will be used and printed to the table.
-    double x11 = 0, x12 = 0, x13 = 0, x14 = 0, x15 = -1.5, x16 = 0, y11 = 0, y12 = 0, y13 = 0, y14 = 0, y15 = -2.3, y16 = 0;
-    double x21 = 4, x22 = 5, x23 = 0, x24 = 0, x25 = 2.4, x26 = 5, y21 = 0, y22 = 0, y23 = 5, y24 = 5, y25 = -0.5, y26 = 0;
-    double x31 = 4, x32 = 2.5, x33 = 2.5, x34 = -2.5, x35 = 0.5, x36 = 2.5, y31 = 3, y32 = 2.5, y33 = 2.5, y34 = 2.5, y35 = 2.5, y36 = 0;
-    double ans1 = 0, ans2 = 0, ans3 = 0, ans4 = 0, ans5 = 0, ans6 = 0;
+    double x1[6] = {0, 0, 0, 0, -1.5, 0};
+    double x2[6] = {4, 5, 0, 0, 2.4, 5};
+    double x3[6] = {4, 2.5, 2.5, -2.5, 0.5, 2.5};
+    double y1[6] = {0, 0, 0, 0, -2.3, 0};
+    double y2[6] = {0, 0, 5, 5, -0.5, 0};
+    double y3[6] = {3, 2.5, 2.5, 2.5, 2.5, 0};
+    double ans[6] = {0, 0, 0, 0, 0, 0};
 
-    //calculate each of the distances for the points that exist in the table in the instruction sheet
-    ans1 = distance(x11, y11, x21, y21);
-    ans2 = distance(x12, y12, x22, y22);
-    ans3 = distance(x13, y13, x23, y23);
-    ans4 = distance(x14, y14, x24, y24);
-    ans5 = distance(x15, y15, x25, y25);
-    ans6 = distance(x16, y16, x26, y26);
+    int i = 0;
+    while (i < 6)
+    {
+        ans[i] = distance(x1[i], y1[i], x2[i], y2[i]);
+        i++;
+    }
 
     //distance table
     printf(" Point 1\t  Point2\t  Distance\n");
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x11, y11, x21, y21, ans1);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x12, y12, x22, y22, ans2);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x13, y13, x23, y23, ans3);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x14, y14, x24, y24, ans4);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x15, y15, x25, y25, ans5);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x16, y16, x26, y26, ans6);
+    i = 0;
+    while (i < 6)
+    {
+        printf("(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x1[i], y1[i], x2[i], y2[i], ans[i]);
+        i++;
+    }
     printf("\n\n");
 
 
     //calculate each of the perimeters for the triangles
-    ans1 = tri_perimeter(x11, y11, x21, y21, x31, y31);
-    ans2 = tri_perimeter(x12, y12, x22, y22, x32, y32);
-    ans3 = tri_perimeter(x13, y13, x23, y23, x33, y33);
-    ans4 = tri_perimeter(x14, y14, x24, y24, x34, y34);
-    ans5 = tri_perimeter(x15, y15, x25, y25, x35, y35);
-    ans6 = tri_perimeter(x16, y16, x26, y26, x36, y36);
+    i = 0;
+    while (i < 6)
+    {
+        ans[i] = tri_perimeter(x1[i], y1[i], x2[i], y2[i], x3[i], y3[i]);
+        i++;
+    }
+
 
     //perimeter table
     printf(" Point 1\t  Point 2\t  Point 3\t  Perimeter\n");
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x11, y11, x21, y21, x31, y31, ans1);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x12, y12, x22, y22, x32, y32, ans2);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x13, y13, x23, y23, x33, y33, ans3);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x14, y14, x24, y24, x34, y34, ans4);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x15, y15, x25, y25, x35, y35, ans5);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x16, y16, x26, y26, x36, y36, ans6);
+    i = 0;
+    while (i < 6)
+    {
+        printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x1[i], y1[i], x2[i], y2[i], x3[i], y3[i], ans[i]);
+        i++;
+    }
     printf("\n\n");
 
 
     //calculate each of the areas for the triangles
-    ans1 = tri_area(x11, y11, x21, y21, x31, y31);
-    ans2 = tri_area(x12, y12, x22, y22, x32, y32);
-    ans3 = tri_area(x13, y13, x23, y23, x33, y33);
-    ans4 = tri_area(x14, y14, x24, y24, x34, y34);
-    ans5 = tri_area(x15, y15, x25, y25, x35, y35);
-    ans6 = tri_area(x16, y16, x26, y26, x36, y36);
+    i = 0;
+    while (i < 6)
+    {
+        ans[i] = tri_area(x1[i], y1[i], x2[i], y2[i], x3[i], y3[i]);
+        i++;
+    }
+
 
     //perimeter table
     printf(" Point 1\t  Point 2\t  Point 3\t   Area\n");
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x11, y11, x21, y21, x31, y31, ans1);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x12, y12, x22, y22, x32, y32, ans2);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x13, y13, x23, y23, x33, y33, ans3);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x14, y14, x24, y24, x34, y34, ans4);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x15, y15, x25, y25, x35, y35, ans5);
-    printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x16, y16, x26, y26, x36, y36, ans6);
+    i = 0;
+    while (i < 6)
+    {
+        printf("(%.1f, %.1f)\t(%.1f, %.1f)\t(%.1f, %.1f)\t   %.2f\n", x1[i], y1[i], x2[i], y2[i], x3[i], y3[i], ans[i]);
+        i++;
+    }
     printf("\n");
 
 
