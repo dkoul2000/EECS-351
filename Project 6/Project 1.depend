@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1327185966 source:/home/dhruv/Winter Quarter/EECS 110/Project 1/Program1.c
+	<stdlib.h>
+	<stdio.h>
+
+1327771353 source:/home/dhruv/Winter Quarter/EECS 110/Project 3/Program1.c
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+
+1327797640 source:/home/dhruv/Winter Quarter/EECS 110/Project 6/Program1.c
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+
