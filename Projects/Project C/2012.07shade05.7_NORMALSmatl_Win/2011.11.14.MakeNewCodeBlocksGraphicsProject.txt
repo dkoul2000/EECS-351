@@ -1,0 +1,125 @@
+123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_
+
+This directory already holds a complete, ready-to-use graphics project in CodeBlocks.  
+To start, double-click the CodeBlocks Build Process (.cbp)' file.  
+HOWEVER, I want each of you to know how to make your own:
+
+===============================================
+===============================================
+     To Make Your Own Graphics Project
+	with CodeBlocks, C++/OpenGL/freeGLUT
+===============================================
+===============================================
+
+1)-Start CodeBlocks.  Near the center of the window that opens, 
+
+2) click the 'Create a new project' link.
+
+3)-This will open a dialog box. Click on:
+	a)-- 'Console Application' icon in the top row of icons;
+	b)-- 'C++' language selection (we won't use the C setting at all).
+		Click 'Next'
+	c)-- Enter your 'Project Title' (e.g. "Cube" or "ProjA" or...) and 
+	d)-- Set the 'Folder to Create Project in' as desired,
+	e)-- Keep the 'Project filename' default name (<Project Title>.cbp),
+		**BUT**
+	f)-- Check 'Resulting Filename' very carefully -- by default, the 
+		CodeBlocks Wizard **DOES NOT** use the 'Folder to Create 
+		Project in'!  Instead, it creates a sub-directory 
+		<Project Title> to hold all project files, including the new 	
+		<Project Title>.cpb file.
+             If you don't want this new sub-directory, remove it from the path
+		shown in 'Resulting Filename'.  
+	g)-- Click 'Next' to see the compiler configuration page.
+             Make no changes here:
+		--use the (default) GNU GCC compiler; 
+		--create 'debug' configuration, and
+		--create 'release' configuration, and 
+			use default directories for all.
+	h)-- Clock 'finish'.  
+		The wizard creates a 'skeleton' project, complete with a small
+		'hello world' console program.
+
+4)-Compile and run the default project made for you; be sure it works before you proceed.
+	a)-- In CodeBlock's left-side window panel labeled 'Management', 
+		click the 'Projects' tab.
+	b)-- Double-click the colorful squares and <Project Name>.  
+		It will open a 'Sources' folder.
+		(if the 'Sources' folder isn't open, 
+		 click the boxed '+' sign on its left side)
+	c)-- Click on the filename 'main.cpp' shown.  
+		It will open the default C++ file for your project.
+	d)-- Above the 'Management' window panel you'll see a row of 
+		yellow-and-green icons; click the 3rd one; 
+		(a gear-and-green-arrow together)
+		this will compile and run your program.  
+	e)-- You should see a console window open where the program prints
+		'Hell world', then a program-termination message  
+		(e.g. 'Process returned 0 (0x0)   execution time : 0-.031 s'),
+		and 'Press any key to continue'.
+
+5)-Set Build Options to access the openGL and freeGLUT (or GLUT) libraries.	
+	(I assume you installed these libraries on your machine; 
+	 If not, see CodeBlocksGLUT-installNotes.txt).
+	a)-- On the Menu bar at the top of your window, select this menu item:
+		Project-->Build Options...
+		to open the 'Project Build Options' pop-up dialog box.  
+	b)-- In that box, the left-most panel shows a directory-like tree:
+		<Project Name>
+			+--Debug
+			+--Release
+		Click on <Project Name> at the top, 
+			so that we set options for both Debug and Release.
+	c)-- At the top of the pop-up dialog box, just below the 
+		'Select Compiler' window, you'll find a row of tabs: 
+	 	'Compiler Settings', 'Linker settings', 'Search directories'...
+	    --Choose the 'Compiler Settings' tab, 
+		within it, you'll find another row of tabs:
+		'Compiler Flags', 'Other options', and '#defines'.
+			--within 'Compiler Flags', click these checkboxes 
+			  (plus any others you like):
+				--'Produce debugging symbols [-g]
+				--'In C mode, support all ISO C90 programs. In
+				   C++ mode, remove GNU extensions that conflict
+				   with ISO C++ [-ansi']
+				--'Enable all compiler warnings (overrides many 
+				   other settings) [-Wall]
+			--within  '#defines' sub-tab, put this text:
+
+				GLUT_DISABLE_ATEXIT_HACK
+			(avoids an old and troublesome quirk in GLUT).
+	    --Look up to the top row of tabs again, and 
+	    --choose the 'linker settings' tab.
+		within it, you'll see two large sub-windows.  The left one,
+		'Link libraries', has 'add' 'edit' 'delete' and 'clear' buttons
+		at the bottom. Use them to set these libraries:
+			FOR WINDOWS:
+		        	freeglut
+				glu32
+				opengl32
+		
+			FOR MacOS:   <nothing -- leave blank>
+			FOR UBUNTU:
+
+				GLEW
+				glut
+				GL
+				GLU
+	    --In the right window, put nothing for Windows and Ubuntu.
+			FOR MacOS:
+				-framework GLUT
+				-framework OpenGL
+				-framework Cocoa
+		
+	    --Once your 'Link Libraries' are correct, click 'OK' to close the
+		'Project build options' dialog box.
+			
+6)-Put your C++ source file(s) in your named project directory, where you'll also find the <Project Name>.cbp file we created earlier.   If you don't have any C++ source files yet, use the 'glutPak.cpp' file supplied in the course starter-code.
+
+7)-Set up the project to use the .cpp and .h files you put in the new project directory:
+	a)--on the left side of the CodeBlocks window, in the 'Management' tile, under the 'Projects' tab, you'll see a colorful square icon with your Project's name. Right-click it, select 'Add files...' select the files (be sure you're only adding files from your project directory!), and click 'OK'.
+	b)--click 'OK' on the pop-up dialog box that shows the files are part of both the 'debug' and the 'release' versions of the program.
+	c)--On the left-side panel, 'Projects' tab, you should see an entry for every source-code file in your project.  Now you're ready to remove the skeleton program in 'main.cpp' file that contained 'hello world'.  Right-click on the 'main.cpp' filename shown, and select 'Remove file from project'.
+You should also delete that file from your project directory.
+
+8) You're ready! Save your project, then compile and run!

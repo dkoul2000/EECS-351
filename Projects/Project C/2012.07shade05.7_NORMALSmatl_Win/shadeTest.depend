@@ -1,0 +1,438 @@
+# depslib dependency file v1.0
+1173230286 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\bmpgifts02.cpp
+	"bmpGifts02.h"
+
+1279656661 2.h"
+
+1278446871 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\bmpgifts02.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<gl/GL.h>
+	<gl/Glu.h>
+	"glut.h"
+
+1278443271 
+
+1278446925 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1297352416 
+
+1278519647 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\shadetest.cpp
+	"shadeTest.h"
+
+1297351826 .h"
+
+1278447300 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\shadetest.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"lampMatl_01.h"
+	"bmpGifts02.h"
+
+1278445620 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\lampmatl.h
+
+1279055335 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\lampmatl_01.cpp
+	"lampMatl_01.h"
+
+1297352416 01.h"
+
+1279055357 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\lampmatl_01.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+
+1276545044 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\my_vecmat.cpp
+	"my_vecmat.h"
+
+1279052399 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1279578760 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\lampmatl_01.cpp
+	"lampMatl_01.h"
+
+1279577050 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\lampmatl_01.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"my_vecmat.h"
+
+1278443325 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1276541444 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\my_vecmat.cpp
+	"my_vecmat.h"
+
+1279152686 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1173226686 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\bmpgifts02.cpp
+	"bmpGifts02.h"
+
+1278443271 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\bmpgifts02.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<gl/GL.h>
+	<gl/Glu.h>
+	"glut.h"
+
+1279661164 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\shadetest.cpp
+	"shadeTest.h"
+
+1279656661 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.5_matl\shadetest.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"lampMatl_01.h"
+	"bmpGifts02.h"
+
+1279578760 source:c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\lampmatl_01.cpp
+	"lampMatl_01.h"
+
+1279577050 c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\lampmatl_01.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"my_vecmat.h"
+
+1278443325 c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1279152686 c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1276541444 source:c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\my_vecmat.cpp
+	"my_vecmat.h"
+
+1279661164 source:c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\shadetest.cpp
+	"shadeTest.h"
+
+1279656661 c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\shadetest.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"lampMatl_01.h"
+	"bmpGifts02.h"
+
+1278443271 c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\bmpgifts02.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<gl/GL.h>
+	<gl/Glu.h>
+	"glut.h"
+
+1173226686 source:c:\documents and settings\jack tumblin\desktop\2010.shade05.5_matl\bmpgifts02.cpp
+	"bmpGifts02.h"
+
+1276541444 source:c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\my_vecmat.cpp
+	"my_vecmat.h"
+
+1297352416 c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1279661164 source:c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\shadetest.cpp
+	"shadeTest.h"
+
+1279656661 c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\shadetest.h
+	<windows.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	"glut.h"
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<GLUT/glut.h>
+	<unistd.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<iostream>
+	"lampMatl_01.h"
+	"bmpGifts02.h"
+
+1278443325 c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1297351826 c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\lampmatl_01.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"my_vecmat.h"
+
+1278443271 c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\bmpgifts02.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<gl/GL.h>
+	<gl/Glu.h>
+	"glut.h"
+
+1297352416 source:c:\documents and settings\jack tumblin\desktop\copy of 2011.shade05.6_matl\lampmatl_01.cpp
+	"lampMatl_01.h"
+
+1276541444 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2012.shade05.7_matl_win\my_vecmat.cpp
+	"my_vecmat.h"
+
+1297352416 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2012.shade05.7_matl_win\my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1297793487 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2012.shade05.7_matl_win\shadetest.cpp
+	"shadeTest.h"
+
+1297791928 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2012.shade05.7_matl_win\shadetest.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"lampMatl_01.h"
+
+1297351826 c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2012.shade05.7_matl_win\lampmatl_01.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"my_vecmat.h"
+
+1297352416 source:c:\jet-work\fresnelgate\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2012.shade05.7_matl_win\lampmatl_01.cpp
+	"lampMatl_01.h"
+
+1276541444 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2011.shade05.7_normalsmatl_win\my_vecmat.cpp
+	"my_vecmat.h"
+
+1297352416 c:\_work\_jet\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2011.shade05.7_normalsmatl_win\my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1297793776 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2011.shade05.7_normalsmatl_win\shadetest.cpp
+	"shadeTest.h"
+
+1297791928 c:\_work\_jet\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2011.shade05.7_normalsmatl_win\shadetest.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"lampMatl_01.h"
+
+1297351826 c:\_work\_jet\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2011.shade05.7_normalsmatl_win\lampmatl_01.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"my_vecmat.h"
+
+1297352416 source:c:\_work\_jet\_teach\_cs351-1_intrographics\2011_1win_cs351-1\projects\project_c\2011.shade05.7_normalsmatl_win\lampmatl_01.cpp
+	"lampMatl_01.h"
+
+1297352418 source:/home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/lampMatl_01.cpp
+	"lampMatl_01.h"
+
+1297351828 /home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/lampMatl_01.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"my_vecmat.h"
+
+1297352418 /home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1276541446 source:/home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/my_vecmat.cpp
+	"my_vecmat.h"
+
+1330621994 source:/home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/shadeTest.cpp
+	"shadeTest.h"
+
+1297791930 /home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/shadeTest.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"lampMatl_01.h"
+
