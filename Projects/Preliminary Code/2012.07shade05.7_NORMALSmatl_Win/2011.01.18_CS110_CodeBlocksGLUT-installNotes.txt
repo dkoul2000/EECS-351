@@ -1,0 +1,449 @@
+123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_
+===============================================
+===============================================
+EECS 110 -- CodeBlocks and GLUT Installation:
+===============================================
+===============================================
+Code::Blocks is a free, open-source cross-platform IDE we'll use for all projects in this course.  It runs on Windows, MacOS and Linux of just about any flavor, yet gives everyone the same basic controls, compiler, and features.  The GLUT or freeGLUT library connects the openGL library to your operating system, and permits you to write interactive graphics programs that run on any computer.
+
+I require that everyone uses Code::Blocks for EECS110.
+
+You may later switch to other IDEs (Integrated Development Environments) such as Xcode on MacOS, Microsoft Visual Studio on Windows, or Eclipse on Linux, Windows, Macs, but try CodeBlocks first.  If we start with Code::Blocks, we can probably solve any installation problems with just this document, and we will avoid any and all inconsistencies in the course of completing your assignments.  
+
+ASIDE:
+If you don't use Code::Blocks, I might not be much help if your chosen tools misbehave.  If you're using an Apple machine, I highly recommend Apple's own native X-code developer tools. They're excellent, Apple-native, free, well documented, extremely stable, and you need them anyway to install Code::Blocks.   The latest Code::Blocks this year (10.05) will 'crash on exit':  *VERY* aggravating, and we still don't know why, so on MacOS, use the previous version 08.02-p2. 
+Apple's X-code tools won't do that. 
+END_ASIDE
+
+These tested methods get CodeBlocks, GLUT, and openGL working together on every kind computer we've tried so far.
+
+===============================================================
+STEP 1: Get the CodeBlocks IDE installed and running on your machine 
+ (see instructions below)
+================================================================
+
+--For Windows XP, Vista, or Windows7:
+--------------------------------------
+Go the CodeBlocks site, read carefully, but don't download anything.
+
+1)--As usual for any installation, be sure you're logged in as
+	an Administrator before you attempt installation.  
+
+2)--Get the latest CodeBlocks binary release to install.  
+	--If you can, download from Blackboard-->Course Documents,
+	because the CodeBlocks server in Berlin often gets overwhelmed!
+  --You want the Windows version (XP/Vista/Win7) 
+	that includes the MinGW compiler, linker, and librares.
+						as of 12/2010, it is:
+	codeblocks-10.05mingw-setup_Windows.exe 
+ 
+	--If you MUST download from the CodeBlocks site, choose 
+	'Download the Binary Release' and don't bother with the
+	nightly binaries, or with downloading source-code to build it
+	yourself (treacherous, but you might enjoy the challenge).
+
+3)--Install CodeBlocks (and MinGW); 
+	double-click the downloaded file:
+	--It will ask to install to C:\Program Files(x86)\CodeBlocks
+			      or to C:\Program Files\CodeBlocks
+		Say yes. Don't change this location.
+	--It will ask if you want to run CodeBlocks. Say no. 
+	Then the installation wizard will finish normally.
+
+4)--Run CodeBlocks.  As it starts the first time, you'll get a pop-up
+	window titled 'Compilers auto-detection'.  If MinGW is the 
+	only compiler on your machine, it will select 'GNU GCC
+	 Compiler' automatically.  Select it, push the 'OK' button.
+	Close, ignore the 'script' console.  
+	You'll get a pop-up window that asks you about file
+ 	associations for C/C++ files; if you have no other C/C++
+	compilers, say 'Yes' to associate C/C++ files with CodeBlocks.
+
+--For MacOS:-----------------------------
+Install Apple's XCode dev. kit on your machine first, 
+because it has the Apple-compatible GCC compiler you'll need for CodeBlocks. 
+
+--1) Xcode is free, it's on your MacOS installation disk, 
+	and also available for free download from Apple's website.
+     a) EASY WAY: use the MacOS installation disk that came with your 
+	computer; then use Apple's 'Software Update' to be sure you
+	have the latest version for your machine.  CAUTION: the update
+	might be huge -- use a fast internet connection.
+
+     b) WEB-ONLY WAY (Aggravating; slow) 
+	--Register as an Apple Developer (free--but required):
+	
+	http://developer.apple.com/programs/register/
+	
+	--CAREFUL! You *DON'T* need to 'enroll' and pay $99/year
+	unless you plan to sell your programs at the App Store(!)
+
+	--TRICKY PART:  after you log in, go to the 'iOS Dev Center' 
+	to get Xcode, (and NOT the 'Mac Dev Center'!);
+
+	http://developer.apple.com/devcenter/ios/index.action
+
+	To get Xcode, click 'Xcode and iOS SDK' link at lower left.
+	(The 'Mac Dev Center' webpage pretends to offer this same
+	software, but all its links have been broken since 9/2009.
+        (Curious? for all the details, see:
+         http://discussions.apple.com/thread.jspa?messageID=11458022&#11458022
+
+
+--2) BE SURE you get the right version of Xcode! 
+	Is your OS 32 bit, or 64 bit? 
+	SnowLeopard, Tiger, or something else? 
+Read instructions; the most recent version of Xcode available on the apple website will not work with macs that run Tiger! (For example, in Jan 2010 a student with a mac 10.4.11 from 2007 could not install Xcode version 3.2.1; instead she succeeded by installing Xcode version 2.5.)
+
+--3) Test to be SURE you have Xcode installed and the GCC compiler.
+	Xcode is an entire suite of applications, editors, compilers, and other 
+	tools for writing programs, but it does not give you any Xcode icons 
+	in your 'Apps' folder.  Instead;
+	--Start a 'TERMINAL' window on your machine:
+		Apps-->Utilities-->Terminal
+	(Click on the 'Apps' folder, at lower left in the Dock; within it, 
+	 Click on the 'Utilities' folder; within that,
+	 Click on the 'Terminal' app. (icon shows a display screen with >_).cd
+	--In the Terminal window, type this command:
+		whereis gcc
+	--The response SHOULD be:
+		/usr/bin/gcc
+	--If it is, you're ready to install CodeBlocks.
+	--If you get a blank, then you haven't installed Xcode yet.
+	Don't believe me? 
+	Look around in that same /usr/bin directory: in Terminal, type:
+		cd  /usr/bin
+		ls
+	In the resulting list of directories, you should find several
+	xcode-related directories, such as xcode-select, xcodebuild, 
+	xcodeindex, xcrun, etc.
+
+--4) Use 'System Profiler' app to ensure your machine also has the OpenGL and GLUT frameworks installed: (another part of Xcode) 
+	--Start the System Profiler application:
+		Apps-->Utilities-->System Profiler
+	--In the left-hand window of system Profiler, click on 
+		Software-->Frameworks
+	and give the system a few tens of seconds to search your hard disk.
+	--In the right-hand window, confirm that your machine lists entries for (among other things--listed alphabetically):
+		Cocoa	
+		GLUT	
+		openGL
+	If so, you're all set.  
+	If not, you'll have trouble with graphics programs.
+     
+--5) From CMS/Blackboard, download and install the latest version of CodeBlocks for MacOS. 
+	As of 1/2011, DON'T USE THE LATEST VERSION: UNACCEPTABLE BUG!
+		***DON'T USE codeblocks-10.05-p1-mac.dmg'
+		***BECAUSE IT WILL ALWAYS CRASH ON EXIT, AND
+		***LOSE ALL YOUR SETTINGS AND HISTORIES
+	For 2011 Winter Quarter, use the previous, stable version:
+		codeblocks-8.02-p2-mac.dmg
+
+--6) NO_SPACES: (This problem is most prominent on Tiger)
+BE SURE you don't have any spaces in folder names or filenames for your work with CodeBlocks.  If you do, you'll get strange 'file not found' errors when you compile.
+
+--7).  Run CodeBlocks.  As it starts the first time, you'll get a pop-up
+	window titled 'Compilers auto-detection'.  if MinGW is the 
+	only compiler on your machine, it will detect 'GNU GCC
+	 Compiler' automatically.  Select it, push the 'OK' button.
+	Close, ignore the 'script' console.  
+
+
+--For Ubuntu:  (tested on CodeBlocks version 10.10)
+-----------------------------------------
+1)--On the main menu at the top of your screen, select:
+	Applications-->Ubuntu Software Center
+	The 'Departments' window will open.  
+
+2)--Click 'Developer Tools' icon (a trowel), and it opens a new
+	set of icons.  Click the 'IDEs' icon (a trowel on a brown background)
+
+3)--A list display opens; short list on the left; long list on the right.
+     at the top right you'll see: Get Software > Developers Tools > IDEs;
+     In this right-side window, near the top of the list, you'll see:
+
+	Code::Blocks IDE
+	Configurable and extensible IDE
+
+4)--Click it;  You'll be able to read more about Code::Blocks, then:
+     At the bottom of the page, you'll see a list of 'Add-ons'
+     Be sure to select BOTH 
+	'GNU C++ Compiler'  and
+	'GNU Debugger'
+
+     Click the 'Install' button.  That's all!
+
+5)--Run CodeBlocks.
+	(from menu at top of screen: 
+               Applications-->Programming-->Code::Blocks IDE   )
+	As it starts the first time, you'll get a pop-up
+	window titled 'Compilers auto-detection'.  if MinGW is the 
+	only compiler on your machine, it will detect 'GNU GCC
+	 Compiler' automatically.  Select it, push the 'OK' button.
+	Close, ignore the 'script' console.  
+
+==============================
+MORE HINTS FOR CODEBLOCKS INSTALLATION:
+============================== 
+
+1) If CodeBlocks installs, but fails when you try to build the default 'hello world' program; check the error message.  If you get the 'invalid compiler' error, CodeBlocks  probably has an invalid path to the gcc compiler on your machine.
+Expect to find them here:
+	WINDOWS:   C:\mingw, or
+		   C:\Program Files\CodeBlocks\MinGW, or
+		   C:\Program Files(x86)\CodeBlocks\MinGW
+		   C:\cygwin
+	MacOS:	/usr/bin/gcc  
+	(how do you check this? Open a Terminal window, type 'whereis gcc')
+
+How to fix 'invalid compiler' error:
+   --At the top of CodeBlocks window, 
+	select the menu item 'Settings' --> `Compiler and Debugger...' 
+	and it will open a pop-up window with more controls.  
+   --Within this window, click on the 'Toolchain Executables' tab 
+	near the top. Within that tab, press the `Auto-Detect' button;
+	it will search for your gcc compiler.  If it finds one, hit 
+	OK and you'll have a 'valid compiler' to build your programs.
+   --OR you could enter the file path yourself in the edit boxes shown.
+
+===========================================================
+STEP 2:  Once you get CodeBlocks installed, test it:
+===========================================================
+  --create a new project; 
+  --choose console project;
+  --choose your desktop as the file location,
+  --follow the wizard, and compile and run the default program made for you
+	("hello world")
+	--HINT TO APPLE USERS: 
+	Be sure to choose a sensible directory for your program;
+	(don't leave it blank).
+  --The program should run without any errors or warnings, 
+	as shown in class.  If it doesn't, fix your CodeBlocks installation 
+	before continuing with Step 3.  Stumped? Ask for help.
+
+   --HINT: when creating your own CodeBlocks projects without any
+	ready-to-use 'starter code' project, set the compiler to 
+	"show all warnings [-Wall]"; to ensure the compiler will 
+	point out every potential trouble spot in the new code you write. 
+	Here' how:
+	--At top of CodeBlocks window, pick menu item 
+		'Settings --> Compiler and Debugger..."
+	--At top of the pop-up window that appears, choose the 
+	'Compiler Settings' tab (usually chosen for you already),
+	--Within that tab, look a little lower, and select the 
+	'Compiler Flags' tab (it's also usually already chosen),
+	--Within the long list of checkboxes, near the top you'll 
+	find these two:
+	  --CHECK the box for:
+	   'Produce Debugging Symbols [g]'
+	  --CHECK the box for:
+		'Enable all Compiler Warnings
+			(overrides every other setting) [-Wall]
+	  --and CHECK the box for:
+	   	'Enable Standard Compiler Warnings [-W].
+	The default settings for CodeBlocks ignore minor flaws, 
+	so that code written by others won't fill your screen with 
+	suggestions for improvements to code you shouldn't change.  
+	I  *WANT* you to see these compiler warnings to help learn
+	good coding and debugging habits.  0 errors, 0 warnings req'd.
+
+============================================================
+STEP 3: put GLUT on your machine where CodeBlocks can use it:
+============================================================
+
+Apple MacOS:
+===========================
+Do nothing; you have GLUT installed already as part of Xcode 
+(that you installed before CodeBlocks). Done!
+
+Windows XP, Vista, Win7:
+===========================
+1) Download the compressed file holding pre-compiles Windows binaries for GLUT from CMS/Blackboard:  
+
+		2001.glut-3.7.6-bin_Win32XP.xip
+
+or get it directly from Nat Robin's archived web site;
+       http://www.xmission.com/~nate/glut.html
+
+     and 'extract' the contents of the compressed file:
+	--double-click the compressed file; 
+	--it contains just one folder named 'glut-3.7.6-bin'; 
+	--drag and drop the 'glut-3.7.6-bin' folder onto your computer's desktop.
+
+     That directory contains 3 files that make up the GLUT library:
+	glut32.dll glut32.lib, glut.h  
+
+     plus two informational files:
+	README-win32.txt  -- details about win32 port, bug fixes, etc.
+	glut.def	  -- text-only file listing GLUT function names.
+
+2)From the 'glut-3.7.6-bin' folder:
+	Copy the glut32.dll file to the directory where 
+	Windows keeps all its 32-bit DLLs on your system,
+	-For XP and 32-bit Vista/Win 7:
+		C:\WINDOWS\system32     
+		(some older installs use C:\WINNT\system32)
+	-For 64-bit Vista and Win7:
+		C:\WINDOWS\SysWOW64
+		(where it keeps all 32-bit DLLs run by 64-bit system)
+
+3) From the 'glut-3.7.6-bin' folder:
+	Copy the glut32.lib file to the directory where 
+	the compiler(MinGW gcc) keeps all its other libraries:
+	-For XP and 32-bit Vista/Win7:
+		C:\Program Files\CodeBlocks\MinGW\lib
+	-For 64-bit Vista and Win 7:
+		C:\Program Files(x86)\CodeBlocks\MinGW\lib
+		Can't find it? try C:\mingw ...
+
+UBUNTU Linux:
+=================
+ -Ubuntu 8.10: use the installer, get/install packages for 
+		-OpenGL  
+		-GLUT (requires freeGLUT), and 
+		-libXxf86vm-dev   (not sure why (or if) it's needed)
+
+-Ubuntu 10.10: 
+1) Start the 'Synaptics Package Manager':
+     From the menu at the top of your screen, select:
+          System-->Administration-->Synaptic Package Manager.
+     It will open a window with lists on the left and right.
+2) The left window shows 'All' selected; keep that, and
+   at the window's top right, use the 'Search' box;
+	--Enter 'freeglut'.  It may list several different packages in
+        the window on the left, but look for the UBUNTU icon and 
+        click the checkbox for:
+
+	freeglut3
+	freeglut3-dev
+	
+	(NOTE! at the top of the list, click 'Package' label to sort
+	 that column alphabetically)
+	and select 'mark for installation' in the pop-up menus that appear.
+
+3) Similarly, search ' libgl1',
+        and then click checkboxes, and select 'mark for installation for:
+
+	libgl1-mesa-glx
+	libgl1-mesa-dev
+
+4) Similarly, search 'libglu', 
+	and then click checkboxes, and select 'mark for installation for:
+
+	libglu1-mesa
+	libglu1-mesa-dev
+
+5) Similarly, search 'libglew', 
+	and then click checkboxes, and select 'mark for installation for:
+
+	libglew1.5
+	libglew1.5-dev
+
+6) Click the 'Apply' button (at top of window: has green check-mark icon),
+and if it asks, apply all changes you specified.
+It will download packages as necessary, install, and tell you when it's
+finished.  You'll need an internet connection for this to work.
+
+7) Close Package Manager; you're ready!
+ 
+Non-Ubuntu Linux: LET CODEBLOCKS DO IT:
+--------------------
+CodeBlocks has a wizard for GLUT projects you can use instead. 
+Start CodeBlocks.
+Create a new project;
+   select 'GLUT project', follow directions. 
+You'll get error messages that tell you about missing packages 
+(openGL, GLU, freeGlut or GLUT).  Install them; set paths within CodeBlocks. 
+Once the default program compiles, it will show you a beautiful bit of 
+animated  openGL code.  Did it work? then add our source-code files to the 
+project, remove the default 'main.cpp' file, and compile.   
+That should work; if it does, skip all the stuff below; you're done!
+
+===========================================
+STEP 4: RUN YOUR FIRST GLUT/OpenGL PROGRAM
+===========================================
+
+Now download the ZIP file of 'starter code' for a graphics project; 
+I've posted at least one on Blackboard. Extract it; it will make a project folder (e.g. BareTriangle) that contains your complete CodeBlocks project.  
+
+Inside that folder, click on the project's ".cbp" file 
+(CBP -- Codeblocks' Build Profile).  It will start your CodeBlocks project. Hit the  CodeBlocks 'build and run' button, and in Windows XP you should get a console/text window and an openGL picture window.
+
+IF IT DOESN'T WORK FOR YOU:
+------------------------------
+a) Confirm that CodeBlocks has 'at-exit-hack' defined to help compile the GLUT library.  In CodeBlocks menu bar, 
+	--select Project-->Build Options; it opens a pop-up window.
+	--then select 'Compiler Flags' tab, 
+	--then WITHIN that tab's area select the '#defines' tab, 
+	--and within that window put:   GLUT_DISABLE_ATEXIT_HACK
+Be sure to type it in yourself; don't rely on cut-and-paste, because that sometimes inserts other hidden characters that confuse CodeBlocks.
+
+b) You may need to correct the CodeBlocks settings for libraries, then
+save your workspace to keep those settings.
+     --At the top of CodeBlocks window,
+       --go to the menu item 'Project'-->Build Options...
+       --at the top of the pop-up window, click 'Linker Settings' tab,
+	at the upper left, you'll see; 
+	    --<your_project_name> (e.g. bareTriangle) 
+	    --and either:
+		--'default'  or
+		--'Debug' and 'Release'.
+	--CodeBlocks let you set *different* link libraries for each,
+	and that can hide problems.  
+	To ensure the same linking for all,
+	    --click on the 'Debug', the 'Release' and/or 'Default'
+		words in that upper-left window region, and for each
+		and every one of them,
+	--clear the 'Link Libraries' window 
+		(middle of the pop-up window)
+ 		by clicking the 'Clear' button below it.  
+		It will ask you to confirm.
+	--be SURE the 'Link Libraries' window (on right) is empty 
+		for all.
+	--go back:
+	--at upper left of the pop-up window, click 
+		<your_project_name>, and you should see:
+
+	FOR WINDOWS:
+        	glut
+		glu32
+		opengl32
+
+	FOR MacOS:
+	   NOTHING in the left window; clear anything you find there.
+	   In the right window, be sure you have these 3 lines.  You may
+	   also have "-lm" (without quotes), which includes C's math library)
+		-framework GLUT
+		-framework OpenGL
+		-framework Cocoa
+
+	FOR UBUNTU:
+		GLEW
+		glut
+		GL
+		GLU
+
+	If you don't see that, use buttons at the bottom: 
+		'Add', 'Edit', 'Delete','Clear' to set the right
+		values.  Note that you 'Add' each library
+		separately, each on its own line.
+	--HINT:  To clear the 'Link Libraries' window, 
+		press it's 'clear' button.
+	--HINT:  DON'T CUT-AND-PASTE these text strings from 
+		a website or a PDF! otherwise you often get unprinted
+		characters that mess up CodeBlocks  settings. Instead,
+ 		just type in the text yourself.
+	--HINT:  'File not Found' errors?
+		--Check for spaces in your project's filenames & paths
+		--Search: does the word 'introGlutLib' have exactly
+		the same capitalization for each letter as the
+		filenames in your project directory 
+		(introGlutLib.c, introGlutLib.h)?
+		On some operating systems CodeBlocks won't find files
+		with matched spelling but mismatched upper/lower case. 
+
+==================================================================
+Regards,
+-Jack Tumblin
+
+
+
