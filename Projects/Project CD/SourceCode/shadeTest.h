@@ -126,4 +126,34 @@ void apply_TR_Matrix(void);		// apply to openGL's current coordinate system;
 void apply_RT_Matrix(void);		// --rotate, then translate to make a new one.
 };
 
+
+//3D VERTEX ARRAY SHAPES - GOTTEN FROM MY PROJECT B CODE
+class cube {
+    public:
+        void draw();
+        cube(int height);
+        float colorsArray[24];
+        unsigned int indexes[16];
+        int vertices[24];
+};
+
+class squarePrism {
+    public:
+        void draw();
+        squarePrism(int height);
+        float colorsArray[18];
+        unsigned int indexes[13];
+        int vertices[18];
+};
+
+class triangularPrism {
+    public:
+        void draw();
+        triangularPrism(int height);
+        float colorsArray[15];
+        unsigned int indexes[11];
+        int vertices[15];
+};
+
+
 #endif  // __shadeTest_h__

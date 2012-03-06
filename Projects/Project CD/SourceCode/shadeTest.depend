@@ -13,14 +13,12 @@
 	<gl/Glu.h>
 	"glut.h"
 
-1278443271 
+1297352416 
 
 1278446925 c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
-
-1297352416 
 
 1278519647 source:c:\documents and settings\jack tumblin\desktop\2010_trace\2010.shade05.4_matl\shadetest.cpp
 	"shadeTest.h"
@@ -419,6 +417,60 @@
 	"shadeTest.h"
 
 1297791930 /home/dhruv/EECS-351/Projects/Project C/2012.07shade05.7_NORMALSmatl_Win/shadeTest.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"lampMatl_01.h"
+
+1297352418 source:/home/dhruv/EECS-351/Projects/Project CD/2012.07shade05.7_NORMALSmatl_Win/lampMatl_01.cpp
+	"lampMatl_01.h"
+
+1297351828 /home/dhruv/EECS-351/Projects/Project CD/2012.07shade05.7_NORMALSmatl_Win/lampMatl_01.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"my_vecmat.h"
+
+1297352418 /home/dhruv/EECS-351/Projects/Project CD/2012.07shade05.7_NORMALSmatl_Win/my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1276541446 source:/home/dhruv/EECS-351/Projects/Project CD/2012.07shade05.7_NORMALSmatl_Win/my_vecmat.cpp
+	"my_vecmat.h"
+
+1331019393 source:/home/dhruv/EECS-351/Projects/Project CD/2012.07shade05.7_NORMALSmatl_Win/shadeTest.cpp
+	"shadeTest.h"
+
+1331018302 /home/dhruv/EECS-351/Projects/Project CD/2012.07shade05.7_NORMALSmatl_Win/shadeTest.h
 	<GL/freeglut.h>
 	<GL/GL.h>
 	<GL/Glu.h>

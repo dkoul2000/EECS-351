@@ -4,11 +4,11 @@
 	<File name="glut.h" open="0" top="0" tabpos="6">
 		<Cursor position="9950" topLine="288" />
 	</File>
-	<File name="lampMatl_01.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="325" topLine="12" />
+	<File name="lampMatl_01.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="325" topLine="67" />
 	</File>
-	<File name="lampMatl_01.h" open="1" top="1" tabpos="3">
-		<Cursor position="429" topLine="112" />
+	<File name="lampMatl_01.h" open="1" top="0" tabpos="4">
+		<Cursor position="731" topLine="0" />
 	</File>
 	<File name="my_vecmat.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="400" topLine="20" />
@@ -16,10 +16,10 @@
 	<File name="my_vecmat.h" open="0" top="0" tabpos="6">
 		<Cursor position="23431" topLine="442" />
 	</File>
-	<File name="shadeTest.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="1191" topLine="226" />
+	<File name="shadeTest.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="7614" topLine="156" />
 	</File>
-	<File name="shadeTest.h" open="1" top="0" tabpos="4">
-		<Cursor position="3084" topLine="87" />
+	<File name="shadeTest.h" open="1" top="0" tabpos="5">
+		<Cursor position="6500" topLine="127" />
 	</File>
 </CodeBlocks_layout_file>
