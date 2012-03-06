@@ -54,6 +54,7 @@
 //==============================================================================
 
 #include "shadeTest.h"	// fcn prototypes, #defines,
+#include "nu_progShader.h"
 
 //===================
 //
@@ -72,6 +73,8 @@ GLdouble *pyrVerts=NULL, *pyrNorms=NULL;
                                 // For dynamically allocated arrays
                                 // of vertices, surface normals, and colors.
 GLdouble pyrHeight;        // height of pyramid (vertex-array object): z/Z keys
+
+CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 
 //3D vertex array objects (from Project B)
 squarePrism sp1 = squarePrism(1);
@@ -152,6 +155,34 @@ void my_glutSetup(int *argc, char **argv)
     pyrHeight = 0.0;       // initial height of pyramid tip.
     makePyramid();          // allocate memory if needed; compute vertices,normals
 
+        //==============Create GLSL programmable shaders============================
+    // Always AFTER 'glutCreateWindow()' because some GLSL commands rely on the
+    // openGL 'rendering context' (all the state variables that tie openGL to
+    // your particular OS and graphics card). The glutCreateWindow() call
+    // forces creation of that 'rendering context' we need.
+
+    #if !defined(__APPLE__)
+    glewInit();                                 // if we use GLEW (Apple won't).
+                                                // we must start its library;
+    #endif
+    // Create one GLSL-program object that will hold our programmable shaders;
+    p_myGLSL = new CProgGLSL(argv[0],   "PassThroughVertexShader.vsh",
+                                        "PassThroughFragmentShader.fsh");
+    p_myGLSL->loadShaders();    // read in the shader files' contents
+    p_myGLSL->compileProgram(); // compile and link the program for the GPU,
+    p_myGLSL->useProgram();     // tell openGL/GPU to use it!
+
+    //- FIND all GLSL uniforms--------------------------------------------------
+
+
+    //- FIND all GLSL attributes------------------------------------------------
+
+
+    //--------------------------------------------------------------------------
+//    runAnimTimer(1);                // start our animation loop.
+	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
+
+	delete p_myGLSL;                // orderly exit; delete the object we made.
 }
 
 void reshape(int w, int h)

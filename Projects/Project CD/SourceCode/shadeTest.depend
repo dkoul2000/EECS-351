@@ -488,3 +488,83 @@
 	<iostream>
 	"lampMatl_01.h"
 
+1297352418 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/lampMatl_01.cpp
+	"lampMatl_01.h"
+
+1297351828 /home/dhruv/EECS-351/Projects/Project CD/SourceCode/lampMatl_01.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"my_vecmat.h"
+
+1297352418 /home/dhruv/EECS-351/Projects/Project CD/SourceCode/my_vecmat.h
+	<math.h>
+	<stdio.h>
+	<stdarg.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+
+1276541446 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/my_vecmat.cpp
+	"my_vecmat.h"
+
+1331021076 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/shadeTest.cpp
+	"shadeTest.h"
+	"nu_progShader.h"
+
+1331020985 /home/dhruv/EECS-351/Projects/Project CD/SourceCode/shadeTest.h
+	<GL/freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<iostream>
+	"nu_progShader.h"
+	"lampMatl_01.h"
+
+1330011560 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/nu_progShader.cpp
+	"nu_progShader.h"
+
+1330008608 /home/dhruv/EECS-351/Projects/Project CD/SourceCode/nu_progShader.h
+	<GL\glew.h>
+	<GL\freeglut.h>
+	<GL/GL.h>
+	<GL/Glu.h>
+	<GL/glext.h>
+	<GLUT/glut.h>
+	<OpenGL/GL.h>
+	<OpenGL/Glu.h>
+	<OpenGL/GLext.h>
+	<unistd.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glext.h>
+	<string>
+	<iostream>
+	<fstream>
+	<string>
+

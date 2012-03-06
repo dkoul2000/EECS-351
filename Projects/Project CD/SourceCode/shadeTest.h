@@ -41,6 +41,7 @@
 using namespace std;        // req'd for modern <iostream> vs old <iostream.h>
 #include <iostream>
 
+#include "nu_progShader.h"          // Classes for GLSL programmable-shaders.
 #include "lampMatl_01.h"    // CLights and CMatl classes for openGL's Phong
                             // materials and lighting.
 
