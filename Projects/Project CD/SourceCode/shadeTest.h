@@ -129,15 +129,6 @@ void apply_RT_Matrix(void);		// --rotate, then translate to make a new one.
 
 
 //3D VERTEX ARRAY SHAPES - GOTTEN FROM MY PROJECT B CODE
-class cube {
-    public:
-        void draw();
-        cube(int height);
-        float colorsArray[24];
-        unsigned int indexes[16];
-        int vertices[24];
-};
-
 class squarePrism {
     public:
         void draw();

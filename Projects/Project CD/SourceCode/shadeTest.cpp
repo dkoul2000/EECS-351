@@ -967,54 +967,6 @@ void triangularPrism::draw() {
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-cube::cube(int height) {
-
-
-vertices[0] = 0; vertices[1] = -1; vertices[2] = 0;
-vertices[3] = 1; vertices[4] = 0; vertices[5] = 0;
-vertices[6] = 0; vertices[7] = -1; vertices[8] = height;
-vertices[9] = 1; vertices[10] = 0; vertices[11] = height;
-vertices[12] = -1; vertices[13] = 0; vertices[14] = 0;
-vertices[15] = 0; vertices[16] = 1; vertices[17] = 0;
-vertices[18] = -1; vertices[19] = 0; vertices[20] = height;
-vertices[21] = 0; vertices[22] = 1; vertices[23] = height;
-
-colorsArray[0] = 1; colorsArray[1] = 1; colorsArray[2] = 1;
-colorsArray[3] = 1; colorsArray[4] = 0; colorsArray[5] = 1;
-colorsArray[6] = 1; colorsArray[7] = 1; colorsArray[8] = 0;
-colorsArray[9] = 0; colorsArray[10] = 1; colorsArray[11] = 1;
-colorsArray[12] = 0; colorsArray[13] = 0; colorsArray[14] = 0;
-colorsArray[15] = 0; colorsArray[16] = 0; colorsArray[17] = 1;
-colorsArray[18] = 0; colorsArray[19] = 0; colorsArray[20] = 1;
-colorsArray[21] = 1; colorsArray[22] = 0; colorsArray[23] = 0;
-
-indexes[0] = 0; indexes[0] = 1; indexes[0] = 2;
-indexes[0] = 3; indexes[0] = 6; indexes[0] = 7;
-indexes[0] = 4; indexes[0] = 5; indexes[0] = 6;
-indexes[0] = 2; indexes[0] = 4; indexes[0] = 0;
-indexes[0] = 5; indexes[0] = 1; indexes[0] = 7;
-indexes[0] = 3;
-}
-
-void cube::draw() {
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-
-
-    // activate and specify pointer to vertex array
-    glVertexPointer(3, GL_INT, 0, &vertices);
-    glColorPointer(3, GL_FLOAT, 0, &colorsArray);
-
-    // draw a cube
-    glDrawElements(GL_TRIANGLE_STRIP, 16, GL_UNSIGNED_INT, &indexes);
-
-    // deactivate vertex arrays after drawing
-    glDisableClientState(GL_COLOR_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-
 squarePrism::squarePrism(int height) {
 
 vertices[0] = 1; vertices[1] = 0; vertices[2] = 0;
