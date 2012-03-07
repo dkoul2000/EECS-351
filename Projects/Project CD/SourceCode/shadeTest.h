@@ -138,14 +138,4 @@ class squarePrism {
         int vertices[18];
 };
 
-class triangularPrism {
-    public:
-        void draw();
-        triangularPrism(int height);
-        float colorsArray[15];
-        unsigned int indexes[11];
-        int vertices[15];
-};
-
-
 #endif  // __shadeTest_h__

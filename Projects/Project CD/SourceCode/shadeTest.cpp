@@ -79,7 +79,7 @@ CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 
 //3D vertex array objects (from Project B)
 squarePrism sp1 = squarePrism(1);
-triangularPrism tp1 = triangularPrism(1);
+squarePrism sp2 = squarePrism(1);
 
 
 int main( int argc, char *argv[] )
@@ -301,9 +301,8 @@ void display(void)
 	//	(Now we can draw things in the 'world-space' coord. system:
 	//==========================================================================
 
-    drawAxes(0);                // draw r,g,b axes
-
-    drawPyramid();              // Draw our adjustable pyramid in world space.
+    //drawAxes(0);                // draw r,g,b axes
+    //drawPyramid();              // Draw our adjustable pyramid in world space.
 
 	// CREATE LIGHT 0:----------------------------------------------------------
 	// IF IN -- 'cam' coordinate system: a "headlamp" attached to camera!
@@ -319,25 +318,8 @@ void display(void)
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
     stuff[0].showName();        // on-screen display names the material
-/*	glPushMatrix();	            // save current matrix
-	// World-space cylinder:
-        glRotated(-90.0, 1.0,0.0,0.0);
-                    // -90 deg. rot about x axis; makes new coord system's z axis
-                    // match the old coord systems' y axis.
-        gluCylinder(pQuad0, 0.3, 0.3, 0.5, 32,16);
-        glTranslated(0.0, 0.0, 0.5);
-        glScaled(0.5, 1.0, 1.0);
-        // offset, squashed cylinder WITHOUT re-normalizing
-    //	glDisable(GL_AUTO_NORMAL);
-        glDisable(GL_NORMALIZE);	// we've squashed coord systems,
-                                    // so re-normalize them with this command
-        gluCylinder(pQuad0, 0.3, 0.3, 0.5, 32,16);
-        // offset, squashed cylinder WITH re-normalizing
-        glTranslated(0.0, 0.0, 0.5);
-        glEnable(GL_NORMALIZE);
-        gluCylinder(pQuad0, 0.3, 0.3, 0.5, 32,16);
-	glPopMatrix();
-*/
+
+
 	glPushMatrix();					// save 'world' coord. system;
         glTranslated( 1.8, 0.0, 0.0);	// move to a starting pt away from origin,
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
@@ -383,23 +365,19 @@ void display(void)
         sp1.draw();
     glPopMatrix();
 
-    /*glPushMatrix();
-        glTranslated(0,0.5,0);
-        glRotated(90,1,0,0);
-        tp1.draw();
-    glPopMatrix();*/
+    glPushMatrix();
+        glTranslated(0,0.75,0);
+        sp2.draw();
+    glPopMatrix();
+
 
     // print instructions
     drawText2D(helv18, -0.9, -0.6, "'H' key: print HELP in console");
-/*    drawText2D(helv12, -0.9, -0.7, "'R' key: reset model/light src position");
-    drawText2D(helv12, -0.9, -0.8, "'m' or 'M' key; change Phong-lit materials");
-    drawText2D(helv12, -0.9, -0.9, "'ESC', 'q' or 'Q' to quit.");
-*/
+
 	// =========================================================================
 	// END DRAWING CODE HERE
 	// =========================================================================
 
-	//cout << "Screen ReDrawn" << endl;
 	glFlush();
 	glutSwapBuffers();			// Double-buffering: show the newly-drawn image.
 }
@@ -490,8 +468,7 @@ void keySpecial(int key, int x, int y)
 		default:
 			break;
 	}
-	printf("key=%d, x,y=%d,%d, setCam.x_pos=%f, setCam.y_pos=%f\n",
-							key,x,y,setCam.x_pos,setCam.y_pos);
+
 	// We might have changed something. Force a re-display
 	glutPostRedisplay();
 }
@@ -532,9 +509,6 @@ void mouseClik(int buttonID,int upDown,int xpos,int ypos)
 		setCam.isDragging  = 0;	// default; DON'T change cam,
 		setModel.isDragging = 0;	//					or  model coord systems.
 	}
-
-	printf("clik: buttonID=%d, upDown=%d, xpos=%d, ypos%d\n",
-										buttonID,upDown,xpos,ypos);
 }
 
 void mouseMove(int xpos,int ypos)
@@ -560,7 +534,6 @@ void mouseMove(int xpos,int ypos)
 		setCam.m_x = xpos;
 		setCam.m_y = ypos;
 	}
-	printf("move %d, %d\n", xpos,ypos);	// print what we did.
 
 	// We might have changed something. Force a re-display
 	glutPostRedisplay();
@@ -931,45 +904,6 @@ void CTransRot::apply_RT_Matrix(void)
 }
 
 //3D VERTEX ARRAY OBJECTS - GOTTEN FROM MY PROJECT B CODE
-triangularPrism::triangularPrism(int height) {
-
-vertices[0] = 1; vertices[1] = 0; vertices[2] = height;
-vertices[3] = -1; vertices[4] = 0; vertices[5] = height;
-vertices[6] = 0; vertices[7] = 1; vertices[8] = height;
-vertices[9] = 0; vertices[10] = -1; vertices[11] = height;
-vertices[12] = 0; vertices[13] = 0; vertices[14] = 0;
-
-
-colorsArray[0] = 1; colorsArray[1] = 1; colorsArray[2] = 1;
-colorsArray[3] = 0; colorsArray[4] = 0; colorsArray[5] = 1;
-colorsArray[6] = 1; colorsArray[7] = 1; colorsArray[8] = 1;
-colorsArray[9] = 0; colorsArray[10] = 0; colorsArray[11] = 1;
-colorsArray[12] = 0; colorsArray[13] = 1; colorsArray[14] = 0;
-
-indexes[0] = 0; indexes[1] = 2; indexes[2] = 1;
-indexes[3] = 3; indexes[4] = 0; indexes[5] = 4;
-indexes[6] = 2; indexes[7] = 1; indexes[8] = 4;
-indexes[9] = 3; indexes[10] = 0;
-
-}
-
-void triangularPrism::draw() {
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-
-    // activate and specify pointer to vertex array
-    glVertexPointer(3, GL_INT, 0, &vertices);
-    glColorPointer(3, GL_FLOAT, 0, &colorsArray);
-
-    // draw a cube
-    glDrawElements(GL_TRIANGLE_STRIP, 10, GL_UNSIGNED_INT, &indexes);
-
-    // deactivate vertex arrays after drawing
-    glDisableClientState(GL_COLOR_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
-
 squarePrism::squarePrism(int height) {
 
 vertices[0] = 1; vertices[1] = 0; vertices[2] = 0;
