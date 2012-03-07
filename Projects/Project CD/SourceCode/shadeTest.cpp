@@ -55,6 +55,7 @@
 
 #include "shadeTest.h"	// fcn prototypes, #defines,
 #include "nu_progShader.h"
+#include <iostream>
 
 //===================
 //
@@ -166,11 +167,12 @@ void my_glutSetup(int *argc, char **argv)
                                                 // we must start its library;
     #endif
     // Create one GLSL-program object that will hold our programmable shaders;
-    p_myGLSL = new CProgGLSL(argv[0],   "PassThroughVertexShader.vsh",
-                                        "PassThroughFragmentShader.fsh");
+    p_myGLSL = new CProgGLSL(argv[0],   "PassThroughVertexShader.vs",
+                                        "PassThroughFragmentShader.fs");
     p_myGLSL->loadShaders();    // read in the shader files' contents
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
+
 
     //- FIND all GLSL uniforms--------------------------------------------------
 
