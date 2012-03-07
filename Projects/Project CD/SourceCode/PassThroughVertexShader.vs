@@ -1,3 +1,5 @@
+//help from online http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php
+
 varying vec3 N;
 varying vec3 v;
 

@@ -151,6 +151,7 @@ void my_glutSetup(int *argc, char **argv)
     //***Create our light sources.          // make pre-defined light sources:
     lamps[0].createLamp(LAMP_POINT_KEY,     GL_LIGHT0);
     lamps[1].createLamp(LAMP_POINT_L_FILL,  GL_LIGHT1);
+    //lamps[2].createLamp(LAMP_SPOT,  GL_LIGHT2);
 
     //***Create our pyramid object.
     pyrHeight = 0.0;       // initial height of pyramid tip.
@@ -375,19 +376,19 @@ void display(void)
                                         // and whatever lighting is enabled.
 	glPopMatrix();					// return to 'world' coord. system.
 
-/*
+    //drawing my own 3D objects, a triangular prism and a square prism together
     glPushMatrix();
-        glTranslated(-0.5,0,1);
-        glRotated(90,0,1,0);
+        glTranslated(0,0,0);
+        glRotated(0,0,0,0);
         sp1.draw();
     glPopMatrix();
 
-    glPushMatrix();
-        glTranslated(0.5,0.15,0);
-        glRotated(90,0,1,0);
+    /*glPushMatrix();
+        glTranslated(0,0.5,0);
+        glRotated(90,1,0,0);
         tp1.draw();
-    glPopMatrix();
-*/
+    glPopMatrix();*/
+
     // print instructions
     drawText2D(helv18, -0.9, -0.6, "'H' key: print HELP in console");
 /*    drawText2D(helv12, -0.9, -0.7, "'R' key: reset model/light src position");
@@ -422,7 +423,8 @@ int junk;                   // to stop compiler warnings
 			break;
         case 'H':
         case 'h':
-            cout << "\nHELP MENU FOR PROJECT CD (SHADERS)"
+            cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)"
+            << "\n------------------------------------------------"
             << "\nDrag the mouse to adjust the movable 3D camera"
             << "\nUse the arrow keys to move the camera/lighting around"
             << "\nUse R (capital for model, lowercase for camera) to reset"
