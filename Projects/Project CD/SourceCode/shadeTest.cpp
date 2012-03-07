@@ -169,6 +169,7 @@ void my_glutSetup(int *argc, char **argv)
     // Create one GLSL-program object that will hold our programmable shaders;
     p_myGLSL = new CProgGLSL(argv[0],   "PassThroughVertexShader.vs",
                                         "PassThroughFragmentShader.fs");
+    //cout << p_myGLSL;
     p_myGLSL->loadShaders();    // read in the shader files' contents
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
