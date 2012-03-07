@@ -1,4 +1,4 @@
-const vec4 red = vec4(1.0, 0.0, 0.0, 1.0);
+const vec4 red = vec4(0.0, 1.0, 0.0, 1.0);
 
 void main()
 {  // This is a comment

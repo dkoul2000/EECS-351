@@ -385,7 +385,7 @@ void display(void)
     glPopMatrix();
 
     // print instructions
-    drawText2D(helv12, -0.9, -0.6, "'r' key: reset camera position");
+    drawText2D(helv18, -0.9, -0.6, "'H' key: print HELP in console");
 /*    drawText2D(helv12, -0.9, -0.7, "'R' key: reset model/light src position");
     drawText2D(helv12, -0.9, -0.8, "'m' or 'M' key; change Phong-lit materials");
     drawText2D(helv12, -0.9, -0.9, "'ESC', 'q' or 'Q' to quit.");
@@ -416,6 +416,17 @@ int junk;                   // to stop compiler warnings
 		case ' ':
 			exit(0);		// Quit application
 			break;
+        case 'H':
+        case 'h':
+            cout << "\nHELP MENU FOR PROJECT CD (SHADERS)"
+            << "\nDrag the mouse to adjust the movable 3D camera"
+            << "\nUse the arrow keys to move the camera/lighting around"
+            << "\nUse R (capital for model, lowercase for camera) to reset"
+            << "\nUse M to change the color of one of the teapots (shading mix)"
+            << "\nUse O and P to move the Z-coordinates of the model"
+            << "\nUse + and - to zoom in and out of the picture"
+            << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
+            break;
 		case 'r':
 			setCam.reset();	// reset camera coord system,
 			break;
@@ -429,10 +440,10 @@ int junk;                   // to stop compiler warnings
             if(curMatl > MATL_MAX) curMatl = MATL_RED_PLASTIC; // defined ones.
             stuff[0].createMatl(curMatl);   // change the material.
             break;
-		case '<':			// -Z Translation for model coord system
+		case 'O':			// -Z Translation for model coord system
 			setModel.z_pos -= 0.3;
 			break;
-		case '>':			// +Z Translation for model coord system
+		case 'P':			// +Z Translation for model coord system
 			setModel.z_pos += 0.3;
 			 break;
         case '+':           // PhotoShop-like move in/out with +/- keys
