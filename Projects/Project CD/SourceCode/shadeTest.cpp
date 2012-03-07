@@ -176,14 +176,6 @@ void my_glutSetup(int *argc, char **argv)
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
 
-    //- FIND all GLSL uniforms--------------------------------------------------
-
-
-    //- FIND all GLSL attributes------------------------------------------------
-
-
-    //--------------------------------------------------------------------------
-//    runAnimTimer(1);                // start our animation loop.
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
 
 	delete p_myGLSL;                // orderly exit; delete the object we made.
@@ -242,15 +234,6 @@ void display(void)
 	//					the -z axis.  Want a light in front of the camera?
 	//					try positioning it at (0,0,-4)...(NOTE: openGL doesn't
 	//					render the light itself, only its effect on surfaces).
-	//***PUT LIGHT 0 HERE FOR 'HEADLIGHT' ATTACHED TO OUR CAMERA****//
-/* CAREFUL! if you use laps[0] here, you MUST REMOVE THE EXISTING lamps[0]
-    defined below --- see 'Create Light 0'--------
-    lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
-    lamps[0].I_pos.row[1] = 0.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
-    lamps[0].I_pos.row[2] =-4.0f;
-    lamps[0].I_pos.row[3] = 1.0f;
-    lamps[0].applyLamp();        // use it for lighting.
-*/
 
 	//-------------------Now create our 'world' coordinate system;
 	//	--Make an exact copy of the current (cam) coord system:call it 'world':
@@ -321,7 +304,7 @@ void display(void)
 
 
 	glPushMatrix();					// save 'world' coord. system;
-        glTranslated( 1.8, 0.0, 0.0);	// move to a starting pt away from origin,
+        glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
                                             // (and whatever lights are enabled)
 	glPopMatrix();					// return to 'world' coord system;
@@ -348,11 +331,12 @@ void display(void)
         lamps[1].applyLamp();       // turn it on.
     //END light source 1------------------------------------------------------
         stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
+        glTranslated(-1.2, -0.75, 0.0);
         glutSolidTeapot(0.6);			// use it to draw 2nd, blue teapot.
                                         // (and whatever lighting is enabled)
         glPopMatrix();					// return to 'world' coord system.
         glPushMatrix();					// save 'world' coord. system, then
-        glTranslated(0.0,-1.0, 0.0);	// translate to 3rd location,
+        glTranslated(0.0,-1.2, 0.0);	// translate to 3rd location,
         stuff[2].applyMatl();           // Set material we'll use for 3rd teapot:
         glutSolidTeapot(0.6);			// draw 3rd teapot using that material
                                         // and whatever lighting is enabled.
@@ -372,7 +356,7 @@ void display(void)
 
 
     // print instructions
-    drawText2D(helv18, -0.9, -0.6, "'H' key: print HELP in console");
+    drawText2D(helv18, -0.5, -0.85, "'H' key: print HELP in console");
 
 	// =========================================================================
 	// END DRAWING CODE HERE

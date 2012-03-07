@@ -10,23 +10,20 @@ varying vec3 v;
 
 void main (void)  
 {  
-   //using last light source
+   //using light source
    vec3 L = normalize(gl_LightSource[7].position.xyz - v);
    
-   //or you could normalize each negative
    vec3 R = normalize(reflect(L,N));
    vec3 E = normalize(v);
 
    //ambient, diffuse, specular Phong characteristics
+   vec4 vAmbient = gl_FrontLightProduct[0].ambient;
 
-   vec4 Iambient = gl_FrontLightProduct[0].ambient;
+   vec4 vDiffuse = gl_FrontLightProduct[0].diffuse * max(dot(N,L), 0.0);
+   vDiffuse = clamp(vDiffuse, 0.0, 1.0);
 
-   vec4 Idiffuse = gl_FrontLightProduct[0].diffuse * max(dot(N,L), 0.0);
-   Idiffuse = clamp(Idiffuse, 0.0, 1.0);
+   vec4 vSpecular = gl_FrontLightProduct[0].specular*pow(max(dot(R,E),0.0),0.75*gl_FrontMaterial.shininess);
+   vSpecular = clamp(vSpecular, 0.0, 1.0); 
 
-   vec4 Ispecular = gl_FrontLightProduct[0].specular 
-                * pow(max(dot(R,E),0.0),0.75*gl_FrontMaterial.shininess);
-   Ispecular = clamp(Ispecular, 0.0, 1.0); 
-
-   gl_FragColor = gl_FrontLightModelProduct.sceneColor + Iambient + Idiffuse + Ispecular;     
+   gl_FragColor = gl_FrontLightModelProduct.sceneColor + vAmbient + vDiffuse + vSpecular;     
 }
