@@ -375,6 +375,7 @@ void display(void)
                                         // and whatever lighting is enabled.
 	glPopMatrix();					// return to 'world' coord. system.
 
+/*
     glPushMatrix();
         glTranslated(-0.5,0,1);
         glRotated(90,0,1,0);
@@ -386,7 +387,7 @@ void display(void)
         glRotated(90,0,1,0);
         tp1.draw();
     glPopMatrix();
-
+*/
     // print instructions
     drawText2D(helv18, -0.9, -0.6, "'H' key: print HELP in console");
 /*    drawText2D(helv12, -0.9, -0.7, "'R' key: reset model/light src position");
@@ -397,7 +398,7 @@ void display(void)
 	// END DRAWING CODE HERE
 	// =========================================================================
 
-	cout << "Screen ReDrawn" << endl;
+	//cout << "Screen ReDrawn" << endl;
 	glFlush();
 	glutSwapBuffers();			// Double-buffering: show the newly-drawn image.
 }
