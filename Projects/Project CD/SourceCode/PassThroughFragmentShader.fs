@@ -4,6 +4,7 @@
     precision mediump float;
 #endif
 
+//defined in VertexShader
 varying vec3 N;
 varying vec3 v;
 
@@ -16,14 +17,16 @@ void main (void)
    vec3 R = normalize(reflect(L,N));
    vec3 E = normalize(v);
 
-   vec4 Idiff = gl_FrontLightProduct[0].diffuse * max(dot(N,L), 0.0);
-   Idiff = clamp(Idiff, 0.0, 1.0);     
-   
-   vec4 Iamb = gl_FrontLightProduct[0].ambient;
+   //ambient, diffuse, specular Phong characteristics
 
-   vec4 Ispec = gl_FrontLightProduct[0].specular 
+   vec4 Iambient = gl_FrontLightProduct[0].ambient;
+
+   vec4 Idiffuse = gl_FrontLightProduct[0].diffuse * max(dot(N,L), 0.0);
+   Idiffuse = clamp(Idiffuse, 0.0, 1.0);
+
+   vec4 Ispecular = gl_FrontLightProduct[0].specular 
                 * pow(max(dot(R,E),0.0),0.75*gl_FrontMaterial.shininess);
-   Ispec = clamp(Ispec, 0.0, 1.0); 
+   Ispecular = clamp(Ispecular, 0.0, 1.0); 
 
-   gl_FragColor = gl_FrontLightModelProduct.sceneColor + Iamb + Idiff + Ispec;     
+   gl_FragColor = gl_FrontLightModelProduct.sceneColor + Iambient + Idiffuse + Ispecular;     
 }
