@@ -460,6 +460,32 @@ int junk;                   // to stop compiler warnings
             << "\nUse L to turn lamps on and off"
             << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
+        case 'l':
+		case 'L':
+                if (lamp1On)
+                {
+                    lamps[0].removeLamp();
+                    lamp1On = !lamp1On;
+                }
+                else
+                {
+                    lamps[0].applyLamp();
+                    lamp1On = !lamp1On;
+                }
+            break;
+        case 'k':
+        case 'K':
+                if(lamp2On)
+                {
+                    lamps[1].removeLamp();
+                    lamp2On = !lamp2On;
+                }
+                else
+                {
+                    lamps[1].applyLamp();
+                    lamp2On = !lamp2On;
+                }
+            break;
 		case 'r':
 			setCam.reset();	// reset camera coord system,
 			break;
@@ -486,32 +512,6 @@ int junk;                   // to stop compiler warnings
         case '-':
             setCam.z_pos -= 0.1;
 			break;
-		case 'l':
-		case 'L':
-                if (lamp1On)
-                {
-                    lamp1On = !lamp1On;
-                    lamps[0].removeLamp();
-                }
-                else
-                {
-                    lamp1On = !lamp1On;
-                    lamps[0].applyLamp();
-                }
-            break;
-        case 'k':
-        case 'K':
-                if(lamp2On)
-                {
-                    lamp2On = !lamp2On;
-                    lamps[1].removeLamp();
-                }
-                else
-                {
-                    lamp2On = !lamp2On;
-                    lamps[1].applyLamp();
-                }
-            break;
 		default:
 			printf("unknown key %c:  Try arrow keys, r, R, s, S, <, >, or q",key);
 			break;
