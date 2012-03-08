@@ -24,6 +24,8 @@ void main (void)
 
    vec4 vSpecular = gl_FrontLightProduct[0].specular*pow(max(dot(R,E),0.0),0.75*gl_FrontMaterial.shininess);
    vSpecular = clamp(vSpecular, 0.0, 1.0); 
+	
+   vec4 colorAddOn = vAmbient + vDiffuse + vSpecular;
 
-   gl_FragColor = gl_FrontLightModelProduct.sceneColor + vAmbient + vDiffuse + vSpecular;     
+   gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn;     
 }

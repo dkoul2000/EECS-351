@@ -335,11 +335,25 @@ void display(void)
         glutSolidTeapot(0.6);			// use it to draw 2nd, blue teapot.
                                         // (and whatever lighting is enabled)
         glPopMatrix();					// return to 'world' coord system.
+
         glPushMatrix();					// save 'world' coord. system, then
         glTranslated(0.0,-1.2, 0.0);	// translate to 3rd location,
         stuff[2].applyMatl();           // Set material we'll use for 3rd teapot:
         glutSolidTeapot(0.6);			// draw 3rd teapot using that material
                                         // and whatever lighting is enabled.
+
+        lamps[2].I_pos.row[0] = 2.0f;   // set position of lamp 1; at origin
+        lamps[2].I_pos.row[1] = 2.0f;
+        lamps[2].I_pos.row[2] = 2.0f;
+        lamps[2].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
+                                    // infinitely far away. w=1.0 for local lights.
+        lamps[2].applyLamp();       // turn it on.
+
+        stuff[2].applyMatl();
+        glTranslated(0.0,2.8,0.0);
+        glutSolidTeapot(0.6);
+        glColor3d(1.0, 1.0, 0.0);
+
 	glPopMatrix();					// return to 'world' coord. system.
 
     //drawing my own 3D objects, a triangular prism and a square prism together
