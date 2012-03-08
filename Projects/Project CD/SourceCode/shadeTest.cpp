@@ -84,6 +84,7 @@ squarePrism sp2 = squarePrism(1);
 
 bool lamp1On = false, lamp2On = false;
 
+//used for distortions, help from Yungmann Code
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
 
