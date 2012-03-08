@@ -335,7 +335,7 @@ void display(void)
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
     stuff[0].showName();        // on-screen display names the material
 
-    glScaled(0.35, 0.35, 0.35);
+    glScaled(0.38, 0.38, 0.38);
 	glPushMatrix();					// save 'world' coord. system;
         glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
