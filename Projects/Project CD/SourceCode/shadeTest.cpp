@@ -63,9 +63,6 @@
 //
 //====================
 
-GLfloat shadeX, shadeZ, progtime;
-GLint xs_loc, zs_loc, time_loc;
-
 CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
@@ -85,6 +82,8 @@ CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
+GLfloat shadeX, shadeZ, pTime;
+GLint shaderX, shaderZ, timer;
 
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
@@ -102,8 +101,6 @@ void my_glutSetup(int *argc, char **argv)
 // A handy place to put all the GLUT library initial settings; note that we
 // 'registered' all the function names for the callbacks we want GLUT to use.
 {
-    shadeX = shadeZ = 1.0f;
-
 	glutInit(argc, argv);				// GLUT's own internal initializations.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 								// double-buffered display, RGB (not RGBA)
@@ -139,6 +136,8 @@ void my_glutSetup(int *argc, char **argv)
 										// acts as 'background color'
 
 	pQuad0 = gluNewQuadric();	        // create a quadric object
+
+    shadeX = shadeZ = 1.0f;
 
     //***Create our materials.              // make pre-defined materials:
     stuff[0].createMatl(MATL_RED_PLASTIC);
@@ -184,13 +183,14 @@ void my_glutSetup(int *argc, char **argv)
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
-    time_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "time");
-    xs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeX");
-    zs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
+    //HELP FROM YUNGMANN STARTER CODE FOR DISTORTIONS
+    timer = glGetUniformLocation(p_myGLSL->getProgramID(), "time");
+    shaderX = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeX");
+    shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeY");
 
-    glUniform1f(xs_loc, 2.0f);
-    glUniform1f(zs_loc, 2.0f);
-    glUniform1f(time_loc, 2.0f);
+    glUniform1f(shaderX, 2.0f);
+    glUniform1f(shaderZ, 2.0f);
+    glUniform1f(timer, 2.0f);
 
     //runAnimTimer(1);
 
@@ -236,8 +236,8 @@ void display(void)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 									// clear the color and depth buffers
 
-    progtime += 0.05;                 // advance the timestep
-    glUniform1f(time_loc, progtime);    // send it to the shader as a uniform.
+    pTime += 0.1;                 // advance the timestep
+    glUniform1f(timer, pTime);    // send it to the shader as a uniform.
 
 // =============================================================================
 // START CAMERA POSITIONING CODE HERE:
@@ -378,20 +378,20 @@ void display(void)
         glColor3d(1.0, 1.0, 0.0);
         stuff[1].applyMatl();
 
-
 	glPopMatrix();					// return to 'world' coord. system.
 
     //drawing my own 3D objects, a triangular prism and a square prism together
-    glPushMatrix();
-        glTranslated(0,0,0);
-        glRotated(0,0,0,0);
-        sp1.draw();
-    glPopMatrix();
 
-    glPushMatrix();
-        glTranslated(0,0.75,0);
-        sp2.draw();
-    glPopMatrix();
+        glPushMatrix();
+            glTranslated(0,0,0);
+            glRotated(0,0,0,0);
+            sp1.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(0,0.75,0);
+            sp2.draw();
+        glPopMatrix();
 
 
     // print instructions
@@ -431,7 +431,6 @@ int junk;                   // to stop compiler warnings
             << "\nUse the arrow keys to move the camera/lighting around"
             << "\nUse R (capital for model, lowercase for camera) to reset"
             << "\nUse M to change the color of one of the teapots (shading mix)"
-            << "\nUse O and P to move the Z-coordinates of the model"
             << "\nUse + and - to zoom in and out of the picture"
             << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
