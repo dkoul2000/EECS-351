@@ -4,7 +4,7 @@
 varying vec3 N;
 varying vec3 v;
 uniform float time;
-uniform float xs, zs;
+uniform float shadeX, shadeZ;
 
 void main(void)  
 {     
@@ -13,8 +13,8 @@ void main(void)
 
    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-   float s = 1.0 + 0.15*sin(xs*time)*sin(zs*time);	
-   vec4 vpos = vec4(gl_Vertex);
-   vpos.z = 0.15*sin(xs*time + 20.0*vpos.x) + vpos.z;
-   gl_Position = gl_ModelViewProjectionMatrix * vpos;
+   float shade = 1.0 + 0.15*sin(shadeX*time)*sin(shadeZ*time);	
+   vec4 vPosition = vec4(gl_Vertex);
+   vPosition.z = 0.15*sin(shadeX*time + 20.0*vPosition.x) + vPosition.z;
+   gl_Position = gl_ModelViewProjectionMatrix * vPosition;
 }

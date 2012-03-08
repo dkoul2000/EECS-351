@@ -2,6 +2,7 @@
 //
 //	OpenGL/ GLUT 'starter' code for cameras, lighting, and shading.
 //
+
 //	OVERVIEW:
 //		--Demonstrates openGL's built-in Phong lighting and (Gouraud) shading
 //		--Demonstrates how to attach lights to different coordinate systems
@@ -62,7 +63,7 @@
 //
 //====================
 
-GLfloat xs, zs, progtime;
+GLfloat shadeX, shadeZ, progtime;
 GLint xs_loc, zs_loc, time_loc;
 
 CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
@@ -101,7 +102,7 @@ void my_glutSetup(int *argc, char **argv)
 // A handy place to put all the GLUT library initial settings; note that we
 // 'registered' all the function names for the callbacks we want GLUT to use.
 {
-    xs = zs = 1.0f;
+    shadeX = shadeZ = 1.0f;
 
 	glutInit(argc, argv);				// GLUT's own internal initializations.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -184,8 +185,8 @@ void my_glutSetup(int *argc, char **argv)
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
     time_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "time");
-    xs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "xs");
-    zs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "zs");
+    xs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeX");
+    zs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
 
     glUniform1f(xs_loc, 2.0f);
     glUniform1f(zs_loc, 2.0f);
@@ -372,10 +373,11 @@ void display(void)
                                     // infinitely far away. w=1.0 for local lights.
         lamps[2].applyLamp();       // turn it on.
 
-        stuff[0].applyMatl();
         glTranslated(0.0,2.8,0.0);
         glutSolidTeapot(0.6);
         glColor3d(1.0, 1.0, 0.0);
+        stuff[1].applyMatl();
+
 
 	glPopMatrix();					// return to 'world' coord. system.
 
@@ -401,7 +403,6 @@ void display(void)
 
 	glFlush();
 	glutSwapBuffers();			// Double-buffering: show the newly-drawn image.
-
     glutPostRedisplay();
 }
 
