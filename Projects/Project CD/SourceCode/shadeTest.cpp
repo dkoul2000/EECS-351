@@ -457,7 +457,7 @@ int junk;                   // to stop compiler warnings
             << "\nUse R (capital for model, lowercase for camera) to reset"
             << "\nUse M to change the color of one of the teapots (shading mix)"
             << "\nUse + and - to zoom in and out of the picture"
-            << "\nUse L and K to turn lamps on and off"
+            << "\nUse L to turn lamps on and off"
             << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
 		case 'r':
