@@ -5,7 +5,7 @@
 		<Cursor position="9950" topLine="288" />
 	</File>
 	<File name="lampMatl_01.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="215" topLine="18" />
+		<Cursor position="215" topLine="63" />
 	</File>
 	<File name="lampMatl_01.h" open="1" top="0" tabpos="3">
 		<Cursor position="435" topLine="0" />
@@ -17,9 +17,9 @@
 		<Cursor position="23431" topLine="442" />
 	</File>
 	<File name="shadeTest.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="7108" topLine="336" />
+		<Cursor position="18063" topLine="338" />
 	</File>
 	<File name="shadeTest.h" open="1" top="0" tabpos="1">
-		<Cursor position="6152" topLine="0" />
+		<Cursor position="6222" topLine="113" />
 	</File>
 </CodeBlocks_layout_file>

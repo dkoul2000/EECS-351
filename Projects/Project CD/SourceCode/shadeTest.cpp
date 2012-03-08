@@ -62,6 +62,10 @@
 // GLOBAL VARIABLES (bad idea!)
 //
 //====================
+
+GLfloat xs, zs, progtime;
+GLint xs_loc, zs_loc, time_loc;
+
 CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
@@ -85,6 +89,8 @@ squarePrism sp2 = squarePrism(1);
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
 {
+    xs = zs = 1.0f;
+
 	my_glutSetup(&argc, argv);		// GLUT calls that define windows, register
 									// callbacks & any non-default OpenGL state.
 	glutMainLoop();
@@ -175,6 +181,15 @@ void my_glutSetup(int *argc, char **argv)
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
+    time_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "time");
+    xs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "xs");
+    zs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "zs");
+
+    glUniform1f(xs_loc, 1.0f);
+    glUniform1f(zs_loc, 1.0f);
+    glUniform1f(time_loc, 0.0f);
+
+    //runAnimTimer(1);
 
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
 
@@ -217,6 +232,9 @@ void display(void)
 	// (Set both bits using bit-wise OR)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 									// clear the color and depth buffers
+
+    progtime += 0.05;                 // advance the timestep
+    glUniform1f(time_loc, progtime);    // send it to the shader as a uniform.
 
 // =============================================================================
 // START CAMERA POSITIONING CODE HERE:
