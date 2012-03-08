@@ -317,7 +317,7 @@ void display(void)
 	//		 -- 'world' coord system: a "ceiling lamp" fixed overhead,
 	//		 -- 'model' coord system: a lamp attached to a robot arm...
 
-    glScaled(0.75, 0.75, 0.75);
+    glScaled(0.4, 0.4, 0.4);
 
     lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
     lamps[0].I_pos.row[1] = 5.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
@@ -397,6 +397,17 @@ void display(void)
             sp2.draw();
         glPopMatrix();
 
+        glPushMatrix();
+            glTranslated(-3.5,0,0);
+            sp2.draw();
+            stuff[4].applyMatl();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslated(3.5,0,0);
+            sp2.draw();
+            stuff[4].applyMatl();
+        glPopMatrix();
 
     // print instructions
     drawText2D(helv18, -0.5, -0.85, "'H' key: print HELP in console");
