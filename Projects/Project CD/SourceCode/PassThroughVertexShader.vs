@@ -8,16 +8,13 @@ uniform float xs, zs;
 
 void main(void)  
 {     
-   v = vec3(gl_ModelViewMatrix * gl_Vertex);       
    N = normalize(gl_NormalMatrix * gl_Normal);
+   v = vec3(gl_ModelViewMatrix * gl_Vertex);       
 
    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-   float s;
-   s = 1.0 + 0.2*sin(zs*time)*sin(xs*time);	
-
+   float s = 1.0 + 0.15*sin(xs*time)*sin(zs*time);	
    vec4 vpos = vec4(gl_Vertex);
-   vpos.z = 0.2*sin(xs*time + 25.0*vpos.x) + vpos.z;
+   vpos.z = 0.15*sin(xs*time + 20.0*vpos.x) + vpos.z;
    gl_Position = gl_ModelViewProjectionMatrix * vpos;
-   gl_FrontColor = gl_Color;
 }

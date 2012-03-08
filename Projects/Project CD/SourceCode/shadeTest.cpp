@@ -370,7 +370,7 @@ void display(void)
                                     // infinitely far away. w=1.0 for local lights.
         lamps[2].applyLamp();       // turn it on.
 
-        stuff[2].applyMatl();
+        stuff[0].applyMatl();
         glTranslated(0.0,2.8,0.0);
         glutSolidTeapot(0.6);
         glColor3d(1.0, 1.0, 0.0);

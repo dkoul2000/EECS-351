@@ -16,16 +16,22 @@ void main (void)
    vec3 R = normalize(reflect(L,N));
    vec3 E = normalize(v);
 
-   //ambient, diffuse, specular Phong characteristics
+   //implement Phong model characteristics:
+
+   //calculate ambient
    vec4 vAmbient = gl_FrontLightProduct[0].ambient;
 
+   //calculate diffuse
    vec4 vDiffuse = gl_FrontLightProduct[0].diffuse * max(dot(N,L), 0.0);
    vDiffuse = clamp(vDiffuse, 0.0, 1.0);
 
+   //calculate specular
    vec4 vSpecular = gl_FrontLightProduct[0].specular*pow(max(dot(R,E),0.0),0.75*gl_FrontMaterial.shininess);
    vSpecular = clamp(vSpecular, 0.0, 1.0); 
 	
+   //sum of characteristics
    vec4 colorAddOn = vAmbient + vDiffuse + vSpecular;
 
+   //final shader color
    gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn;     
 }
