@@ -55,7 +55,6 @@
 
 #include "shadeTest.h"	// fcn prototypes, #defines,
 #include "nu_progShader.h"
-#include <iostream>
 
 //===================
 //
@@ -102,7 +101,7 @@ void my_glutSetup(int *argc, char **argv)
 // A handy place to put all the GLUT library initial settings; note that we
 // 'registered' all the function names for the callbacks we want GLUT to use.
 {
-    xs = zs = 1.0f;
+    xs = zs = 5.0f;
 
 	glutInit(argc, argv);				// GLUT's own internal initializations.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -153,6 +152,10 @@ void my_glutSetup(int *argc, char **argv)
     stuff[2].isFaceted = false;
     stuff[2].isTwoSided = false;
 
+    stuff[3].createMatl(MATL_CHROME);
+    stuff[3].isFaceted = false;
+    stuff[3].isTwoSided = false;
+
     //***Create our light sources.          // make pre-defined light sources:
     lamps[0].createLamp(LAMP_POINT_KEY,     GL_LIGHT0);
     lamps[1].createLamp(LAMP_POINT_L_FILL,  GL_LIGHT1);
@@ -184,9 +187,9 @@ void my_glutSetup(int *argc, char **argv)
     xs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "xs");
     zs_loc = glGetUniformLocation(p_myGLSL->getProgramID(), "zs");
 
-    glUniform1f(xs_loc, 1.0f);
-    glUniform1f(zs_loc, 1.0f);
-    glUniform1f(time_loc, 0.0f);
+    glUniform1f(xs_loc, 2.0f);
+    glUniform1f(zs_loc, 2.0f);
+    glUniform1f(time_loc, 2.0f);
 
     //runAnimTimer(1);
 
@@ -346,6 +349,7 @@ void display(void)
         lamps[1].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
                                     // infinitely far away. w=1.0 for local lights.
         lamps[1].applyLamp();       // turn it on.
+
     //END light source 1------------------------------------------------------
         stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
         glTranslated(-1.2, -0.75, 0.0);
@@ -921,6 +925,13 @@ void CTransRot::apply_RT_Matrix(void)
 //3D VERTEX ARRAY OBJECTS - GOTTEN FROM MY PROJECT B CODE
 squarePrism::squarePrism(int height) {
 
+normals[0] = 1; normals[1] = 0; normals[2] = 0;
+normals[3] = 0; normals[4] = 1; normals[5] = 0;
+normals[6] = -1; normals[7] = 0; normals[8] = 0;
+normals[9] = 0; normals[10] = -1; normals[11] = 0;
+normals[12] = 0; normals[13] = 0; normals[14] = 1;
+normals[15] = 0; normals[16] = 0; normals[17] = -1;
+
 vertices[0] = 1; vertices[1] = 0; vertices[2] = 0;
 vertices[3] = 0; vertices[4] = 1; vertices[5] = 0;
 vertices[6] = -1; vertices[7] = 0; vertices[8] = 0;
@@ -946,11 +957,13 @@ void squarePrism::draw() {
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
 
 
     // activate and specify pointer to vertex array
     glVertexPointer(3, GL_INT, 0, &vertices);
     glColorPointer(3, GL_FLOAT, 0, &colorsArray);
+    glNormalPointer(GL_INT, 0, &normals);
 
     // draw a cube
     glDrawElements(GL_TRIANGLE_STRIP, 13, GL_UNSIGNED_INT, &indexes);
@@ -958,4 +971,5 @@ void squarePrism::draw() {
     // deactivate vertex arrays after drawing
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
 }

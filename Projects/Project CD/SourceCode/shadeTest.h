@@ -133,6 +133,7 @@ class squarePrism {
     public:
         void draw();
         squarePrism(int height);
+        int normals[18];
         float colorsArray[18];
         unsigned int indexes[13];
         int vertices[18];

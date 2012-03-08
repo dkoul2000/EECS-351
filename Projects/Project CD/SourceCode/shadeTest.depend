@@ -521,10 +521,9 @@
 1276541446 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/my_vecmat.cpp
 	"my_vecmat.h"
 
-1331168485 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/shadeTest.cpp
+1331177452 source:/home/dhruv/EECS-351/Projects/Project CD/SourceCode/shadeTest.cpp
 	"shadeTest.h"
 	"nu_progShader.h"
-	<iostream>
 
 1331159585 /home/dhruv/EECS-351/Projects/Project CD/SourceCode/shadeTest.h
 	<GL/freeglut.h>

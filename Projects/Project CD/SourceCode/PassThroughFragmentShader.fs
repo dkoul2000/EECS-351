@@ -1,10 +1,10 @@
-//help from online: http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php
+//help from online: http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php for Phong lighting model
+//help from Yungmann starter code that was posted to Blackboard for geometric distortions
 
 #ifdef GL_ES
     precision mediump float;
 #endif
 
-//defined in VertexShader
 varying vec3 N;
 varying vec3 v;
 
