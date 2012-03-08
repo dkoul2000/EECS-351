@@ -67,7 +67,7 @@ CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
 GLUquadricObj *pQuad0;		//ptr to the openGL quadric object(s) we'll draw
-CMatl  stuff[6];            // Three material-describing objects.
+CMatl  stuff[5];            // Three material-describing objects.
 CLight lamps[2];            // Two light source objects.
 
 // One vertex-array-defined object: a simple pyramid with adjustable peak height
@@ -82,7 +82,7 @@ CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
-bool lamp1On = true, lamp2On = true;
+bool lamp1On = false, lamp2On = false;
 
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
@@ -328,6 +328,9 @@ void display(void)
         lamps[0].I_pos.row[3] = 1.0f;
         lamps[0].applyLamp();        // use it for lighting.
     }
+    //else
+     //   lamps[0].removeLamp();
+
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
     stuff[0].showName();        // on-screen display names the material
@@ -353,14 +356,17 @@ void display(void)
         drawAxes(1);            // draw cyan,magenta,yellow axes.
     //CREATE LIGHT 1------------------------------------------------------------
     // A second light source, fixed at origin in 'model' coordinates:
-        if(lamp2On){
-        lamps[1].I_pos.row[0] = -1.0f;   // set position of lamp 1; at origin
-        lamps[1].I_pos.row[1] = -1.0f;
-        lamps[1].I_pos.row[2] = -1.0f;
-        lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
+       if(lamp2On)
+        {
+            lamps[1].I_pos.row[0] = -1.0f;   // set position of lamp 1; at origin
+            lamps[1].I_pos.row[1] = -1.0f;
+            lamps[1].I_pos.row[2] = -1.0f;
+            lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
                                     // infinitely far away. w=1.0 for local lights.
-        lamps[1].applyLamp();       // turn it on.
+            lamps[1].applyLamp();       // turn it on.
         }
+        //else
+         //   lamps[1].removeLamp();
     //END light source 1------------------------------------------------------
         stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
         glTranslated(-1.2, -0.75, 0.0);
@@ -374,13 +380,13 @@ void display(void)
         glutSolidTeapot(0.6);			// draw 3rd teapot using that material
                                         // and whatever lighting is enabled.
 
-        lamps[2].I_pos.row[0] = 2.0f;   // set position of lamp 1; at origin
+    /*    lamps[2].I_pos.row[0] = 2.0f;   // set position of lamp 1; at origin
         lamps[2].I_pos.row[1] = 2.0f;
         lamps[2].I_pos.row[2] = 2.0f;
         lamps[2].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
                                     // infinitely far away. w=1.0 for local lights.
         lamps[2].applyLamp();       // turn it on.
-
+*/
         glTranslated(0.0,2.8,0.0);
         glutSolidTeapot(0.6);
         glColor3d(1.0, 1.0, 0.0);
@@ -451,6 +457,7 @@ int junk;                   // to stop compiler warnings
             << "\nUse R (capital for model, lowercase for camera) to reset"
             << "\nUse M to change the color of one of the teapots (shading mix)"
             << "\nUse + and - to zoom in and out of the picture"
+            << "\nUse L and K to turn lamps on and off"
             << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
 		case 'r':
@@ -481,13 +488,29 @@ int junk;                   // to stop compiler warnings
 			break;
 		case 'l':
 		case 'L':
-                lamp1On = !lamp1On;
-		        lamps[0].removeLamp();
+                if (lamp1On)
+                {
+                    lamp1On = !lamp1On;
+                    lamps[0].removeLamp();
+                }
+                else
+                {
+                    lamp1On = !lamp1On;
+                    lamps[0].applyLamp();
+                }
             break;
         case 'k':
         case 'K':
-                lamp2On = !lamp2On;
-                lamps[1].removeLamp();
+                if(lamp2On)
+                {
+                    lamp2On = !lamp2On;
+                    lamps[1].removeLamp();
+                }
+                else
+                {
+                    lamp2On = !lamp2On;
+                    lamps[1].applyLamp();
+                }
             break;
 		default:
 			printf("unknown key %c:  Try arrow keys, r, R, s, S, <, >, or q",key);
