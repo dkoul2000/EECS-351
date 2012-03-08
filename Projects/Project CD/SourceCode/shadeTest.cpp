@@ -67,7 +67,7 @@ CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
 GLUquadricObj *pQuad0;		//ptr to the openGL quadric object(s) we'll draw
-CMatl  stuff[3];            // Three material-describing objects.
+CMatl  stuff[6];            // Three material-describing objects.
 CLight lamps[2];            // Two light source objects.
 
 // One vertex-array-defined object: a simple pyramid with adjustable peak height
@@ -155,6 +155,10 @@ void my_glutSetup(int *argc, char **argv)
     stuff[3].createMatl(MATL_CHROME);
     stuff[3].isFaceted = false;
     stuff[3].isTwoSided = false;
+
+    stuff[4].createMatl(MATL_PEARL);
+    stuff[4].isFaceted = false;
+    stuff[4].isTwoSided = false;
 
     //***Create our light sources.          // make pre-defined light sources:
     lamps[0].createLamp(LAMP_POINT_KEY,     GL_LIGHT0);
@@ -376,7 +380,7 @@ void display(void)
         glTranslated(0.0,2.8,0.0);
         glutSolidTeapot(0.6);
         glColor3d(1.0, 1.0, 0.0);
-        stuff[1].applyMatl();
+        stuff[4].applyMatl();
 
 	glPopMatrix();					// return to 'world' coord. system.
 
