@@ -101,7 +101,7 @@ void my_glutSetup(int *argc, char **argv)
 // A handy place to put all the GLUT library initial settings; note that we
 // 'registered' all the function names for the callbacks we want GLUT to use.
 {
-    xs = zs = 5.0f;
+    xs = zs = 1.0f;
 
 	glutInit(argc, argv);				// GLUT's own internal initializations.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -312,6 +312,8 @@ void display(void)
 	//		 -- 'world' coord system: a "ceiling lamp" fixed overhead,
 	//		 -- 'model' coord system: a lamp attached to a robot arm...
 
+    glScaled(0.75, 0.75, 0.75);
+
     lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
     lamps[0].I_pos.row[1] = 5.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
     lamps[0].I_pos.row[2] = 3.0f;
@@ -399,6 +401,8 @@ void display(void)
 
 	glFlush();
 	glutSwapBuffers();			// Double-buffering: show the newly-drawn image.
+
+    glutPostRedisplay();
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -948,9 +952,9 @@ colorsArray[15] = 0; colorsArray[16] = 0; colorsArray[17] = 0;
 
 indexes[0] = 5; indexes[1] = 3; indexes[2] = 0;
 indexes[3] = 4; indexes[4] = 1; indexes[5] = 0;
-indexes[6] = 5; indexes[7] = 2; indexes[8] = 1;
+indexes[6] = 5; indexes[7] = 1; indexes[8] = 2;
 indexes[9] = 4; indexes[10] = 3; indexes[11] = 2;
-indexes[12] = 4;
+indexes[12] = 5;
 }
 
 void squarePrism::draw() {
