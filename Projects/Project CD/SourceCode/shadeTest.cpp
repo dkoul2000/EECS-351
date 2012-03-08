@@ -82,8 +82,10 @@ CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
-GLfloat shadeX, shadeZ, pTime;
-GLint shaderX, shaderZ, timer;
+bool lamp1On = true, lamp2On = true;
+
+float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
+int shaderX = 0, shaderZ = 0, timer = 0;
 
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
@@ -146,7 +148,7 @@ void my_glutSetup(int *argc, char **argv)
 
     stuff[1].createMatl(MATL_GRN_PLASTIC);
     stuff[1].isFaceted = true;              // make a faceted green material
-    stuff[1].isTwoSided = false;            // shade front faces only.
+    stuff[1].isTwoSided = true;            // shade front faces only.
 
     stuff[2].createMatl(MATL_BLU_PLASTIC);
     stuff[2].isFaceted = false;
@@ -157,7 +159,7 @@ void my_glutSetup(int *argc, char **argv)
     stuff[3].isTwoSided = false;
 
     stuff[4].createMatl(MATL_PEARL);
-    stuff[4].isFaceted = false;
+    stuff[4].isFaceted = true;
     stuff[4].isTwoSided = false;
 
     //***Create our light sources.          // make pre-defined light sources:
@@ -167,7 +169,7 @@ void my_glutSetup(int *argc, char **argv)
 
     //***Create our pyramid object.
     pyrHeight = 0.0;       // initial height of pyramid tip.
-    makePyramid();          // allocate memory if needed; compute vertices,normals
+    //makePyramid();          // allocate memory if needed; compute vertices,normals
 
         //==============Create GLSL programmable shaders============================
     // Always AFTER 'glutCreateWindow()' because some GLSL commands rely on the
@@ -243,6 +245,7 @@ void display(void)
     pTime += 0.1;                 // advance the timestep
     glUniform1f(timer, pTime);    // send it to the shader as a uniform.
 
+
 // =============================================================================
 // START CAMERA POSITIONING CODE HERE:
 // =============================================================================
@@ -317,19 +320,19 @@ void display(void)
 	//		 -- 'world' coord system: a "ceiling lamp" fixed overhead,
 	//		 -- 'model' coord system: a lamp attached to a robot arm...
 
-    glScaled(0.4, 0.4, 0.4);
-
-    lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
-    lamps[0].I_pos.row[1] = 5.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
-    lamps[0].I_pos.row[2] = 3.0f;
-    lamps[0].I_pos.row[3] = 1.0f;
-    lamps[0].applyLamp();        // use it for lighting.
-
+    if (lamp1On)
+    {
+        lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
+        lamps[0].I_pos.row[1] = 2.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
+        lamps[0].I_pos.row[2] = 3.0f;
+        lamps[0].I_pos.row[3] = 1.0f;
+        lamps[0].applyLamp();        // use it for lighting.
+    }
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
     stuff[0].showName();        // on-screen display names the material
 
-
+    glScaled(0.35, 0.35, 0.35);
 	glPushMatrix();					// save 'world' coord. system;
         glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
@@ -350,13 +353,14 @@ void display(void)
         drawAxes(1);            // draw cyan,magenta,yellow axes.
     //CREATE LIGHT 1------------------------------------------------------------
     // A second light source, fixed at origin in 'model' coordinates:
-        lamps[1].I_pos.row[0] = 0.0f;   // set position of lamp 1; at origin
-        lamps[1].I_pos.row[1] = 0.0f;
-        lamps[1].I_pos.row[2] = 0.0f;
-        lamps[1].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
+        if(lamp2On){
+        lamps[1].I_pos.row[0] = -1.0f;   // set position of lamp 1; at origin
+        lamps[1].I_pos.row[1] = -1.0f;
+        lamps[1].I_pos.row[2] = -1.0f;
+        lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
                                     // infinitely far away. w=1.0 for local lights.
         lamps[1].applyLamp();       // turn it on.
-
+        }
     //END light source 1------------------------------------------------------
         stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
         glTranslated(-1.2, -0.75, 0.0);
@@ -385,7 +389,6 @@ void display(void)
 	glPopMatrix();					// return to 'world' coord. system.
 
     //drawing my own 3D objects, a triangular prism and a square prism together
-
         glPushMatrix();
             glTranslated(0,0,0);
             glRotated(0,0,0,0);
@@ -412,6 +415,7 @@ void display(void)
     // print instructions
     drawText2D(helv18, -0.5, -0.85, "'H' key: print HELP in console");
 
+    stuff[0].applyMatl();
 	// =========================================================================
 	// END DRAWING CODE HERE
 	// =========================================================================
@@ -475,6 +479,16 @@ int junk;                   // to stop compiler warnings
         case '-':
             setCam.z_pos -= 0.1;
 			break;
+		case 'l':
+		case 'L':
+                lamp1On = !lamp1On;
+		        lamps[0].removeLamp();
+            break;
+        case 'k':
+        case 'K':
+                lamp2On = !lamp2On;
+                lamps[1].removeLamp();
+            break;
 		default:
 			printf("unknown key %c:  Try arrow keys, r, R, s, S, <, >, or q",key);
 			break;
