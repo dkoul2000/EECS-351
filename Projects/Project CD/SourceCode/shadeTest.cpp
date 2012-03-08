@@ -89,8 +89,6 @@ squarePrism sp2 = squarePrism(1);
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
 {
-    xs = zs = 1.0f;
-
 	my_glutSetup(&argc, argv);		// GLUT calls that define windows, register
 									// callbacks & any non-default OpenGL state.
 	glutMainLoop();
@@ -104,6 +102,7 @@ void my_glutSetup(int *argc, char **argv)
 // A handy place to put all the GLUT library initial settings; note that we
 // 'registered' all the function names for the callbacks we want GLUT to use.
 {
+    xs = zs = 1.0f;
 
 	glutInit(argc, argv);				// GLUT's own internal initializations.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
