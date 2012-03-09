@@ -139,4 +139,7 @@ class squarePrism {
         int vertices[18];
 };
 
+void runAnimTimer(int isOn);
+void myTimer (int value);
+
 #endif  // __shadeTest_h__

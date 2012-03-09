@@ -67,7 +67,7 @@ CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
 GLUquadricObj *pQuad0;		//ptr to the openGL quadric object(s) we'll draw
-CMatl  stuff[5];            // Three material-describing objects.
+CMatl  stuff[6];            // Three material-describing objects.
 CLight lamps[2];            // Two light source objects.
 
 // One vertex-array-defined object: a simple pyramid with adjustable peak height
@@ -82,11 +82,13 @@ CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
-bool lamp1On = false, lamp2On = false;
-
 //used for distortions, help from Yungmann Code
+bool lamp1On = false, lamp2On = false;
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
+int boundary = 0, isBoundary = 0, start = 0, end = 0;
+int nu_Anim_isOn = 1;
+int lStart = 0, lEnd = 1;
 
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
@@ -135,19 +137,19 @@ void my_glutSetup(int *argc, char **argv)
 // A handy place to put all the OpenGL initial settings-- remember, you only
 // have to change things if you don't like openGL's default settings.
 
-	glClearColor(0.2, 0.2, 0.2, 0.0);	// Display-screen-clearing color;
+	glClearColor(0.1, 0.1, 0.1, 0.0);	// Display-screen-clearing color;
 										// acts as 'background color'
 
 	pQuad0 = gluNewQuadric();	        // create a quadric object
 
-    shadeX = shadeZ = 0.0f;
+    //shadeX = shadeZ = 0.0f;
 
     //***Create our materials.              // make pre-defined materials:
     stuff[0].createMatl(MATL_RED_PLASTIC);
     stuff[0].isFaceted = false;             // smooth-shaded,
     stuff[0].isTwoSided = false;            // shade front faces only.
 
-    stuff[1].createMatl(MATL_GRN_PLASTIC);
+    stuff[1].createMatl(MATL_EMERALD);
     stuff[1].isFaceted = true;              // make a faceted green material
     stuff[1].isTwoSided = true;            // shade front faces only.
 
@@ -161,7 +163,11 @@ void my_glutSetup(int *argc, char **argv)
 
     stuff[4].createMatl(MATL_PEARL);
     stuff[4].isFaceted = true;
-    stuff[4].isTwoSided = false;
+    stuff[4].isTwoSided = true;
+
+    stuff[5].createMatl(MATL_GRN_PLASTIC);
+    stuff[5].isFaceted = false;
+    stuff[5].isTwoSided = false;
 
     //***Create our light sources.          // make pre-defined light sources:
     lamps[0].createLamp(LAMP_POINT_KEY,     GL_LIGHT0);
@@ -169,7 +175,7 @@ void my_glutSetup(int *argc, char **argv)
     //lamps[2].createLamp(LAMP_SPOT,  GL_LIGHT2);
 
     //***Create our pyramid object.
-    pyrHeight = 0.0;       // initial height of pyramid tip.
+    //pyrHeight = 0.0;       // initial height of pyramid tip.
     //makePyramid();          // allocate memory if needed; compute vertices,normals
 
         //==============Create GLSL programmable shaders============================
@@ -543,13 +549,6 @@ void keySpecial(int key, int x, int y)
 			break;
 		case GLUT_KEY_RIGHT:	// right arrow key
 			setCam.x_pos -= 0.1;
-			break;
-        case GLUT_KEY_F10:
-            lamps[1].I_pos.row[0] += 0.1;
-            lamps[1].I_pos.row[1] += 0.1;
-            lamps[1].I_pos.row[2] += 0.1;
-            lamps[1].I_pos.row[3] += 0.1;
-            lamps[1].applyLamp();
 			break;
 	}
 
