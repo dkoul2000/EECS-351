@@ -410,14 +410,14 @@ void display(void)
 
         glPushMatrix();
             glTranslated(-3.5,0,0);
-            sp2.draw();
             stuff[4].applyMatl();
+            sp2.draw();
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(3.5,0,0);
-            sp2.draw();
             stuff[4].applyMatl();
+            sp2.draw();
         glPopMatrix();
 
     // print instructions
