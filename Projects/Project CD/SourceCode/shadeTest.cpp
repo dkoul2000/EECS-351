@@ -142,7 +142,7 @@ void my_glutSetup(int *argc, char **argv)
 
 	pQuad0 = gluNewQuadric();	        // create a quadric object
 
-    //shadeX = shadeZ = 0.0f;
+    shadeX = shadeZ = 0.0f;
 
     //***Create our materials.              // make pre-defined materials:
     stuff[0].createMatl(MATL_RED_PLASTIC);
@@ -157,7 +157,7 @@ void my_glutSetup(int *argc, char **argv)
     stuff[2].isFaceted = false;
     stuff[2].isTwoSided = false;
 
-    stuff[3].createMatl(MATL_CHROME);
+    stuff[3].createMatl(MATL_GOLD_SHINY);
     stuff[3].isFaceted = false;
     stuff[3].isTwoSided = false;
 
@@ -196,16 +196,26 @@ void my_glutSetup(int *argc, char **argv)
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
-    //HELP FROM YUNGMANN STARTER CODE FOR DISTORTIONS
+    //HELP FROM YUNGMANN STARTER CODE AND KHALID AZIZ FOR DISTORTIONS
     timer = glGetUniformLocation(p_myGLSL->getProgramID(), "time");
+    glUniform1f(timer, 0.0f);
+
     shaderX = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeX");
-    shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeY");
+    glUniform1f(shadeX, 1.0f);
 
-    glUniform1f(shaderX, 1.0f);
-    glUniform1f(shaderZ, 1.0f);
-    glUniform1f(timer, 1.0f);
+    shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
+    glUniform1f(shadeZ, 1.0f);
 
-    //runAnimTimer(1);
+    boundary = glGetUniformLocation(p_myGLSL->getProgramID(), "isBoundary");
+    glUniform1i(boundary, isBoundary);
+
+    start = glGetUniformLocation(p_myGLSL->getProgramID(), "lStart");
+    end = glGetUniformLocation(p_myGLSL->getProgramID(), "lEnd");
+    glUniform1i(start,0);
+    glUniform1i(end,1);
+
+
+//    runAnimTimer(1);
 
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
 
@@ -249,11 +259,19 @@ void display(void)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 									// clear the color and depth buffers
 
-    pTime += 0.1;                 // advance the timestep
-    glUniform1f(timer, pTime);    // send it to the shader as a uniform.
+    pTime = pTime + 0.1;                 // advance the timestep
+    glUniform1f(timer,pTime);    // send it to the shader as a uniform.
 
-    //glUniform1f(shaderX,shadeX);
-    //shadeX += 0.1;
+
+    if (lamp1On)
+        glUniform1i(start,0);
+    else
+        glUniform1i(start,1);
+
+    if (lamp2On)
+        glUniform1i(end,1);
+    else
+        glUniform1i(end,0);
 
 
 // =============================================================================
@@ -330,6 +348,8 @@ void display(void)
 	//		 -- 'world' coord system: a "ceiling lamp" fixed overhead,
 	//		 -- 'model' coord system: a lamp attached to a robot arm...
 
+    drawAxes(0);
+
     if (lamp1On)
     {
         lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
@@ -346,8 +366,11 @@ void display(void)
     stuff[0].showName();        // on-screen display names the material
 
     glScaled(0.38, 0.38, 0.38);
+
 	glPushMatrix();					// save 'world' coord. system;
         glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
+
+        stuff[3].applyMatl();
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
                                             // (and whatever lights are enabled)
 	glPopMatrix();					// return to 'world' coord system;
@@ -372,8 +395,7 @@ void display(void)
             lamps[1].I_pos.row[1] = -1.0f;
             lamps[1].I_pos.row[2] = -1.0f;
             lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
-                                    // infinitely far away. w=1.0 for local lights.
-            lamps[1].applyLamp();       // turn it on.
+            lamps[1].applyLamp();           // turn it on.
         }
         //else
          //   lamps[1].removeLamp();
@@ -398,9 +420,8 @@ void display(void)
         lamps[2].applyLamp();       // turn it on.
 */
         glTranslated(0.0,2.8,0.0);
+        stuff[0].applyMatl();
         glutSolidTeapot(0.6);
-        glColor3d(1.0, 1.0, 0.0);
-        stuff[4].applyMatl();
 
 	glPopMatrix();					// return to 'world' coord. system.
 
@@ -408,11 +429,13 @@ void display(void)
         glPushMatrix();
             glTranslated(0,0,0);
             glRotated(0,0,0,0);
+            stuff[4].applyMatl();
             sp1.draw();
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(0,0.75,0);
+            stuff[4].applyMatl();
             sp2.draw();
         glPopMatrix();
 
@@ -431,7 +454,7 @@ void display(void)
     // print instructions
     drawText2D(helv18, -0.5, -0.85, "'H' key: print HELP in console");
 
-    stuff[0].applyMatl();
+    stuff[1].applyMatl();
 	// =========================================================================
 	// END DRAWING CODE HERE
 	// =========================================================================
