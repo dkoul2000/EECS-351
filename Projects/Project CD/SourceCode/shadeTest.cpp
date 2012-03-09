@@ -67,7 +67,7 @@ CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
 GLUquadricObj *pQuad0;		//ptr to the openGL quadric object(s) we'll draw
-CMatl  stuff[6];            // Three material-describing objects.
+CMatl  stuff[5];            // Three material-describing objects.
 CLight lamps[2];            // Two light source objects.
 
 // One vertex-array-defined object: a simple pyramid with adjustable peak height
@@ -86,9 +86,8 @@ squarePrism sp2 = squarePrism(1);
 bool lamp1On = false, lamp2On = false;
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
-int boundary = 0, isBoundary = 0, start = 0, end = 0;
+//int boundary = 0, isBoundary = 0, start = 0, end = 0;
 int nu_Anim_isOn = 1;
-int lStart = 0, lEnd = 1;
 
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
@@ -151,7 +150,7 @@ void my_glutSetup(int *argc, char **argv)
 
     stuff[1].createMatl(MATL_EMERALD);
     stuff[1].isFaceted = true;              // make a faceted green material
-    stuff[1].isTwoSided = true;            // shade front faces only.
+    stuff[1].isTwoSided = false;            // shade front faces only.
 
     stuff[2].createMatl(MATL_BLU_PLASTIC);
     stuff[2].isFaceted = false;
@@ -165,18 +164,14 @@ void my_glutSetup(int *argc, char **argv)
     stuff[4].isFaceted = true;
     stuff[4].isTwoSided = true;
 
-    stuff[5].createMatl(MATL_GRN_PLASTIC);
-    stuff[5].isFaceted = false;
-    stuff[5].isTwoSided = false;
 
     //***Create our light sources.          // make pre-defined light sources:
     lamps[0].createLamp(LAMP_POINT_KEY,     GL_LIGHT0);
     lamps[1].createLamp(LAMP_POINT_L_FILL,  GL_LIGHT1);
-    //lamps[2].createLamp(LAMP_SPOT,  GL_LIGHT2);
 
     //***Create our pyramid object.
-    //pyrHeight = 0.0;       // initial height of pyramid tip.
-    //makePyramid();          // allocate memory if needed; compute vertices,normals
+    pyrHeight = 0.0;       // initial height of pyramid tip.
+    makePyramid();          // allocate memory if needed; compute vertices,normals
 
         //==============Create GLSL programmable shaders============================
     // Always AFTER 'glutCreateWindow()' because some GLSL commands rely on the
@@ -205,14 +200,6 @@ void my_glutSetup(int *argc, char **argv)
 
     shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
     glUniform1f(shadeZ, 1.0f);
-
-    boundary = glGetUniformLocation(p_myGLSL->getProgramID(), "isBoundary");
-    glUniform1i(boundary, isBoundary);
-
-    start = glGetUniformLocation(p_myGLSL->getProgramID(), "lStart");
-    end = glGetUniformLocation(p_myGLSL->getProgramID(), "lEnd");
-    glUniform1i(start,0);
-    glUniform1i(end,1);
 
 
 //    runAnimTimer(1);
@@ -261,17 +248,6 @@ void display(void)
 
     pTime = pTime + 0.1;                 // advance the timestep
     glUniform1f(timer,pTime);    // send it to the shader as a uniform.
-
-
-    if (lamp1On)
-        glUniform1i(start,0);
-    else
-        glUniform1i(start,1);
-
-    if (lamp2On)
-        glUniform1i(end,1);
-    else
-        glUniform1i(end,0);
 
 
 // =============================================================================
@@ -340,20 +316,18 @@ void display(void)
 	//	(Now we can draw things in the 'world-space' coord. system:
 	//==========================================================================
 
-    //drawAxes(0);                // draw r,g,b axes
-    //drawPyramid();              // Draw our adjustable pyramid in world space.
+    drawAxes(0);                // draw r,g,b axes
+    drawPyramid();              // Draw our adjustable pyramid in world space.
 
 	// CREATE LIGHT 0:----------------------------------------------------------
 	// IF IN -- 'cam' coordinate system: a "headlamp" attached to camera!
 	//		 -- 'world' coord system: a "ceiling lamp" fixed overhead,
 	//		 -- 'model' coord system: a lamp attached to a robot arm...
 
-    drawAxes(0);
-
     if (lamp1On)
     {
         lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
-        lamps[0].I_pos.row[1] = 2.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
+        lamps[0].I_pos.row[1] = 5.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
         lamps[0].I_pos.row[2] = 3.0f;
         lamps[0].I_pos.row[3] = 1.0f;
         lamps[0].applyLamp();        // use it for lighting.
@@ -363,9 +337,9 @@ void display(void)
 
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
-    stuff[0].showName();        // on-screen display names the material
+    //stuff[0].showName();        // on-screen display names the material
 
-    glScaled(0.38, 0.38, 0.38);
+    glScaled(0.6, 0.6, 0.6);
 
 	glPushMatrix();					// save 'world' coord. system;
         glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
@@ -391,11 +365,11 @@ void display(void)
     // A second light source, fixed at origin in 'model' coordinates:
        if(lamp2On)
         {
-            lamps[1].I_pos.row[0] = -1.0f;   // set position of lamp 1; at origin
-            lamps[1].I_pos.row[1] = -1.0f;
-            lamps[1].I_pos.row[2] = -1.0f;
-            lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
-            lamps[1].applyLamp();           // turn it on.
+            lamps[1].I_pos.row[0] = 0.0f;   // set position of lamp 1; at origin
+            lamps[1].I_pos.row[1] = 0.0f;
+            lamps[1].I_pos.row[2] = 0.0f;
+            lamps[1].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
+            //lamps[1].applyLamp();           // turn it on.
         }
         //else
          //   lamps[1].removeLamp();
@@ -411,19 +385,14 @@ void display(void)
         stuff[2].applyMatl();           // Set material we'll use for 3rd teapot:
         glutSolidTeapot(0.6);			// draw 3rd teapot using that material
                                         // and whatever lighting is enabled.
+        glPopMatrix();
 
-    /*    lamps[2].I_pos.row[0] = 2.0f;   // set position of lamp 1; at origin
-        lamps[2].I_pos.row[1] = 2.0f;
-        lamps[2].I_pos.row[2] = 2.0f;
-        lamps[2].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
-                                    // infinitely far away. w=1.0 for local lights.
-        lamps[2].applyLamp();       // turn it on.
-*/
-        glTranslated(0.0,2.8,0.0);
+        glPushMatrix();
+        glTranslated(0.0,2.0,0.0);
         stuff[0].applyMatl();
         glutSolidTeapot(0.6);
 
-	glPopMatrix();					// return to 'world' coord. system.
+        glPopMatrix();					// return to 'world' coord. system.
 
     //drawing my own 3D objects, a triangular prism and a square prism together
         glPushMatrix();
@@ -454,7 +423,7 @@ void display(void)
     // print instructions
     drawText2D(helv18, -0.5, -0.85, "'H' key: print HELP in console");
 
-    stuff[1].applyMatl();
+   // stuff[1].applyMatl();
 	// =========================================================================
 	// END DRAWING CODE HERE
 	// =========================================================================
@@ -475,26 +444,8 @@ int junk;                   // to stop compiler warnings
 
     junk = x; junk = y;     // stops warnings of 'unused parameters' x,y
 	switch(key) {
-		case 27: // Esc
-		case 'Q':
-		case 'q':
-		case ' ':
-			exit(0);		// Quit application
-			break;
-        case 'H':
-        case 'h':
-            cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)"
-            << "\n------------------------------------------------"
-            << "\nDrag the mouse to adjust the movable 3D camera"
-            << "\nUse the arrow keys to move the camera/lighting around"
-            << "\nUse R (capital for model, lowercase for camera) to reset"
-            << "\nUse M to change the color of one of the teapots (shading mix)"
-            << "\nUse + and - to zoom in and out of the picture"
-            << "\nUse L to turn lamps on and off"
-            << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
-            break;
-        case 'o':
-		case 'O':
+        case 'l':
+		case 'L':
                 if (lamp1On)
                 {
                     lamps[0].removeLamp();
@@ -506,8 +457,8 @@ int junk;                   // to stop compiler warnings
                     lamp1On = !lamp1On;
                 }
             break;
-        case 'p':
-        case 'P':
+        case 'k':
+        case 'K':
                 if(lamp2On)
                 {
                     lamps[1].removeLamp();
@@ -518,6 +469,25 @@ int junk;                   // to stop compiler warnings
                     lamps[1].applyLamp();
                     lamp2On = !lamp2On;
                 }
+            break;
+		case 27: // Esc
+		case 'Q':
+		case 'q':
+		case ' ':
+			exit(0);		// Quit application
+			break;
+        case 'H':
+        case 'h':
+            cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)"
+            << "\n------------------------------------------------"
+            << "\nDrag the mouse to adjust the movable 3D camera"
+            << "\nRight-click and drag to move the left teapot light"
+            << "\nUse the arrow keys to move the camera/lighting around"
+            << "\nUse R (capital for model, lowercase for camera) to reset"
+            << "\nUse M to change the color of one of the teapots (shading mix)"
+            << "\nUse + and - to zoom in and out of the picture"
+            << "\nUse L to turn lamps on and off"
+            << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
 		case 'r':
 			setCam.reset();	// reset camera coord system,
@@ -1006,19 +976,19 @@ void CTransRot::apply_RT_Matrix(void)
 //3D VERTEX ARRAY OBJECTS - GOTTEN FROM MY PROJECT B CODE
 squarePrism::squarePrism(int height) {
 
-normals[0] = 1; normals[1] = 0; normals[2] = 0;
-normals[3] = 0; normals[4] = 1; normals[5] = 0;
-normals[6] = -1; normals[7] = 0; normals[8] = 0;
-normals[9] = 0; normals[10] = -1; normals[11] = 0;
-normals[12] = 0; normals[13] = 0; normals[14] = 1;
-normals[15] = 0; normals[16] = 0; normals[17] = -1;
-
 vertices[0] = 1; vertices[1] = 0; vertices[2] = 0;
 vertices[3] = 0; vertices[4] = 1; vertices[5] = 0;
 vertices[6] = -1; vertices[7] = 0; vertices[8] = 0;
 vertices[9] = 0; vertices[10] = -1; vertices[11] = 0;
 vertices[12] = 0; vertices[13] = 0; vertices[14] = height;
 vertices[15] = 0; vertices[16] = 0; vertices[17] = -height;
+
+normals[0] = 1; normals[1] = 0; normals[2] = 0;
+normals[3] = 0; normals[4] = 1; normals[5] = 0;
+normals[6] = -1; normals[7] = 0; normals[8] = 0;
+normals[9] = 0; normals[10] = -1; normals[11] = 0;
+normals[12] = 0; normals[13] = 0; normals[14] = 1;
+normals[15] = 0; normals[16] = 0; normals[17] = -1;
 
 colorsArray[0] = 1; colorsArray[1] = 1; colorsArray[2] = 1;
 colorsArray[3] = 1; colorsArray[4] = 0; colorsArray[5] = 1;
