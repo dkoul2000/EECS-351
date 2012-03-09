@@ -27,10 +27,8 @@
 			<Add library="GL" />
 			<Add library="GLU" />
 		</Linker>
-		<Unit filename="PassThroughFragmentShader.fsh" />
-		<Unit filename="PassThroughFragmentShaderRED.fsh" />
-		<Unit filename="PassThroughVertexShader.vsh" />
-		<Unit filename="PassThroughVertexShaderRED.vsh" />
+		<Unit filename="PassThroughFragmentShader.fs" />
+		<Unit filename="PassThroughVertexShader.vs" />
 		<Unit filename="glut.h" />
 		<Unit filename="lampMatl_01.cpp" />
 		<Unit filename="lampMatl_01.h" />
