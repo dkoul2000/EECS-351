@@ -493,8 +493,8 @@ int junk;                   // to stop compiler warnings
             << "\nUse L to turn lamps on and off"
             << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
-        case 'l':
-		case 'L':
+        case 'o':
+		case 'O':
                 if (lamp1On)
                 {
                     lamps[0].removeLamp();
@@ -506,8 +506,8 @@ int junk;                   // to stop compiler warnings
                     lamp1On = !lamp1On;
                 }
             break;
-        case 'k':
-        case 'K':
+        case 'p':
+        case 'P':
                 if(lamp2On)
                 {
                     lamps[1].removeLamp();
@@ -532,12 +532,6 @@ int junk;                   // to stop compiler warnings
             if(curMatl > MATL_MAX) curMatl = MATL_RED_PLASTIC; // defined ones.
             stuff[0].createMatl(curMatl);   // change the material.
             break;
-		case 'O':			// -Z Translation for model coord system
-			setModel.z_pos -= 0.3;
-			break;
-		case 'P':			// +Z Translation for model coord system
-			setModel.z_pos += 0.3;
-			 break;
         case '+':           // PhotoShop-like move in/out with +/- keys
         case '=':
             setCam.z_pos += 0.1;
