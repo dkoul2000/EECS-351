@@ -1,5 +1,7 @@
 //help from online: http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php for Phong lighting model
 //help from Yungmann starter code that was posted to Blackboard for geometric distortions
+//help from online: http://zach.in.tu-clausthal.de/teaching/cg_literatur/glsl_tutorial/ for distortions and shading
+//help from Khalid Aziz and Cassie Rommel for time-varying geometric distortions
 //help from Khalid Aziz to help with the light shading
 
 #ifdef GL_ES
@@ -16,13 +18,9 @@ void main (void)
 
    for (int i = 0; i < 1; i++)
    {
-
-	//using light source
-   	vec3 L = normalize(gl_LightSource[0].position.xyz - v);
-   
+   	vec3 L = normalize(gl_LightSource[0].position.xyz - v);   
   	vec3 R = normalize(reflect(L,N));
    	vec3 E = normalize(v);
-
 
    	//implement Phong model characteristics:
 

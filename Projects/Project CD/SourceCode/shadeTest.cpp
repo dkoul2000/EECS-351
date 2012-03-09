@@ -332,8 +332,6 @@ void display(void)
         lamps[0].I_pos.row[3] = 1.0f;
         lamps[0].applyLamp();        // use it for lighting.
     }
-    //else
-     //   lamps[0].removeLamp();
 
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
@@ -363,16 +361,15 @@ void display(void)
         drawAxes(1);            // draw cyan,magenta,yellow axes.
     //CREATE LIGHT 1------------------------------------------------------------
     // A second light source, fixed at origin in 'model' coordinates:
-       if(lamp2On)
+        if(lamp2On)
         {
             lamps[1].I_pos.row[0] = 0.0f;   // set position of lamp 1; at origin
             lamps[1].I_pos.row[1] = 0.0f;
             lamps[1].I_pos.row[2] = 0.0f;
             lamps[1].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
-            //lamps[1].applyLamp();           // turn it on.
+            lamps[1].applyLamp();           // turn it on.
         }
-        //else
-         //   lamps[1].removeLamp();
+
     //END light source 1------------------------------------------------------
         stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
         glTranslated(-1.2, -0.75, 0.0);
