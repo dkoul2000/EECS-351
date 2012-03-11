@@ -1,0 +1,5 @@
+*.zip
+*.o
+*.exe
+*.obj
+*.lib
