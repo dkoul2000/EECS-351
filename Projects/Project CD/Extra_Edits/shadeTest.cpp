@@ -67,7 +67,7 @@ CTransRot setModel;			// Mouse/Keyboard settings for model coord system.
 CTransRot setCam;			// Mouse/Keyboard settings for camera coord system.
 
 GLUquadricObj *pQuad0;		//ptr to the openGL quadric object(s) we'll draw
-CMatl  stuff[5];            // Three material-describing objects.
+CMatl  stuff[6];            // Three material-describing objects.
 CLight lamps[2];            // Two light source objects.
 
 // One vertex-array-defined object: a simple pyramid with adjustable peak height
@@ -86,7 +86,7 @@ squarePrism sp2 = squarePrism(1);
 bool lamp1On = false, lamp2On = false;
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
-//int boundary = 0, isBoundary = 0, start = 0, end = 0;
+int boundary = 0, isBoundary = 0, start = 0, end = 0;
 int nu_Anim_isOn = 1;
 
 int main( int argc, char *argv[] )
@@ -164,6 +164,10 @@ void my_glutSetup(int *argc, char **argv)
     stuff[4].isFaceted = true;
     stuff[4].isTwoSided = true;
 
+    stuff[5].createMatl(MATL_JADE);
+    stuff[5].isFaceted = false;
+    stuff[5].isTwoSided = false;
+
 
     //***Create our light sources.          // make pre-defined light sources:
     lamps[0].createLamp(LAMP_POINT_KEY,     GL_LIGHT0);
@@ -171,7 +175,6 @@ void my_glutSetup(int *argc, char **argv)
 
     //***Create our pyramid object.
     pyrHeight = 0.0;       // initial height of pyramid tip.
-    makePyramid();          // allocate memory if needed; compute vertices,normals
 
         //==============Create GLSL programmable shaders============================
     // Always AFTER 'glutCreateWindow()' because some GLSL commands rely on the

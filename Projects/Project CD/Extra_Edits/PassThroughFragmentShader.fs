@@ -38,6 +38,8 @@ void main (void)
    	//sum of characteristics and final color
    	colorAddOn = vAmbient + vDiffuse + vSpecular;
    }
+
+   
   
    gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn;     
 }
