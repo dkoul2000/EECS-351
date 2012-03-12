@@ -141,7 +141,7 @@ void my_glutSetup(int *argc, char **argv)
 
 	pQuad0 = gluNewQuadric();	        // create a quadric object
 
-    shadeX = shadeZ = 0.0f;
+    shadeX = shadeZ = 0.1f;
 
     //***Create our materials.              // make pre-defined materials:
     stuff[0].createMatl(MATL_RED_PLASTIC);
@@ -204,10 +204,10 @@ void my_glutSetup(int *argc, char **argv)
     shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
     glUniform1f(shadeZ, 1.0f);
 
-    start = glGetUniformLocation(p_myGLSL->getProgramID(), "start");
-    end = glGetUniformLocation(p_myGLSL->getProgramID(), "end");
-    glUniform1i(start, 0);
-    glUniform1i(end, 1);
+    //start = glGetUniformLocation(p_myGLSL->getProgramID(), "start");
+    //end = glGetUniformLocation(p_myGLSL->getProgramID(), "end");
+    //glUniform1i(start, 0);
+    //glUniform1i(end, 1);
 
     //runAnimTimer(1);
 
@@ -253,20 +253,15 @@ void display(void)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 									// clear the color and depth buffers
 
-    //HELP FROM TUTORIAL
+    //HELP FROM YUNGMANN SHADER EXAMPLE
     pTime = pTime + 0.1;                 // advance the timestep
     glUniform1f(timer,pTime);    // send it to the shader as a uniform.
 
-    //HELP FROM KHALID AZIZ (CONTROL LIGHTING FROM SHADERS)
-    if (lamp1On)
-        glUniform1i(start, 0);
-    else
-        glUniform1i(start, 1);
+    /*shadeX += 0.05;
+    if (shadeX > 1.0)
+        shadeX = 0.1;
 
-    if (lamp2On)
-        glUniform1i(end, 1);
-    else
-        glUniform1i(end, 0);
+    glUniform1f(shaderX, shadeX);*/
 
 
 // =============================================================================
@@ -355,10 +350,9 @@ void display(void)
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
 
-    glScaled(0.3, 0.3, 0.3);
+    glScaled(0.4, 0.4, 0.4);
 
 	glPushMatrix();					// save 'world' coord. system;
-        glRotated(45.0, 1.0, 0.0, 0.0);
         glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
                                             // (and whatever lights are enabled)
@@ -388,21 +382,18 @@ void display(void)
         }
 
     //END light source 1------------------------------------------------------
-        glRotated(45.0, 1.0, 0.0, 0.0);
         glTranslated(-1.2, -0.75, 0.0);
         stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
         glutSolidTeapot(0.6);			// use it to draw 2nd, blue teapot.
         glPopMatrix();					// return to 'world' coord system.
 
         glPushMatrix();					// save 'world' coord. system, then
-        glRotated(45.0, 0.0, 1.0, 0.0);
         glTranslated(0.0,-1.2, 0.0);	// translate to 3rd location,
         stuff[2].applyMatl();           // Set material we'll use for 3rd teapot:
         glutSolidTeapot(0.6);			// draw 3rd teapot using that material
         glPopMatrix();
 
         glPushMatrix();
-        glRotated(45.0, 0.0, 1.0, 0.0);
         glTranslated(0.0,2.0,0.0);
         stuff[5].applyMatl();
         glutSolidTeapot(0.6);
@@ -412,23 +403,17 @@ void display(void)
     //drawing my own 3D objects, a triangular prism and a square prism together
         glPushMatrix();
             glTranslated(0,0,0);
-            glRotated(0,0,0,0);
             stuff[4].applyMatl();
-            glUniform1i(boundary,1);
             sp1.draw();
-            glUniform1i(boundary,0);
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(0,0.75,0);
             stuff[4].applyMatl();
-//            glUniform1i(boundary,1);
             sp2.draw();
-            glUniform1i(boundary,0);
         glPopMatrix();
 
         glPushMatrix();
-            glUniform1i(boundary,1);
             glTranslated(-3.5,0,0);
             stuff[3].applyMatl();
             sp2.draw();
@@ -438,7 +423,6 @@ void display(void)
             glTranslated(3.5,0,0);
             stuff[3].applyMatl();
             sp2.draw();
-            glUniform1i(boundary,0);
         glPopMatrix();
 
     // print instructions
@@ -500,13 +484,13 @@ int junk;                   // to stop compiler warnings
         case 'h':
             cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)" << endl
             << "------------------------------------------------" << endl
-            << "Drag the mouse to adjust the movable 3D camera" << endl
+            << "Drag the mouse to move the adjustable 3D camera" << endl
             << "Right-click and drag to move the left teapot light" << endl
             << "Use the arrow keys to move the camera/lighting around" << endl
             << "Use R (capital for model, lowercase for camera) to reset" << endl
             << "Use M to change the Phong materials of the teapot" << endl
             << "Use + and - to zoom in and out of the picture" << endl
-            << "Use L to turn lamps on and off" << endl
+            << "Use L and K to toggle the lamps on and off" << endl
             << "Q, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
 		case 'r':

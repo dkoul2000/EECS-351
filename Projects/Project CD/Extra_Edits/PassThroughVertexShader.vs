@@ -9,7 +9,6 @@ varying vec3 v;
 uniform float time;
 uniform float shadeX;
 uniform float shadeZ;
-uniform int isBoundary;
 
 void main(void)  
 {     
@@ -21,12 +20,5 @@ void main(void)
    vPosition.z = 0.15*sin(shadeX*time + 20.0*vPosition.x) + vPosition.z;
    vPosition.x = vPosition.x * sin(shadeX);
 
-   if (isBoundary == 1)
-   {
-	gl_Position = gl_ModelViewProjectionMatrix * vPosition;
-   }
-   else
-   {
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-   }
+   gl_Position = gl_ModelViewProjectionMatrix * vPosition;
 }

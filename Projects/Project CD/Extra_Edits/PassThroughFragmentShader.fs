@@ -8,30 +8,23 @@
     precision mediump float;
 #endif
 
+#define TOTAL_LIGHTS 2
 varying vec3 N;
 varying vec3 v;
 uniform float time;
 uniform float shadeX;
 uniform float shadeZ;
-uniform int start;
-uniform int end;
-uniform int isBoundary;
-
-float rand(vec2 n)
-{
-  return 0.5 + 0.5 * fract(sin(dot(n.xy, vec2(12.9898, 78.233)))* 43758.5453);
-}
 
 void main (void)  
 {  
    vec4 colorAddOn = vec4(0,0,0,0);
    vec3 normalN = normalize(N);   
 
-   for (int i = 0; i < 1; i++)
+   for (int i = 0; i < TOTAL_LIGHTS; i++)
    {
    	vec3 L = normalize(gl_LightSource[i].position.xyz - v);
-        vec3 E = normalize(-v);   
-  	vec3 R = normalize(-reflect(L,N));
+  	vec3 R = normalize(reflect(L,N));        
+	vec3 E = normalize(v);
 
    	//implement Phong model characteristics:
 
@@ -44,21 +37,12 @@ void main (void)
 
    	//calculate specular
    	vec4 vSpecular = gl_FrontLightProduct[i].specular*pow(max(dot(E,R),0.0),0.75*gl_FrontMaterial.shininess);
-   	//vSpecular = clamp(vSpecular, 0.0, 1.0); 
+   	vSpecular = clamp(vSpecular, 0.0, 1.0); 
 	
    	//sum of characteristics and final color
-   	colorAddOn += vAmbient + vDiffuse + vSpecular;
+   	colorAddOn = colorAddOn + vAmbient + vDiffuse + vSpecular;
    }
    
-   gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn;     
+   gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn ;//+ sin(shadeX);     
 
-
-   if (start <= end)
-   {
-	if (isBoundary == 1)
-	{
-		float s = rand(v.xz);
-		gl_FragColor = colorAddOn + vec4(sin(time), cos(time), sin(time), 1.0);
-	}
-   }
 }
