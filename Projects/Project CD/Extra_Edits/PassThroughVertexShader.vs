@@ -14,11 +14,23 @@ void main(void)
 {     
    N = normalize(gl_NormalMatrix * gl_Normal);
    v = vec3(gl_ModelViewMatrix * gl_Vertex);       
+	
+   float newX = shadeX;
+   float newZ = shadeZ;
 
-   float shade = 1.0 + 0.15*sin(shadeX*time)*sin(shadeZ*time);	
+   if (newX > 2.0 || newZ > 2.0)
+   {
+	newX = 1.0;
+        newZ = 1.0;
+   }
+
+   float shade = 1.0 + 0.15*sin(newX*time)*sin(newZ*time);	
    vec4 vPosition = vec4(gl_Vertex);
-   vPosition.z = 0.15*sin(shadeX*time + 20.0*vPosition.x) + vPosition.z;
-   vPosition.x = vPosition.x * sin(shadeX);
+   vPosition.z = 0.15*sin(newX*time + 20.0*vPosition.x) + vPosition.z;
+   vPosition.x = vPosition.x * sin(newX);
+
+   newX += 0.01;
+   newZ += 0.01;
 
    gl_Position = gl_ModelViewProjectionMatrix * vPosition;
 }

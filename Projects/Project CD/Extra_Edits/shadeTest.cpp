@@ -83,7 +83,7 @@ squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
 //used for distortions, help from Yungmann Code
-bool lamp1On = true, lamp2On = true;
+bool lamp1On = true, lamp2On = false;
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
 
@@ -251,10 +251,12 @@ void display(void)
     pTime += 0.1;                 // advance the timestep
     glUniform1f(timer,pTime);    // send it to the shader as a uniform.
 
-        shadeX += 0.01f;
-        if (shadeX > 0.75f)
-            shadeX = 0.0f;
-        glUniform1f(shaderX, shadeX);
+    if (shadeX > 1.0f)
+        shadeX = 0.0f;
+    else
+        shadeX += 0.02f;
+
+    glUniform1f(shaderX, shadeX);
 
 
 
@@ -479,12 +481,13 @@ int junk;                   // to stop compiler warnings
             cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)" << endl
             << "------------------------------------------------" << endl
             << "Drag the mouse to move the adjustable 3D camera" << endl
+            << "Use K to turn on the second light" << endl
+            << "Use L to toggle the lamps on and off" << endl
             << "Right-click and drag to move the left teapot light" << endl
             << "Use the arrow keys to move the camera/lighting around" << endl
             << "Use R (capital for model, lowercase for camera) to reset" << endl
             << "Use M to change the Phong materials of the teapot" << endl
             << "Use + and - to zoom in and out of the picture" << endl
-            << "Use L and K to toggle the lamps on and off" << endl
             << "Q, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
 		case 'r':

@@ -43,8 +43,10 @@ void main (void)
    	colorAddOn = colorAddOn + vAmbient + vDiffuse + vSpecular;
    }
    
-   if (time > 20.0)
-   	gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn + sin(shadeX);
+   if ((shadeX > 0.25 && shadeX < 0.30) || (shadeX > 0.5 && shadeX < 0.55) || (shadeX > 0.75 && shadeX < 0.80))
+   {
+	gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn + sin(shadeX);
+   }
    else
 	gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn;
 
