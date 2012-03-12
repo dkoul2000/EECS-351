@@ -1,3 +1,8 @@
+//Dhruv Koul
+//EECS 351 - Project C/D (Programmable Shaders)
+//March 11, 2012
+
+
 //3456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_
 //
 //	OpenGL/ GLUT 'starter' code for cameras, lighting, and shading.
@@ -82,7 +87,8 @@ CProgGLSL *p_myGLSL;        //introducing a GLSL variable
 squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
-//used for distortions, help from Yungmann Code
+//used for distortions and time-varying extra credit
+//help from Yungmann starter code example
 bool lamp1On = true, lamp2On = false;
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
@@ -113,11 +119,6 @@ void my_glutSetup(int *argc, char **argv)
 
     // And finally (must be AFTER the glutCreateWindow() call):
 	glEnable( GL_DEPTH_TEST );			// enable hidden surface removal
-// STUDENTS: what happens if you disable GL_DEPTH_TEST?
-//	And what happens if display() callback clears the color buffer,
-// 	but not the depth buffer? (e.g. what happens if you change
-//  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); to
-//  glClear( GL_COLOR_BUFFER_BIT)'; ?)
 
 	// Register GLUT Callback function names. (these names aren't very creative)
 	glutDisplayFunc(display);			// 'display'  callback:  display();
@@ -127,12 +128,6 @@ void my_glutSetup(int *argc, char **argv)
 	glutMouseFunc(mouseClik);			// callbacks for mouse click, move
 	glutMotionFunc(mouseMove);
 
-//	glutIdleFunc(idle);					// 'idle'	  callback:  idle();
-// CAREFUL! WE DON'T NEED IDLE()!  instead, we just call glutPostRedisplay()
-// whenever we want the screen re-drawn.
-//-----------------------------------
-// A handy place to put all the OpenGL initial settings-- remember, you only
-// have to change things if you don't like openGL's default settings.
 
 	glClearColor(0.1, 0.1, 0.1, 0.0);	// Display-screen-clearing color;
 										// acts as 'background color'
@@ -174,11 +169,7 @@ void my_glutSetup(int *argc, char **argv)
     //***Create our pyramid object.
     pyrHeight = 0.0;       // initial height of pyramid tip.
 
-        //==============Create GLSL programmable shaders============================
-    // Always AFTER 'glutCreateWindow()' because some GLSL commands rely on the
-    // openGL 'rendering context' (all the state variables that tie openGL to
-    // your particular OS and graphics card). The glutCreateWindow() call
-    // forces creation of that 'rendering context' we need.
+    //SHADERS LOADING, COMPILING , PRINTING AND RUNNING (HELP FROM YUNGMANN CODE)
 
     #if !defined(__APPLE__)
     glewInit();                                 // if we use GLEW (Apple won't).
@@ -192,7 +183,7 @@ void my_glutSetup(int *argc, char **argv)
     p_myGLSL->compileProgram(); // compile and link the program for the GPU,
     p_myGLSL->useProgram();     // tell openGL/GPU to use it!
 
-    //HELP FROM YUNGMANN STARTER CODE AND KHALID AZIZ FOR DISTORTIONS
+    //HELP FROM YUNGMANN STARTER CODE FOR DISTORTIONS AND PASSING VARIABLES INTO THE SHADER
     timer = glGetUniformLocation(p_myGLSL->getProgramID(), "time");
     glUniform1f(timer, 0.0f);
 
@@ -334,11 +325,12 @@ void display(void)
 	//		 -- 'world' coord system: a "ceiling lamp" fixed overhead,
 	//		 -- 'model' coord system: a lamp attached to a robot arm...
 
+    //APPLY LAMP IF TOGGLE IS TRUE - IDEA FROM KHALID AZIZ
     if (lamp1On)
     {
-        lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
-        lamps[0].I_pos.row[1] = 2.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
-        lamps[0].I_pos.row[2] = 3.0f;
+        lamps[0].I_pos.row[0] = 0.5f;// position our first lamp (already created in
+        lamps[0].I_pos.row[1] = 2.5f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
+        lamps[0].I_pos.row[2] = 3.5f;
         lamps[0].I_pos.row[3] = 1.0f;
         lamps[0].applyLamp();        // use it for lighting.
     }
@@ -368,11 +360,13 @@ void display(void)
         drawAxes(1);            // draw cyan,magenta,yellow axes.
     //CREATE LIGHT 1------------------------------------------------------------
     // A second light source, fixed at origin in 'model' coordinates:
+
+        //APPLY LAMP IF TOGGLE IS TRUE - IDEA FROM KHALID AZIZ (APPLIED TO SECOND LIGHT)
         if(lamp2On)
         {
-            lamps[1].I_pos.row[0] = -1.0f;   // set position of lamp 1; at origin
-            lamps[1].I_pos.row[1] = -1.0f;
-            lamps[1].I_pos.row[2] = -1.0f;
+            lamps[1].I_pos.row[0] = -1.5f;   // set position of lamp 1; at origin
+            lamps[1].I_pos.row[1] = -1.5f;
+            lamps[1].I_pos.row[2] = -1.5f;
             lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
             lamps[1].applyLamp();           // turn it on.
         }
@@ -396,7 +390,7 @@ void display(void)
 
         glPopMatrix();					// return to 'world' coord. system.
 
-    //drawing my own 3D objects, a triangular prism and a square prism together
+    //DRAWING MY OWN 3D OBJECTS - 4 SQUARE PRISMS IN AND AROUND THE TEAPOTS
         glPushMatrix();
             glTranslated(0,0,0);
             stuff[4].applyMatl();
@@ -444,6 +438,8 @@ int junk;                   // to stop compiler warnings
 
     junk = x; junk = y;     // stops warnings of 'unused parameters' x,y
 	switch(key) {
+        //TOGGLE THE LIGHTS, HELP FROM KHALID AZIZ FOR FIGURING OUT
+        //THE .REMOVELAMP() AND .APPLYLAMP() FUNCTIONS
         case 'l':
 		case 'L':
                 if (lamp1On)
@@ -478,17 +474,17 @@ int junk;                   // to stop compiler warnings
 			break;
         case 'H':
         case 'h':
-            cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)" << endl
+            cout << endl << "HELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)" << endl
             << "------------------------------------------------" << endl
             << "Drag the mouse to move the adjustable 3D camera" << endl
             << "Use K to turn on the second light" << endl
             << "Use L to toggle the lamps on and off" << endl
-            << "Right-click and drag to move the left teapot light" << endl
+            << "Right-click and drag to move one of the lights" << endl
             << "Use the arrow keys to move the camera/lighting around" << endl
             << "Use R (capital for model, lowercase for camera) to reset" << endl
             << "Use M to change the Phong materials of the teapot" << endl
             << "Use + and - to zoom in and out of the picture" << endl
-            << "Q, ENTER or SPACE BAR will quit the program" << endl << endl;
+            << "Q, ENTER or SPACE BAR will quit the program" << endl << endl << endl;
             break;
 		case 'r':
 			setCam.reset();	// reset camera coord system,

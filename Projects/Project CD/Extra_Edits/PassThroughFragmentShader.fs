@@ -2,7 +2,6 @@
 //help from Yungmann starter code that was posted to Blackboard for geometric distortions
 //help from online: http://zach.in.tu-clausthal.de/teaching/cg_literatur/glsl_tutorial/ for distortions and shading
 //help from Khalid Aziz and Cassie Rommel for time-varying geometric distortions
-//help from Khalid Aziz to help with the light shading
 
 #ifdef GL_ES
     precision mediump float;
@@ -26,28 +25,25 @@ void main (void)
   	vec3 R = normalize(reflect(L,N));        
 	vec3 E = normalize(v);
 
-   	//implement Phong model characteristics:
+   	//implement Phong model characteristics (ambient, diffuse and specular)
 
-   	//calculate ambient
    	vec4 vAmbient = gl_FrontLightProduct[i].ambient;
 
-   	//calculate diffuse
-   	vec4 vDiffuse = gl_FrontLightProduct[i].diffuse * max(dot(N,L), 0.0);
+   	vec4 vDiffuse = gl_FrontLightProduct[i].diffuse;
+	vDiffuse = vDiffuse * max(dot(N,L), 0.0);
    	vDiffuse = clamp(vDiffuse, 0.0, 1.0);
 
-   	//calculate specular
-   	vec4 vSpecular = gl_FrontLightProduct[i].specular*pow(max(dot(E,R),0.0),0.75*gl_FrontMaterial.shininess);
+   	vec4 vSpecular = gl_FrontLightProduct[i].specular;
+	vSpecular = vSpecular * pow(max(dot(E,R),0.0),0.75*gl_FrontMaterial.shininess);
    	vSpecular = clamp(vSpecular, 0.0, 1.0); 
 	
-   	//sum of characteristics and final color
    	colorAddOn = colorAddOn + vAmbient + vDiffuse + vSpecular;
    }
    
-   if ((shadeX > 0.60 && shadeX < 0.70) || (shadeX > 1.3 && shadeX < 1.4))// || (shadeX > 0.75 && shadeX < 0.80))
+   if ((shadeX > 0.60 && shadeX < 0.70) || (shadeX > 1.3 && shadeX < 1.4))
    {
 	gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn + sin(shadeX);
    }
    else
 	gl_FragColor = gl_FrontLightModelProduct.sceneColor + colorAddOn;
-
 }
