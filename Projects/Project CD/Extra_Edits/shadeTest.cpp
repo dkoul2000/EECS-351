@@ -83,11 +83,9 @@ squarePrism sp1 = squarePrism(1);
 squarePrism sp2 = squarePrism(1);
 
 //used for distortions, help from Yungmann Code
-bool lamp1On = false, lamp2On = false;
+bool lamp1On = true, lamp2On = true;
 float shadeX = 0.0, shadeZ = 0.0, pTime = 0.0;
 int shaderX = 0, shaderZ = 0, timer = 0;
-int boundary = 0, isBoundary = 0, start = 0, end = 0;
-int nu_Anim_isOn = 1;
 
 int main( int argc, char *argv[] )
 //------------------------------------------------------------------------------
@@ -141,7 +139,7 @@ void my_glutSetup(int *argc, char **argv)
 
 	pQuad0 = gluNewQuadric();	        // create a quadric object
 
-    shadeX = shadeZ = 0.1f;
+    shadeX = shadeZ = 0.0f;
 
     //***Create our materials.              // make pre-defined materials:
     stuff[0].createMatl(MATL_RED_PLASTIC);
@@ -204,10 +202,6 @@ void my_glutSetup(int *argc, char **argv)
     shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
     glUniform1f(shadeZ, 1.0f);
 
-    //start = glGetUniformLocation(p_myGLSL->getProgramID(), "start");
-    //end = glGetUniformLocation(p_myGLSL->getProgramID(), "end");
-    //glUniform1i(start, 0);
-    //glUniform1i(end, 1);
 
     //runAnimTimer(1);
 
@@ -254,14 +248,14 @@ void display(void)
 									// clear the color and depth buffers
 
     //HELP FROM YUNGMANN SHADER EXAMPLE
-    pTime = pTime + 0.1;                 // advance the timestep
+    pTime += 0.1;                 // advance the timestep
     glUniform1f(timer,pTime);    // send it to the shader as a uniform.
 
-    /*shadeX += 0.05;
-    if (shadeX > 1.0)
-        shadeX = 0.1;
+        shadeX += 0.01f;
+        if (shadeX > 0.75f)
+            shadeX = 0.0f;
+        glUniform1f(shaderX, shadeX);
 
-    glUniform1f(shaderX, shadeX);*/
 
 
 // =============================================================================
