@@ -204,8 +204,12 @@ void my_glutSetup(int *argc, char **argv)
     shaderZ = glGetUniformLocation(p_myGLSL->getProgramID(), "shadeZ");
     glUniform1f(shadeZ, 1.0f);
 
+    start = glGetUniformLocation(p_myGLSL->getProgramID(), "start");
+    end = glGetUniformLocation(p_myGLSL->getProgramID(), "end");
+    glUniform1i(start, 0);
+    glUniform1i(end, 1);
 
-//    runAnimTimer(1);
+    //runAnimTimer(1);
 
 	glutMainLoop();	                // enter GLUT's event-handler; NEVER EXITS.
 
@@ -249,8 +253,20 @@ void display(void)
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 									// clear the color and depth buffers
 
+    //HELP FROM TUTORIAL
     pTime = pTime + 0.1;                 // advance the timestep
     glUniform1f(timer,pTime);    // send it to the shader as a uniform.
+
+    //HELP FROM KHALID AZIZ (CONTROL LIGHTING FROM SHADERS)
+    if (lamp1On)
+        glUniform1i(start, 0);
+    else
+        glUniform1i(start, 1);
+
+    if (lamp2On)
+        glUniform1i(end, 1);
+    else
+        glUniform1i(end, 0);
 
 
 // =============================================================================
@@ -330,7 +346,7 @@ void display(void)
     if (lamp1On)
     {
         lamps[0].I_pos.row[0] = 0.0f;// position our first lamp (already created in
-        lamps[0].I_pos.row[1] = 5.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
+        lamps[0].I_pos.row[1] = 2.0f;// myGlutSetup() fcn as LAMP_WHITE_KEY), and
         lamps[0].I_pos.row[2] = 3.0f;
         lamps[0].I_pos.row[3] = 1.0f;
         lamps[0].applyLamp();        // use it for lighting.
@@ -338,14 +354,12 @@ void display(void)
 
 	// Set materials and shading for the first teapot:------------------------
     stuff[0].applyMatl();       // set openGL to use stuff[0] material params.
-    //stuff[0].showName();        // on-screen display names the material
 
-    glScaled(0.6, 0.6, 0.6);
+    glScaled(0.3, 0.3, 0.3);
 
 	glPushMatrix();					// save 'world' coord. system;
+        glRotated(45.0, 1.0, 0.0, 0.0);
         glTranslated(1.8, 0.0, 0.0);	// move to a starting pt away from origin,
-
-        stuff[3].applyMatl();
         glutSolidTeapot(0.6);			// draw 1st teapot using material A.
                                             // (and whatever lights are enabled)
 	glPopMatrix();					// return to 'world' coord system;
@@ -366,30 +380,31 @@ void display(void)
     // A second light source, fixed at origin in 'model' coordinates:
         if(lamp2On)
         {
-            lamps[1].I_pos.row[0] = 0.0f;   // set position of lamp 1; at origin
-            lamps[1].I_pos.row[1] = 0.0f;
-            lamps[1].I_pos.row[2] = 0.0f;
-            lamps[1].I_pos.row[3] = 1.0f; // IMPORTANT! zero-valued 'w' means lamp is
+            lamps[1].I_pos.row[0] = -1.0f;   // set position of lamp 1; at origin
+            lamps[1].I_pos.row[1] = -1.0f;
+            lamps[1].I_pos.row[2] = -1.0f;
+            lamps[1].I_pos.row[3] = 0.0f; // IMPORTANT! zero-valued 'w' means lamp is
             lamps[1].applyLamp();           // turn it on.
         }
 
     //END light source 1------------------------------------------------------
-        stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
+        glRotated(45.0, 1.0, 0.0, 0.0);
         glTranslated(-1.2, -0.75, 0.0);
+        stuff[1].applyMatl();           // Setup openGL to use the 2nd material,
         glutSolidTeapot(0.6);			// use it to draw 2nd, blue teapot.
-                                        // (and whatever lighting is enabled)
         glPopMatrix();					// return to 'world' coord system.
 
         glPushMatrix();					// save 'world' coord. system, then
+        glRotated(45.0, 0.0, 1.0, 0.0);
         glTranslated(0.0,-1.2, 0.0);	// translate to 3rd location,
         stuff[2].applyMatl();           // Set material we'll use for 3rd teapot:
         glutSolidTeapot(0.6);			// draw 3rd teapot using that material
-                                        // and whatever lighting is enabled.
         glPopMatrix();
 
         glPushMatrix();
+        glRotated(45.0, 0.0, 1.0, 0.0);
         glTranslated(0.0,2.0,0.0);
-        stuff[0].applyMatl();
+        stuff[5].applyMatl();
         glutSolidTeapot(0.6);
 
         glPopMatrix();					// return to 'world' coord. system.
@@ -399,32 +414,37 @@ void display(void)
             glTranslated(0,0,0);
             glRotated(0,0,0,0);
             stuff[4].applyMatl();
+            glUniform1i(boundary,1);
             sp1.draw();
+            glUniform1i(boundary,0);
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(0,0.75,0);
             stuff[4].applyMatl();
+//            glUniform1i(boundary,1);
             sp2.draw();
+            glUniform1i(boundary,0);
         glPopMatrix();
 
         glPushMatrix();
+            glUniform1i(boundary,1);
             glTranslated(-3.5,0,0);
-            stuff[4].applyMatl();
+            stuff[3].applyMatl();
             sp2.draw();
         glPopMatrix();
 
         glPushMatrix();
             glTranslated(3.5,0,0);
-            stuff[4].applyMatl();
+            stuff[3].applyMatl();
             sp2.draw();
+            glUniform1i(boundary,0);
         glPopMatrix();
 
     // print instructions
     drawText2D(helv18, -0.5, -0.85, "'H' key: print HELP in console");
 
-   // stuff[1].applyMatl();
-	// =========================================================================
+   // =========================================================================
 	// END DRAWING CODE HERE
 	// =========================================================================
 
@@ -484,7 +504,7 @@ int junk;                   // to stop compiler warnings
             << "\nRight-click and drag to move the left teapot light"
             << "\nUse the arrow keys to move the camera/lighting around"
             << "\nUse R (capital for model, lowercase for camera) to reset"
-            << "\nUse M to change the color of one of the teapots (shading mix)"
+            << "\nUse M to change the Phong materials of the teapot"
             << "\nUse + and - to zoom in and out of the picture"
             << "\nUse L to turn lamps on and off"
             << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
