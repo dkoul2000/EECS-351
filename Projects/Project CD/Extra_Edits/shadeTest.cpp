@@ -251,10 +251,10 @@ void display(void)
     pTime += 0.1;                 // advance the timestep
     glUniform1f(timer,pTime);    // send it to the shader as a uniform.
 
-    if (shadeX > 1.0f)
+    if (shadeX > 1.5f)
         shadeX = 0.0f;
     else
-        shadeX += 0.02f;
+        shadeX += 0.01f;
 
     glUniform1f(shaderX, shadeX);
 
