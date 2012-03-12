@@ -13,9 +13,6 @@ uniform int isBoundary;
 
 void main(void)  
 {     
-   //shadeX = 1.0;
-   //shadeZ = 1.0;
-
    N = normalize(gl_NormalMatrix * gl_Normal);
    v = vec3(gl_ModelViewMatrix * gl_Vertex);       
 
@@ -24,12 +21,12 @@ void main(void)
    vPosition.z = 0.15*sin(shadeX*time + 20.0*vPosition.x) + vPosition.z;
    vPosition.x = vPosition.x * sin(shadeX);
 
-   //if (isBoundary == 1)
-  // {
-//	gl_Position = gl_ModelViewProjectionMatrix * vPosition;
-   //}
-   //else
-  // {
+   if (isBoundary == 1)
+   {
+	gl_Position = gl_ModelViewProjectionMatrix * vPosition;
+   }
+   else
+   {
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-//   }
+   }
 }

@@ -498,16 +498,16 @@ int junk;                   // to stop compiler warnings
 			break;
         case 'H':
         case 'h':
-            cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)"
-            << "\n------------------------------------------------"
-            << "\nDrag the mouse to adjust the movable 3D camera"
-            << "\nRight-click and drag to move the left teapot light"
-            << "\nUse the arrow keys to move the camera/lighting around"
-            << "\nUse R (capital for model, lowercase for camera) to reset"
-            << "\nUse M to change the Phong materials of the teapot"
-            << "\nUse + and - to zoom in and out of the picture"
-            << "\nUse L to turn lamps on and off"
-            << "\nQ, ENTER or SPACE BAR will quit the program" << endl << endl;
+            cout << "\nHELP MENU FOR PROJECT C/D (PROGRAMMABLE SHADERS)" << endl
+            << "------------------------------------------------" << endl
+            << "Drag the mouse to adjust the movable 3D camera" << endl
+            << "Right-click and drag to move the left teapot light" << endl
+            << "Use the arrow keys to move the camera/lighting around" << endl
+            << "Use R (capital for model, lowercase for camera) to reset" << endl
+            << "Use M to change the Phong materials of the teapot" << endl
+            << "Use + and - to zoom in and out of the picture" << endl
+            << "Use L to turn lamps on and off" << endl
+            << "Q, ENTER or SPACE BAR will quit the program" << endl << endl;
             break;
 		case 'r':
 			setCam.reset();	// reset camera coord system,
